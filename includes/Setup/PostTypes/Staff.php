@@ -121,6 +121,13 @@ class Staff extends PostType {
 			'id'   => 'title',
 			'type' => 'text',
 		] );
+
+		$cmb->add_field( [
+			'name' => __( 'Email', 'cp-staff' ),
+			'desc' => __( 'The email address for this staff member.', 'cp-staff' ),
+			'id'   => 'email',
+			'type' => 'text_email',
+		] );
 	}
 	
 }
