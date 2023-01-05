@@ -1,7 +1,7 @@
 <?php
 namespace CP_Staff;
 
-use CP_Staff\Admin\Settings;
+use ChurchPlugins\Helpers;
 
 /**
  * Provides the global $cp_staff object
@@ -37,14 +37,29 @@ class Init {
 
 	/**
 	 * Class constructor: Add Hooks and Actions
-	 *
 	 */
 	protected function __construct() {
 		$this->enqueue = new \WPackio\Enqueue( 'cpStaff', 'dist', $this->get_version(), 'plugin', CP_STAFF_PLUGIN_FILE );
 		add_action( 'plugins_loaded', [ $this, 'maybe_setup' ], - 9999 );
 		add_action( 'init', [ $this, 'maybe_init' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
+		add_action( 'wp_footer', [ $this, 'modal_template' ] );
+		add_action( 'fl_after_schema_meta', [ $this, 'staff_meta' ] );
 	}
 
+	public function staff_meta() {
+		if ( 'cp_staff' != get_post_type() ) {
+			return;
+		}
+		
+		$details = [
+			'name' => get_the_title(),
+			'email' => base64_encode( get_post_meta( get_the_ID(), 'email', true ) ),
+		];
+		
+		echo '<meta itemprop="staffDetails" data-details="' . esc_attr( json_encode( $details ) ) . '">';
+	}
+	
 	/**
 	 * Plugin setup entry hub
 	 *
@@ -79,7 +94,7 @@ class Init {
 	 * @return void
 	 * @author costmo
 	 */
-	public function app_enqueue() {
+	public function scripts() {
 		$this->enqueue->enqueue( 'styles', 'main', [] );
 		$this->enqueue->enqueue( 'scripts', 'main', [] );
 	}
@@ -105,7 +120,52 @@ class Init {
 	public function required_plugins() {
 		printf( '<div class="error"><p>%s</p></div>', __( 'Your system does not meet the requirements for Church Plugins - Staff', 'cp-staff' ) );
 	}
+	
+	public function modal_template() {
+		?>
+		<div id="cp-staff-email-modal-template" style="display:none;">
+			<div class="cp-staff-email-modal">
+				<div class="cp-staff-email-form">
+					<div class="cp-staff-email-form--name">
+						<h4><?php _e( 'Send a message to', 'cp-staff' ); ?> <span class="staff-name"></span></h4>
+					</div>
+					
+					<div class="cp-staff-email-form--email-to">
+						<label>
+							<?php _e( 'To:', 'cp-staff' ); ?>	
+							<input type="text" name="email-to" disabled="disabled" class="staff-email-to"/>
+							<div class="staff-copy-email" title="Copy email address"><?php echo Helpers::get_icon('copy'); ?></div>
+						</label>
+					</div>
 
+					<div class="cp-staff-email-form--email-from">
+						<label>
+							<?php _e( 'From:', 'cp-staff' ); ?>	
+							<input type="text" name="email-from" class="staff-email-from"/>
+						</label>
+					</div>
+
+					<div class="cp-staff-email-form--subject">
+						<label>
+							<?php _e( 'Email Subject', 'cp-staff' ); ?>	
+							<input type="text" name="subject" />
+						</label>
+					</div>
+
+					<div class="cp-staff-email-form--message">
+						<label>
+							Message:
+							<textarea name="message" rows="3"></textarea>
+						</label>
+					</div>
+					
+					<input class="cp-button is-large" type="submit" value="Send" />
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+	
 	/** Helper Methods **************************************/
 
 	public function get_default_thumb() {
