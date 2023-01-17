@@ -110,36 +110,12 @@ class Settings {
 		 * to be unique within this box.
 		 * Prefix is not needed.
 		 */
-		$main_options->add_field( array(
-			'name'    => __( 'Primary Color', 'cp-staff' ),
-			'desc'    => __( 'The primary color to use in the templates.', 'cp-staff' ),
-			'id'      => 'color_primary',
-			'type'    => 'colorpicker',
-			'default' => '#333333',
-		) );
 
 		$main_options->add_field( array(
-			'name'         => __( 'Site Logo', 'cp-staff' ),
-			'desc'         => sprintf( __( 'The logo to use for %s.', 'cp-staff' ), cp_staff()->setup->post_types->item->plural_label ),
-			'id'           => 'logo',
-			'type'         => 'file',
-			// query_args are passed to wp.media's library query.
-			'query_args'   => array(
-				// Or only allow gif, jpg, or png images
-				 'type' => array(
-				     'image/gif',
-				     'image/jpeg',
-				     'image/png',
-				 ),
-			),
-			'preview_size' => 'thumbnail', // Image size to use when previewing in the admin
-		) );
-
-		$main_options->add_field( array(
-			'name'         => __( 'Default Thumbnail', 'cp-staff' ),
-			'desc'         => sprintf( __( 'The default thumbnail image to use for %s.', 'cp-staff' ), cp_staff()->setup->post_types->item->plural_label ),
-			'id'           => 'default_thumbnail',
-			'type'         => 'file',
+			'name'         => __( 'Staff email modal.', 'cp-staff' ),
+			'desc'         => __( 'Check this to popup an email modal when a staff item is clicked.', 'cp-staff' ),
+			'id'           => 'use_email_modal',
+			'type'         => 'checkbox',
 			// query_args are passed to wp.media's library query.
 			'query_args'   => array(
 				// Or only allow gif, jpg, or png images

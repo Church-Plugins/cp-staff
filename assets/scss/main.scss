@@ -1,21 +1,24 @@
 .cp-staff {
 	&--has-email {
 		.fl-photo {
-			position: relative;
-			color: var(--cp-color-text-inverted) !important;
+			a {
+				display: block;
+				position: relative;
+
+				&:after {
+					width: var(--cp-gap--lg);
+					color: var(--cp-color-text-inverted);
+					content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-mail'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'%3E%3C/path%3E%3Cpolyline points='22 6 12 13 2 6'%3E%3C/polyline%3E%3C/svg%3E");
+					background: var(--cp-color-ui-secondary);
+					border-radius: 100px;
+					position: absolute;
+					bottom: var(--cp-gap--sm);
+					left: var(--cp-gap--sm);
+					padding: var(--cp-gap--sm);
+				}
+			}
 		}
 		
-		.fl-photo:after {
-			width: var(--cp-gap--lg);
-			color: var(--cp-color-text-inverted);
-			content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-mail'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'%3E%3C/path%3E%3Cpolyline points='22 6 12 13 2 6'%3E%3C/polyline%3E%3C/svg%3E");
-			background: var(--cp-color-ui-secondary);
-			border-radius: 100px;
-			position: absolute;
-			bottom: var(--cp-gap--sm);
-			left: var(--cp-gap--sm);
-			padding: var(--cp-gap--sm);
-		}
 	}
 }
 
@@ -42,6 +45,28 @@
 	//max-width: 60%;
 	background: #f5f5fa;
 	
+	.notice-wrap {
+		
+		p:last-child {
+			margin-bottom: 0;
+		}
+		
+		.update {
+			margin-top: var(--cp-gap--sm);
+			background: var(--cp-color-canvas-main);
+			padding: var(--cp-gap-base) var(--cp-gap--sm);
+			border-left: .25rem solid var(--cp-color-ui-info);
+
+			&.success {
+				border-color: var(--cp-color-ui-success);
+			}
+			
+			&.error {
+				border-color: var(--cp-color-ui-danger);
+			}
+		}
+		
+	}
 	.cp-staff-email-modal {}
 	
 	.cp-staff-email-form--email-to {
