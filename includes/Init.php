@@ -97,7 +97,7 @@ class Init {
 	 */
 	public function scripts() {
 		$this->enqueue->enqueue( 'styles', 'main', [] );
-		$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-form' ] ] );
+		$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 	}
 
 	/**
