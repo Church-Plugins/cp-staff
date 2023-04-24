@@ -2,6 +2,7 @@
 namespace CP_Staff;
 
 use ChurchPlugins\Helpers;
+use CP_Staff\Admin\Settings;
 
 /**
  * Provides the global $cp_staff object
@@ -57,10 +58,10 @@ class Init {
 			'id'    => get_the_ID(),
 			'email' => base64_encode( get_post_meta( get_the_ID(), 'email', true ) ),
 		];
-		
+
 		echo '<meta itemprop="staffDetails" data-details="' . esc_attr( json_encode( $details ) ) . '">';
 	}
-	
+
 	/**
 	 * Plugin setup entry hub
 	 *
@@ -97,7 +98,10 @@ class Init {
 	 */
 	public function scripts() {
 		$this->enqueue->enqueue( 'styles', 'main', [] );
-		$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
+
+		if ( Settings::get( 'use_email_modal', false ) ) {
+			$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
+		}
 	}
 
 	/**
@@ -110,11 +114,11 @@ class Init {
 		Admin\Init::get_instance();
 		$this->setup = Setup\Init::get_instance();
 	}
-	
+
 	protected function actions() {
 		add_action( 'cp_staff_send_email', [ $this, 'maybe_send_email' ] );
 	}
-	
+
 	/**
 	 * Required Plugins notice
 	 *
@@ -123,27 +127,27 @@ class Init {
 	public function required_plugins() {
 		printf( '<div class="error"><p>%s</p></div>', __( 'Your system does not meet the requirements for Church Plugins - Staff', 'cp-staff' ) );
 	}
-	
+
 	public function maybe_send_email() {
-		
-		$email_to   = Helpers::get_post( 'email-to' );
-		$email_from = Helpers::get_post( 'email-from' );
-		$name       = Helpers::get_post( 'from-name' );
-		$subject    = Helpers::get_post( 'subject' );
-		$message    = Helpers::get_post( 'message' );
-		
+
+		$email_to = Helpers::get_post( 'email-to' );
+		$reply_to = Helpers::get_post( 'email-from' );
+		$name     = Helpers::get_post( 'from-name' );
+		$subject  = Helpers::get_post( 'subject' );
+		$message  = Helpers::get_post( 'message' );
+
 		if( ! wp_verify_nonce( $_REQUEST['cp_staff_send_email_nonce'], 'cp_staff_send_email' ) || ! is_email( $email_to ) ) {
 			wp_send_json_error( array( 'error' => __( 'Something went wrong. Please reload the page and try again.', 'church-plugins' ) ) );
 		}
-		
+
 		if ( empty( $name ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please enter a your full name.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
 
-		if ( ! is_email ( $email_from ) ) {
+		if ( ! is_email ( $reply_to ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please enter a valid email address.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
-		
+
 		if( empty( $subject ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please add an Email Subject.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
@@ -156,16 +160,19 @@ class Init {
 
 		$message_suffix = apply_filters( 'cp_staff_email_message_suffix', '<br /><br />-<br />' . sprintf( __( 'Submitted by %s via Staff Web Inquiry form. Simply click Reply to respond to them directly.', 'cp-staff' ), $name ) );
 		$message        = apply_filters( 'cp_staff_email_message', $message . $message_suffix );
-		
+
+		$from_email = Settings::get( 'from_email', get_bloginfo( 'admin_email' ) );
+		$from_name  = Settings::get( 'from_name', get_bloginfo( 'name' ) );
+
 		wp_mail( $email_to, stripslashes( $subject ), stripslashes( wpautop( $message ) ), [
 			'Content-Type: text/html; cahrset=UTF-8',
-			'From: North Way Staff Contact <info@northway.org>',
-			sprintf( 'Reply-To: %s <%s>', $name, $email_from ) 
+			"From: $from_name <$from_email>",
+			sprintf( 'Reply-To: %s <%s>', $name, $reply_to )
 		] );
 
 		wp_send_json_success( array( 'success' => __( 'Email sent!', 'church-plugins' ), 'request' => $_REQUEST ) );
 	}
-	
+
 	public function modal_template() {
 		?>
 		<div id="cp-staff-email-modal-template" style="display:none;">
@@ -175,7 +182,7 @@ class Init {
 					  method="post" enctype="multipart/form-data">
 
 					<?php wp_nonce_field( 'cp_staff_send_email', 'cp_staff_send_email_nonce' ); ?>
-					
+
 					<div class="cp-staff-email-form--name">
 						<h4><?php _e( 'Send a message to', 'cp-staff' ); ?> <span class="staff-name"></span></h4>
 					</div>
@@ -219,13 +226,13 @@ class Init {
 					</div>
 
 					<input class="cp-button is-large" type="submit" value="Send"/>
-					
+
 				</form>
 			</div>
 		</div>
 		<?php
 	}
-	
+
 	/** Helper Methods **************************************/
 
 	public function get_default_thumb() {

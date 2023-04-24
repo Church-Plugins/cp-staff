@@ -3,6 +3,7 @@ composer.lock
 package-lock.json
 /dist/
 /build/
+/package/
 /node_modules/
 /docs/
 .phpdoc

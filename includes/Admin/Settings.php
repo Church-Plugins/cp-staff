@@ -38,7 +38,7 @@ class Settings {
 	 *
 	 * @author Tanner Moushey
 	 */
-	public static function get( $key, $default = '', $group = 'cpl_main_options' ) {
+	public static function get( $key, $default = '', $group = 'cp_staff_main_options' ) {
 		$options = get_option( $group, [] );
 
 		if ( isset( $options[ $key ] ) ) {
@@ -48,29 +48,6 @@ class Settings {
 		}
 
 		return apply_filters( 'cpl_settings_get', $value, $key, $group );
-	}
-
-	/**
-	 * Get advanced options
-	 *
-	 * @param $key
-	 * @param $default
-	 *
-	 * @return mixed|void
-	 * @since  1.0.0
-	 *
-	 * @author Tanner Moushey
-	 */
-	public static function get_advanced( $key, $default = '' ) {
-		return self::get( $key, $default, 'cpl_advanced_options' );
-	}
-
-	public static function get_item( $key, $default = '' ) {
-		return self::get( $key, $default, 'cpl_item_options' );
-	}
-
-	public static function get_item_type( $key, $default = '' ) {
-		return self::get( $key, $default, 'cpl_item_type_options' );
 	}
 
 	public static function get_staff( $key, $default = '' ) {
@@ -88,16 +65,17 @@ class Settings {
 
 	public function register_main_options_metabox() {
 
-		$post_type = cp_staff()->setup->post_types->item_type_enabled() ? cp_staff()->setup->post_types->item_type->post_type : cp_staff()->setup->post_types->item->post_type;
+		$post_type = cp_staff()->setup->post_types->staff->post_type;
+
 		/**
 		 * Registers main options page menu item and form.
 		 */
 		$args = array(
-			'id'           => 'cpl_main_options_page',
+			'id'           => 'cp_staff_main_options_page',
 			'title'        => 'Settings',
 			'object_types' => array( 'options-page' ),
-			'option_key'   => 'cpl_main_options',
-			'tab_group'    => 'cpl_main_options',
+			'option_key'   => 'cp_staff_main_options',
+			'tab_group'    => 'cp_staff_main_options',
 			'tab_title'    => 'Main',
 			'parent_slug'  => 'edit.php?post_type=' . $post_type,
 			'display_cb'   => [ $this, 'options_display_with_tabs'],
@@ -105,229 +83,49 @@ class Settings {
 
 		$main_options = new_cmb2_box( $args );
 
-		/**
-		 * Options fields ids only need
-		 * to be unique within this box.
-		 * Prefix is not needed.
-		 */
-
 		$main_options->add_field( array(
 			'name'         => __( 'Staff email modal.', 'cp-staff' ),
 			'desc'         => __( 'Check this to popup an email modal when a staff item is clicked.', 'cp-staff' ),
 			'id'           => 'use_email_modal',
 			'type'         => 'checkbox',
-			// query_args are passed to wp.media's library query.
-			'query_args'   => array(
-				// Or only allow gif, jpg, or png images
-				 'type' => array(
-				     'image/gif',
-				     'image/jpeg',
-				     'image/png',
-				 ),
-			),
-			'preview_size' => 'medium', // Image size to use when previewing in the admin
 		) );
 
-		$this->item_options();
+		$main_options->add_field( array(
+			'name'         => __( 'From Address', 'cp-staff' ),
+			'desc'         => __( 'The from email address to use when sending staff emails. Will use the site admin email if this is blank.', 'cp-staff' ),
+			'id'           => 'from_email',
+			'type'         => 'text',
+		) );
 
-		if ( cp_staff()->setup->post_types->item_type_enabled() ) {
-			$this->item_type_options();
-		}
+		$main_options->add_field( array(
+			'name'         => __( 'From Name', 'cp-staff' ),
+			'desc'         => __( 'The from name to use when sending staff emails. Will use the site title if this is blank.', 'cp-staff' ),
+			'id'           => 'from_name',
+			'type'         => 'text',
+		) );
 
-		if ( cp_staff()->setup->post_types->speaker_enabled() ) {
-			$this->speaker_options();
-		}
+		$this->license_fields();
+	}
 
-		$this->advanced_options();
+	protected function license_fields() {
+		$license = new \ChurchPlugins\Setup\Admin\License( 'cp_staff_license', 436, CP_STAFF_STORE_URL, CP_STAFF_PLUGIN_FILE, get_admin_url( null, 'admin.php?page=cp_staff_license' ) );
 
 		/**
-		 * Registers tertiary options page, and set main item as parent.
+		 * Registers settings page, and set main item as parent.
 		 */
 		$args = array(
-			'id'           => 'cpl_license_options_page',
-			'title'        => 'Settings',
+			'id'           => 'cp_staff_license_options_page',
+			'title'        => 'CP Staff Settings',
 			'object_types' => array( 'options-page' ),
-			'option_key'   => 'cpl_license',
-			'parent_slug'  => 'cpl_main_options',
-			'tab_group'    => 'cpl_main_options',
+			'option_key'   => 'cp_staff_license',
+			'parent_slug'  => 'cp_staff_main_options',
+			'tab_group'    => 'cp_staff_main_options',
 			'tab_title'    => 'License',
 			'display_cb'   => [ $this, 'options_display_with_tabs' ]
 		);
 
-		$tertiary_options = new_cmb2_box( $args );
-
-		$tertiary_options->add_field( array(
-			'name' => 'License Key',
-			'id'   => 'license',
-			'type' => 'text',
-		) );
-	}
-
-	protected function item_options() {
-		/**
-		 * Registers secondary options page, and set main item as parent.
-		 */
-		$args = array(
-			'id'           => 'cpl_item_options_page',
-			'title'        => 'Settings',
-			'object_types' => array( 'options-page' ),
-			'option_key'   => 'cpl_item_options',
-			'parent_slug'  => 'cpl_main_options',
-			'tab_group'    => 'cpl_main_options',
-			'tab_title'    => cp_staff()->setup->post_types->item->plural_label,
-			'display_cb'   => [ $this, 'options_display_with_tabs' ],
-		);
-
 		$options = new_cmb2_box( $args );
-
-		$options->add_field( array(
-			'name' => __( 'Labels' ),
-			'id'   => 'labels',
-			'type' => 'title',
-		) );
-
-		$options->add_field( array(
-			'name'    => __( 'Singular Label', 'cp-staff' ),
-			'id'      => 'singular_label',
-			'type'    => 'text',
-			'default' => cp_staff()->setup->post_types->item->single_label,
-		) );
-
-		$options->add_field( array(
-			'name'    => __( 'Plural Label', 'cp-staff' ),
-			'id'      => 'plural_label',
-			'desc'    => __( 'Caution: changing this value will also adjust the url structure and may affect your SEO.', 'cp-staff' ),
-			'type'    => 'text',
-			'default' => cp_staff()->setup->post_types->item->plural_label,
-		) );
-
-	}
-
-	protected function item_type_options() {
-		/**
-		 * Registers secondary options page, and set main item as parent.
-		 */
-		$args = array(
-			'id'           => 'cpl_item_type_options_page',
-			'title'        => 'Settings',
-			'object_types' => array( 'options-page' ),
-			'option_key'   => 'cpl_item_type_options',
-			'parent_slug'  => 'cpl_main_options',
-			'tab_group'    => 'cpl_main_options',
-			'tab_title'    => cp_staff()->setup->post_types->item_type->plural_label,
-			'display_cb'   => [ $this, 'options_display_with_tabs' ],
-		);
-
-		$options = new_cmb2_box( $args );
-
-		$options->add_field( array(
-			'name' => __( 'Labels' ),
-			'id'   => 'labels',
-			'type' => 'title',
-		) );
-
-		$options->add_field( array(
-			'name'    => __( 'Singular Label', 'cp-staff' ),
-			'id'      => 'singular_label',
-			'type'    => 'text',
-			'default' => cp_staff()->setup->post_types->item_type->single_label,
-		) );
-
-		$options->add_field( array(
-			'name'    => __( 'Plural Label', 'cp-staff' ),
-			'id'      => 'plural_label',
-			'desc'    => __( 'Caution: changing this value will also adjust the url structure and may affect your SEO.', 'cp-staff' ),
-			'type'    => 'text',
-			'default' => cp_staff()->setup->post_types->item_type->plural_label,
-		) );
-
-	}
-
-	protected function speaker_options() {
-		/**
-		 * Registers secondary options page, and set main item as parent.
-		 */
-		$args = array(
-			'id'           => 'cpl_speaker_options_page',
-			'title'        => 'Settings',
-			'object_types' => array( 'options-page' ),
-			'option_key'   => 'cpl_speaker_options',
-			'parent_slug'  => 'cpl_main_options',
-			'tab_group'    => 'cpl_main_options',
-			'tab_title'    => cp_staff()->setup->post_types->speaker->plural_label,
-			'display_cb'   => [ $this, 'options_display_with_tabs' ],
-		);
-
-		$options = new_cmb2_box( $args );
-
-		$options->add_field( array(
-			'name' => __( 'Labels' ),
-			'id'   => 'labels',
-			'type' => 'title',
-		) );
-
-		$options->add_field( array(
-			'name'    => __( 'Singular Label', 'cp-staff' ),
-			'id'      => 'singular_label',
-			'type'    => 'text',
-			'default' => cp_staff()->setup->post_types->speaker->single_label,
-		) );
-
-		$options->add_field( array(
-			'name'    => __( 'Plural Label', 'cp-staff' ),
-			'desc'    => __( 'Caution: changing this value will also adjust the url structure and may affect your SEO.', 'cp-staff' ),
-			'id'      => 'plural_label',
-			'type'    => 'text',
-			'default' => cp_staff()->setup->post_types->speaker->plural_label,
-		) );
-
-	}
-
-	protected function advanced_options() {
-		/**
-		 * Registers secondary options page, and set main item as parent.
-		 */
-		$args = array(
-			'id'           => 'cpl_advanced_options_page',
-			'title'        => 'Settings',
-			'object_types' => array( 'options-page' ),
-			'option_key'   => 'cpl_advanced_options',
-			'parent_slug'  => 'cpl_main_options',
-			'tab_group'    => 'cpl_main_options',
-			'tab_title'    => 'Advanced',
-			'display_cb'   => [ $this, 'options_display_with_tabs' ],
-		);
-
-		$advanced_options = new_cmb2_box( $args );
-
-		$advanced_options->add_field( array(
-			'name' => __( 'Modules' ),
-			'id'   => 'modules_enabled',
-			'type' => 'title',
-		) );
-
-		$advanced_options->add_field( array(
-			'name'    => __( 'Enable' ) . ' ' . cp_staff()->setup->post_types->item_type->plural_label,
-			'id'      => 'item_type_enabled',
-			'type'    => 'radio_inline',
-			'default' => 1,
-			'options' => [
-				1 => __( 'Enable', 'cp-staff' ),
-				0 => __( 'Disable', 'cp-staff' ),
-			]
-		) );
-
-		$advanced_options->add_field( array(
-			'name'    => __( 'Enable' ) . ' ' . cp_staff()->setup->post_types->speaker->plural_label,
-			'id'      => 'speaker_enabled',
-			'type'    => 'radio_inline',
-			'default' => 1,
-			'options' => [
-				1 => __( 'Enable', 'cp-staff' ),
-				0 => __( 'Disable', 'cp-staff' ),
-			]
-		) );
-
+		$license->license_field( $options );
 	}
 
 	/**

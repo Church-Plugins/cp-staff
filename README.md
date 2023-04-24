@@ -19,5 +19,9 @@ npm run build
 
 ### Change Log
 
+#### 1.0.1
+* Add settings for Staff message modal
+* Update CP core
+
 #### 1.0.0
 * Initial release

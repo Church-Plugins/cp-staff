@@ -1,45 +1,45 @@
 (function($){
 	'use strict'
-	
+
 	$(document).ready(function() {
-		
+
 		let $staff = $('.cp_staff');
-		
+
 		if ( ! $staff.length ) {
 			return;
 		}
-		
+
 		$staff.each(function() {
 			let $this = $(this);
 			let $details = $this.find('[itemprop=staffDetails]')
-			
+
 			if ( ! $details.length ) {
 				return;
 			}
-			
+
 			let data = $details.data('details' );
-			
+
 			if ( undefined === data.name || undefined === data.email || '' === data.email ) {
 				return;
 			}
-			
+
 			data.email = atob( data.email );
-			
+
 			$this.addClass( 'cp-staff--has-email' );
-			
+
 			$this.on( 'click', 'a', function(e) {
 				e.preventDefault();
-				
+
 				let $modalElem = $('.staff-modal-' + data.id);
-				
+
 				if ( ! $modalElem.length ) {
 					$modalElem = $('#cp-staff-email-modal-template > div').clone();
 					$modalElem.addClass( 'staff-modal-' + data.id );
 				}
-				
+
 				$modalElem.find('.staff-name').html(data.name);
 				$modalElem.find('.staff-email-to').val(data.email);
-				
+
 				$modalElem.dialog({
 					title        : '',
 					dialogClass  : 'cp-staff--email-modal-popup',
@@ -64,7 +64,7 @@
 							.css({position: 'fixed'})
 							.position({my: 'center', at: 'center', of: window});
 					},
-					
+
 				});
 
 				$modalElem.dialog('open');
@@ -78,9 +78,9 @@
 
 			} );
 		});
-		
+
 	} );
-	
+
 })(jQuery);
 
 window.CP_Staff_Mail = {
@@ -96,7 +96,7 @@ window.CP_Staff_Mail = {
 		const self = this;
 
 		this.$form = this.$modal.find('.cp-staff-email-form');
-		
+
 		this.$form.ajaxForm({
 			beforeSubmit: self.before_submit,
 			success     : self.success,
@@ -120,7 +120,7 @@ window.CP_Staff_Mail = {
 		if (response.success) {
 			CP_Staff_Mail.$form.find('.notice-wrap').html('<div class="update success"><p>' + response.data.success + '</p></div>');
 			let modalElem = CP_Staff_Mail.$form.parents('.ui-dialog-content');
-			
+
 			if (undefined !== modalElem.dialog( "instance" )) {
 				setTimeout(() => modalElem.dialog('close'), 3000 );
 			}
