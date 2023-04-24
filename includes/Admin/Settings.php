@@ -108,7 +108,7 @@ class Settings {
 	}
 
 	protected function license_fields() {
-		$license = new \ChurchPlugins\Setup\Admin\License( 'cp_staff_license', 436, CP_STAFF_STORE_URL, CP_STAFF_PLUGIN_FILE, get_admin_url( null, 'admin.php?page=cp_staff_license' ) );
+		$license = new \ChurchPlugins\Setup\Admin\License( 'cp_staff_license', 444, CP_STAFF_STORE_URL, CP_STAFF_PLUGIN_FILE, get_admin_url( null, 'admin.php?page=cp_staff_license' ) );
 
 		/**
 		 * Registers settings page, and set main item as parent.
