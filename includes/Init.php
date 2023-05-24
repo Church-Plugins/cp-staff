@@ -181,8 +181,7 @@ class Init {
 	}
 
 	public function modal_template() {
-		$stuff = Settings::get( 'show_staff_email' );
-		$is_hidden = Settings::get( 'show_staff_email' ) == 'on' ? 'false' : 'hidden';
+		$is_hidden_att = Settings::get( 'show_staff_email' ) == 'on' ? '' : 'hidden';
 		?>
 		<div id="cp-staff-email-modal-template" style="display:none;">
 			<div class="cp-staff-email-modal">
@@ -196,7 +195,7 @@ class Init {
 						<h4><?php _e( 'Send a message to', 'cp-staff' ); ?> <span class="staff-name"></span></h4>
 					</div>
 
-					<div class="cp-staff-email-form--email-to" hidden="<?php echo $is_hidden ?>">
+					<div class="cp-staff-email-form--email-to" <?php echo $is_hidden_att ?>>
 						<label>
 							<?php _e( 'To:', 'cp-staff' ); ?>
 							<input type="hidden" name="email-to" class="staff-email-to" />
