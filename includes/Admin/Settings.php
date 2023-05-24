@@ -84,10 +84,22 @@ class Settings {
 		$main_options = new_cmb2_box( $args );
 
 		$main_options->add_field( array(
-			'name'         => __( 'Staff email modal.', 'cp-staff' ),
-			'desc'         => __( 'Check this to popup an email modal when a staff item is clicked.', 'cp-staff' ),
+			'name'         => __( 'Staff contact modal', 'cp-staff' ),
+			'desc'         => __( 'If active, when a staff record has an email and a user clicks on their stall profile, then a contact form will display inside of a modal (in-browser window popup).', 'cp-staff' ),
 			'id'           => 'use_email_modal',
 			'type'         => 'checkbox',
+			'default'      => 'on'
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Display staff\'s email address', 'cp-staff' ),
+			'desc' => __( 'If checked, the staff\'s email address will be visible inside the contact form', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id' => 'show_staff_email',
+			'attributes' => array(
+				'data-conditional-id' => 'use_email_modal',
+				'data-conditionl-value' => 'on'
+			)
 		) );
 
 		$main_options->add_field( array(
