@@ -58,8 +58,7 @@ class Init {
 		$details = [
 			'name'       => get_the_title(),
 			'id'         => get_the_ID(),
-			'email' 		 => base64_encode( get_post_meta( get_the_ID(), 'email', true ) ),
-			'hide_email' => Settings::get( 'show_staff_email' ) == 'off'
+			'email' 		 => base64_encode( get_post_meta( get_the_ID(), 'email', true ) )
 		];
 
 		echo '<meta itemprop="staffDetails" data-details="' . esc_attr( json_encode( $details ) ) . '">';
@@ -181,7 +180,7 @@ class Init {
 	}
 
 	public function modal_template() {
-		$is_hidden_att = Settings::get( 'show_staff_email' ) == 'on' ? '' : 'hidden';
+		$is_hidden_att = Settings::get( 'show_staff_email', 'off' ) == 'on' ? '' : 'hidden';
 		?>
 		<div id="cp-staff-email-modal-template" style="display:none;">
 			<div class="cp-staff-email-modal">
