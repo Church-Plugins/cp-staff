@@ -2,6 +2,7 @@
 namespace CP_Staff;
 
 use ChurchPlugins\Helpers;
+use CP_Library\Admin\Settings as AdminSettings;
 use CP_Staff\Admin\Settings;
 
 /**
@@ -44,6 +45,7 @@ class Init {
 		add_action( 'plugins_loaded', [ $this, 'maybe_setup' ], - 9999 );
 		add_action( 'init', [ $this, 'maybe_init' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts'] );
 		add_action( 'wp_footer', [ $this, 'modal_template' ] );
 		add_action( 'fl_after_schema_meta', [ $this, 'staff_meta' ] );
 	}
@@ -54,9 +56,9 @@ class Init {
 		}
 
 		$details = [
-			'name'  => get_the_title(),
-			'id'    => get_the_ID(),
-			'email' => base64_encode( get_post_meta( get_the_ID(), 'email', true ) ),
+			'name'       => get_the_title(),
+			'id'         => get_the_ID(),
+			'email' 		 => base64_encode( get_post_meta( get_the_ID(), 'email', true ) )
 		];
 
 		echo '<meta itemprop="staffDetails" data-details="' . esc_attr( json_encode( $details ) ) . '">';
@@ -102,6 +104,10 @@ class Init {
 		if ( Settings::get( 'use_email_modal', false ) ) {
 			$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 		}
+	}
+
+	public function admin_scripts() {
+		$this->enqueue->enqueue( 'styles', 'admin', [] );
 	}
 
 	/**
@@ -174,6 +180,7 @@ class Init {
 	}
 
 	public function modal_template() {
+		$is_hidden_att = Settings::get( 'show_staff_email', 'off' ) == 'on' ? '' : 'hidden';
 		?>
 		<div id="cp-staff-email-modal-template" style="display:none;">
 			<div class="cp-staff-email-modal">
@@ -187,7 +194,7 @@ class Init {
 						<h4><?php _e( 'Send a message to', 'cp-staff' ); ?> <span class="staff-name"></span></h4>
 					</div>
 
-					<div class="cp-staff-email-form--email-to">
+					<div class="cp-staff-email-form--email-to" <?php echo $is_hidden_att ?>>
 						<label>
 							<?php _e( 'To:', 'cp-staff' ); ?>
 							<input type="hidden" name="email-to" class="staff-email-to" />
