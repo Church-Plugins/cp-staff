@@ -85,7 +85,7 @@ class Settings {
 
 		$main_options->add_field( array(
 			'name'         => __( 'Staff contact modal', 'cp-staff' ),
-			'desc'         => __( 'If active, when a staff record has an email and a user clicks on their stall profile, then a contact form will display inside of a modal (in-browser window popup).', 'cp-staff' ),
+			'desc'         => __( 'If active, when a staff record has an email and a user clicks on their staff profile, then a contact form will display inside of a modal (in-browser window popup).', 'cp-staff' ),
 			'id'           => 'use_email_modal',
 			'type'         => 'checkbox',
 			'default'      => 'on'
