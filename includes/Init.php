@@ -144,7 +144,7 @@ class Init {
 		$name     = Helpers::get_post( 'from-name' );
 		$subject  = Helpers::get_post( 'subject' );
 		$message  = Helpers::get_post( 'message' );
-		$limit = strval( Settings::get( 'throttle_amount', 3 ) );
+		$limit = intval( Settings::get( 'throttle_amount', 3 ) );
 
 
 		if( ! wp_verify_nonce( $_REQUEST['cp_staff_send_email_nonce'], 'cp_staff_send_email' ) || ! is_email( $email_to ) ) {
