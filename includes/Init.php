@@ -24,6 +24,8 @@ class Init {
 
 	public $enqueue;
 
+	protected $limiter;
+
 	/**
 	 * Only make one instance of Init
 	 *
@@ -42,6 +44,7 @@ class Init {
 	 */
 	protected function __construct() {
 		$this->enqueue = new \WPackio\Enqueue( 'cpStaff', 'dist', $this->get_version(), 'plugin', CP_STAFF_PLUGIN_FILE );
+		$this->limiter = new Ratelimit( "send_staff_email" );
 		add_action( 'plugins_loaded', [ $this, 'maybe_setup' ], - 9999 );
 		add_action( 'init', [ $this, 'maybe_init' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
@@ -141,6 +144,8 @@ class Init {
 		$name     = Helpers::get_post( 'from-name' );
 		$subject  = Helpers::get_post( 'subject' );
 		$message  = Helpers::get_post( 'message' );
+		$limit = strval( Settings::get( 'throttle_amount', 3 ) );
+
 
 		if( ! wp_verify_nonce( $_REQUEST['cp_staff_send_email_nonce'], 'cp_staff_send_email' ) || ! is_email( $email_to ) ) {
 			wp_send_json_error( array( 'error' => __( 'Something went wrong. Please reload the page and try again.', 'church-plugins' ) ) );
@@ -160,6 +165,10 @@ class Init {
 
 		if( empty( $message ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please add an Email Message.', 'church-plugins' ), 'request' => $_REQUEST ) );
+		}
+
+		if( $this->check_if_ratelimited( $reply_to, $limit ) ) {
+			wp_send_json_error( array( 'error' => __( "Daily send limit of {$limit} submissions exceeded - Message blocked. Please try again later.", 'church-plugins' ) ) );
 		}
 
 		$subject = apply_filters( 'cp_staff_email_subject', __( '[Web Inquiry]', 'cp-staff' ) . ' ' . $subject, $subject );
@@ -246,6 +255,23 @@ class Init {
 		return CP_STAFF_PLUGIN_URL . '/app/public/logo512.png';
 	}
 
+	public function check_if_ratelimited( $email, $limit ) {
+		if( Settings::get( 'throttle_staff_emails', 'off' ) == 'off' ) {
+			return false;
+		}
+
+		$is_within_ratelimit = $this->limiter->add_entries( 
+			array(
+				$_SERVER['REMOTE_ADDR'], // user IP address
+				$email // sender email address
+			),
+			$limit
+		);
+
+		if( ! $is_within_ratelimit ) {
+			return true;
+		}
+	}
 	/**
 	 * Make sure required plugins are active
 	 *
