@@ -167,6 +167,10 @@ class Init {
 			wp_send_json_error( array( 'error' => __( 'Please add an Email Message.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
 
+		if( $this->is_address_blocked( $reply_to ) ) {
+			wp_send_json_error( array( 'error' => __( 'You are not allowed to send a message as a staff member', 'cp-staff' ), 'request' => $_REQUEST ) );
+		}
+
 		if( $this->check_if_ratelimited( $reply_to, $limit ) ) {
 			wp_send_json_error( array( 'error' => __( "Daily send limit of {$limit} submissions exceeded - Message blocked. Please try again later.", 'church-plugins' ) ) );
 		}
@@ -271,6 +275,16 @@ class Init {
 		if( ! $is_within_ratelimit ) {
 			return true;
 		}
+	}
+
+	public function is_address_blocked( $email ) {
+		if( Settings::get( 'block_staff_emails', 'on' ) == 'off' ) {
+			return false;
+		}
+
+		$site_domain = explode( '//', site_url() )[1];
+
+		return str_contains( $email, $site_domain );
 	}
 	/**
 	 * Make sure required plugins are active

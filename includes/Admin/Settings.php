@@ -124,6 +124,14 @@ class Settings {
 		) );
 
 		$main_options->add_field( array(
+			'name' => __( 'Prevent staff from sending emails through', 'cp-staff' ),
+			'description' => __( 'Blocks messages from email addresses that contain the site domain', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'block_staff_emails',
+			'default' => 'on'
+		) );
+
+		$main_options->add_field( array(
 			'name'         => __( 'From Address', 'cp-staff' ),
 			'desc'         => __( 'The from email address to use when sending staff emails. Will use the site admin email if this is blank.', 'cp-staff' ),
 			'id'           => 'from_email',
