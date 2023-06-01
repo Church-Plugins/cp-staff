@@ -48,18 +48,8 @@ class Init {
 	 *
 	 * @return void
 	 */
-	protected function actions() {
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-	}
+	protected function actions() {}
 
 	/** Actions ***************************************************/
-
-	function enqueue_scripts() {
-		wp_enqueue_script( 
-			'cmb2_conditional_logic', 
-			plugins_url( 'assets/js/cmb2-conditional-logic.js', plugin_dir_path( __DIR__ ) ),
-			array( 'jquery' )
-		);
-	}
 
 }
