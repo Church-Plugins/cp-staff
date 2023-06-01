@@ -141,10 +141,11 @@ class Init {
 
 		$email_to = Helpers::get_post( 'email-to' );
 		$reply_to = Helpers::get_post( 'email-from' );
+		$honeypot = Helpers::get_post( 'email-verify' );
 		$name     = Helpers::get_post( 'from-name' );
 		$subject  = Helpers::get_post( 'subject' );
 		$message  = Helpers::get_post( 'message' );
-		$limit = intval( Settings::get( 'throttle_amount', 3 ) );
+		$limit    = intval( Settings::get( 'throttle_amount', 3 ) );
 
 
 		if( ! wp_verify_nonce( $_REQUEST['cp_staff_send_email_nonce'], 'cp_staff_send_email' ) || ! is_email( $email_to ) ) {
@@ -159,6 +160,14 @@ class Init {
 			wp_send_json_error( array( 'error' => __( 'Please enter a valid email address.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
 
+		if( $this->check_if_ratelimited( $reply_to, $limit ) ) {
+			wp_send_json_error( array( 'error' => __( "Daily send limit of {$limit} submissions exceeded - Message blocked. Please try again later.", 'church-plugins' ) ) );
+		}
+
+		if( ! empty( $honeypot ) ) {
+			wp_send_json_error( array( 'error' => __( 'Blocked for suspicious activity', 'church-plugins' ), 'request' => $_REQUEST ) );
+		}
+		
 		if( empty( $subject ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please add an Email Subject.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
@@ -169,10 +178,6 @@ class Init {
 
 		if( $this->is_address_blocked( $reply_to ) ) {
 			wp_send_json_error( array( 'error' => __( 'You are not allowed to send a message as a staff member', 'cp-staff' ), 'request' => $_REQUEST ) );
-		}
-
-		if( $this->check_if_ratelimited( $reply_to, $limit ) ) {
-			wp_send_json_error( array( 'error' => __( "Daily send limit of {$limit} submissions exceeded - Message blocked. Please try again later.", 'church-plugins' ) ) );
 		}
 
 		$subject = apply_filters( 'cp_staff_email_subject', __( '[Web Inquiry]', 'cp-staff' ) . ' ' . $subject, $subject );
@@ -228,6 +233,13 @@ class Init {
 						<label>
 							<?php _e( 'Your Email:', 'cp-staff' ); ?>
 							<input type="text" name="email-from" class="staff-email-from"/>
+						</label>
+					</div>
+
+					<div class='cp-staff-email-form--email-verify'>
+						<label>
+							<?php _e( 'Email Verify', 'cp-staff' ) ?>
+							<input type='text' name='email-verify'>
 						</label>
 					</div>
 
