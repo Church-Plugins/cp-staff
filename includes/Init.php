@@ -108,9 +108,9 @@ class Init {
 			$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 		}
 
-		if( true || Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
+		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
 			$site_key = Settings::get( 'captcha_site_key', '' );
-			if( $site_key ) {
+			if( ! empty( $site_key ) ) {
 				wp_enqueue_script( 'grecaptcha-site-key', plugins_url( '/assets/js/captcha.js', dirname( __FILE__ ) ) );
 				wp_localize_script( 'grecaptcha-site-key', 'recaptchaSiteKey', $site_key );
 				wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
@@ -316,6 +316,10 @@ class Init {
 		$token      = Helpers::get_post( 'token' );
 		$action     = Helpers::get_post( 'action' );
 		$secret_key = Settings::get( 'captcha_secret_key', '' );
+
+		if( empty( $secret_key ) ) {
+			return true;
+		}
 
 		$post_body = array(
 			'secret'   => $secret_key,

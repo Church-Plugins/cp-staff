@@ -1,19 +1,4 @@
-/*
-grecaptcha.ready(() => {
-				grecaptcha.execute(window.recaptchaSiteKey, { action: 'contact_staff' } ).then((token) => {
-					self.prepend('<input type="hidden" name="token" value="' + token + '">');
-					self.prepend('<input type="hidden" name="action" value="contact_staff">');
 
-					this.$form.ajaxForm({
-						beforeSubmit: self.before_submit,
-						success     : self.success,
-						complete    : self.complete,
-						dataType    : 'json',
-						error       : self.error,
-					});
-				})
-			})
-			*/
 
 (function($){
 	'use strict'
@@ -24,12 +9,6 @@ grecaptcha.ready(() => {
 
 		if ( ! $staff.length ) {
 			return;
-		}
-
-		const handleEmailSubmit = (event) => {
-			event.preventDefault()
-
-
 		}
 
 		$staff.each(function() {
@@ -106,12 +85,6 @@ grecaptcha.ready(() => {
 
 })(jQuery);
 
-const sleep = (millis) => {
-	return new Promise(r => {
-		setTimeout(() => r(), millis)
-	})
-}
-
 window.CP_Staff_Mail = {
 	$modal: false,
 	$form : false,
@@ -121,7 +94,7 @@ window.CP_Staff_Mail = {
 		this.submit();
 	},
 
-	submit: async function () {
+	submit: function () {
 		const self = this;
 
 		this.$form = this.$modal.find('.cp-staff-email-form');
@@ -150,7 +123,6 @@ window.CP_Staff_Mail = {
 		return new Promise((resolve) => {
 			grecaptcha.ready(() => {
 				grecaptcha.execute(window.recaptchaSiteKey, { action: 'contact_staff' } ).then((token) => {
-					console.log('got token', form)
 					this.$form.prepend('<input type="hidden" name="token" value="' + token + '">');
 					this.$form.prepend('<input type="hidden" name="action" value="contact_staff">');
 					resolve(true)
