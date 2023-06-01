@@ -131,6 +131,34 @@ class Settings {
 			'default' => 'on'
 		) );
 
+
+		$main_options->add_field( array(
+			'name' => __( 'Enable captcha on message form', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'enable_captcha',
+			'default' => 'off'
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Recaptcha site key', 'cp-staff' ),
+			'type' => 'text',
+			'id'   => 'captcha_site_key',
+			'attributes' => array(
+				'data-conditional-id' => 'enable_captcha',
+				'data-conditional-value' => 'on'
+			)
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Recaptcha secret key', 'cp-staff' ),
+			'type' => 'text',
+			'id'   => 'captcha_secret_key',
+			'attributes' => array(
+				'data-conditional-id' => 'enable_captcha',
+				'data-conditional-value' => 'on'
+			)
+		) );
+
 		$main_options->add_field( array(
 			'name'         => __( 'From Address', 'cp-staff' ),
 			'desc'         => __( 'The from email address to use when sending staff emails. Will use the site admin email if this is blank.', 'cp-staff' ),

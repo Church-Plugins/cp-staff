@@ -1,3 +1,20 @@
+/*
+grecaptcha.ready(() => {
+				grecaptcha.execute(window.recaptchaSiteKey, { action: 'contact_staff' } ).then((token) => {
+					self.prepend('<input type="hidden" name="token" value="' + token + '">');
+					self.prepend('<input type="hidden" name="action" value="contact_staff">');
+
+					this.$form.ajaxForm({
+						beforeSubmit: self.before_submit,
+						success     : self.success,
+						complete    : self.complete,
+						dataType    : 'json',
+						error       : self.error,
+					});
+				})
+			})
+			*/
+
 (function($){
 	'use strict'
 
@@ -7,6 +24,12 @@
 
 		if ( ! $staff.length ) {
 			return;
+		}
+
+		const handleEmailSubmit = (event) => {
+			event.preventDefault()
+
+
 		}
 
 		$staff.each(function() {
@@ -83,6 +106,12 @@
 
 })(jQuery);
 
+const sleep = (millis) => {
+	return new Promise(r => {
+		setTimeout(() => r(), millis)
+	})
+}
+
 window.CP_Staff_Mail = {
 	$modal: false,
 	$form : false,
@@ -92,23 +121,42 @@ window.CP_Staff_Mail = {
 		this.submit();
 	},
 
-	submit: function () {
+	submit: async function () {
 		const self = this;
 
 		this.$form = this.$modal.find('.cp-staff-email-form');
 
-		this.$form.ajaxForm({
-			beforeSubmit: self.before_submit,
-			success     : self.success,
-			complete    : self.complete,
-			dataType    : 'json',
-			error       : self.error,
-		});
+		this.$form.on('submit', async function(e) {
+			e.preventDefault()
+
+			const form = self.$form
+
+			await self.before_submit( form )
+
+			form.ajaxSubmit({
+				success     : self.success,
+				complete    : self.complete,
+				dataType    : 'json',
+				error       : self.error,
+			})
+		})
+
 	},
 
-	before_submit: function (arr, form, options) {
+	before_submit: function (form) {
 		form.find('.notice-wrap').remove();
 		form.append('<div class="notice-wrap"><div class="update success"><p>Sending message.</p></div>');
+		
+		return new Promise((resolve) => {
+			grecaptcha.ready(() => {
+				grecaptcha.execute(window.recaptchaSiteKey, { action: 'contact_staff' } ).then((token) => {
+					console.log('got token', form)
+					this.$form.prepend('<input type="hidden" name="token" value="' + token + '">');
+					this.$form.prepend('<input type="hidden" name="action" value="contact_staff">');
+					resolve(true)
+				})
+			})
+		})
 	},
 
 	success: function (responseText, statusText, xhr, form) {},
