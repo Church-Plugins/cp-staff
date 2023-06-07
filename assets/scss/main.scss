@@ -72,6 +72,12 @@
 	.cp-staff-email-form--email-to {
 		position: relative;
 	}
+
+	.cp-staff-email-form--email-verify {
+		height: 0 !important;
+		overflow: hidden !important;
+		margin: 0 !important;
+	}
 	
 	.staff-copy-email {
 		position: absolute;

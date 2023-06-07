@@ -103,6 +103,61 @@ class Settings {
 		) );
 
 		$main_options->add_field( array(
+			'name' => __( 'Enable staff contact form throttling', 'cp-staff' ),
+			'desc' => __( 'Will prevent users and bots from sending large amounts of emails', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'throttle_staff_emails'
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Max submissions per day from same user', 'cp-staff' ),
+			'type' => 'select',
+			'id'   => 'throttle_amount',
+			'options' => $this->range_options(2, 10),
+			'default' => '3',
+			'attributes' => array(
+				'data-conditional-id' => 'throttle_staff_emails',
+				'data-conditional-value' => 'on'
+			)
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Prevent staff from sending emails', 'cp-staff' ),
+			'description' => __( 'Blocks messages from email addresses that contain the site domain', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'block_staff_emails',
+			'default' => 'on'
+		) );
+
+
+		$main_options->add_field( array(
+			'name' => __( 'Enable captcha on message form', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'enable_captcha',
+			'default' => 'off'
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Recaptcha site key', 'cp-staff' ),
+			'type' => 'text',
+			'id'   => 'captcha_site_key',
+			'attributes' => array(
+				'data-conditional-id' => 'enable_captcha',
+				'data-conditional-value' => 'on'
+			)
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Recaptcha secret key', 'cp-staff' ),
+			'type' => 'text',
+			'id'   => 'captcha_secret_key',
+			'attributes' => array(
+				'data-conditional-id' => 'enable_captcha',
+				'data-conditional-value' => 'on'
+			)
+		) );
+
+		$main_options->add_field( array(
 			'name'         => __( 'From Address', 'cp-staff' ),
 			'desc'         => __( 'The from email address to use when sending staff emails. Will use the site admin email if this is blank.', 'cp-staff' ),
 			'id'           => 'from_email',
@@ -138,6 +193,17 @@ class Settings {
 
 		$options = new_cmb2_box( $args );
 		$license->license_field( $options );
+	}
+
+	protected function range_options( $min, $max ) {
+		$range = array();
+
+		for ( $val = $min; $val <= $max; $val++ ) {
+			$val_str = strval( $val );
+			$range[$val_str] = $val_str;
+		}
+
+		return $range;
 	}
 
 	/**

@@ -2,7 +2,6 @@
 namespace CP_Staff;
 
 use ChurchPlugins\Helpers;
-use CP_Library\Admin\Settings as AdminSettings;
 use CP_Staff\Admin\Settings;
 
 /**
@@ -24,6 +23,8 @@ class Init {
 
 	public $enqueue;
 
+	protected $limiter;
+
 	/**
 	 * Only make one instance of Init
 	 *
@@ -42,6 +43,7 @@ class Init {
 	 */
 	protected function __construct() {
 		$this->enqueue = new \WPackio\Enqueue( 'cpStaff', 'dist', $this->get_version(), 'plugin', CP_STAFF_PLUGIN_FILE );
+		$this->limiter = new Ratelimit( "send_staff_email" );
 		add_action( 'plugins_loaded', [ $this, 'maybe_setup' ], - 9999 );
 		add_action( 'init', [ $this, 'maybe_init' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
@@ -104,6 +106,14 @@ class Init {
 		if ( Settings::get( 'use_email_modal', false ) ) {
 			$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 		}
+
+		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
+			$site_key = Settings::get( 'captcha_site_key', '' );
+			if( ! empty( $site_key ) ) {
+				wp_localize_script( 'grecaptcha-site-key', 'recaptchaSiteKey', $site_key );
+				wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
+			}
+		}
 	}
 
 	public function admin_scripts() {
@@ -138,9 +148,12 @@ class Init {
 
 		$email_to = Helpers::get_post( 'email-to' );
 		$reply_to = Helpers::get_post( 'email-from' );
+		$honeypot = Helpers::get_post( 'email-verify' );
 		$name     = Helpers::get_post( 'from-name' );
 		$subject  = Helpers::get_post( 'subject' );
 		$message  = Helpers::get_post( 'message' );
+		$limit    = intval( Settings::get( 'throttle_amount', 3 ) );
+
 
 		if( ! wp_verify_nonce( $_REQUEST['cp_staff_send_email_nonce'], 'cp_staff_send_email' ) || ! is_email( $email_to ) ) {
 			wp_send_json_error( array( 'error' => __( 'Something went wrong. Please reload the page and try again.', 'church-plugins' ) ) );
@@ -154,12 +167,28 @@ class Init {
 			wp_send_json_error( array( 'error' => __( 'Please enter a valid email address.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
 
+		if( $this->check_if_ratelimited( $reply_to, $limit ) ) {
+			wp_send_json_error( array( 'error' => __( "Daily send limit of {$limit} submissions exceeded - Message blocked. Please try again later.", 'church-plugins' ) ) );
+		}
+
+		if( ! empty( $honeypot ) ) {
+			wp_send_json_error( array( 'error' => __( 'Blocked for suspicious activity', 'church-plugins' ), 'request' => $_REQUEST ) );
+		}
+
 		if( empty( $subject ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please add an Email Subject.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
 
 		if( empty( $message ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please add an Email Message.', 'church-plugins' ), 'request' => $_REQUEST ) );
+		}
+
+		if( $this->is_address_blocked( $reply_to ) ) {
+			wp_send_json_error( array( 'error' => __( 'You are not allowed to send a message as a staff member', 'cp-staff' ), 'request' => $_REQUEST ) );
+		}
+
+		if( ! $this->is_verified_captcha() ) {
+			wp_send_json_error( array( 'error' => __( 'Your captcha score is too low', 'cp-staff' ), 'request' => $_REQUEST ) );
 		}
 
 		$subject = apply_filters( 'cp_staff_email_subject', __( '[Web Inquiry]', 'cp-staff' ) . ' ' . $subject, $subject );
@@ -218,6 +247,13 @@ class Init {
 						</label>
 					</div>
 
+					<div class='cp-staff-email-form--email-verify'>
+						<label>
+							<?php _e( 'Email Verify', 'cp-staff' ) ?>
+							<input type='text' name='email-verify'>
+						</label>
+					</div>
+
 					<div class="cp-staff-email-form--subject">
 						<label>
 							<?php _e( 'Email Subject:', 'cp-staff' ); ?>
@@ -244,6 +280,86 @@ class Init {
 
 	public function get_default_thumb() {
 		return CP_STAFF_PLUGIN_URL . '/app/public/logo512.png';
+	}
+
+	/**
+	 * Determine if the current user has exceeded the number of responses allowed per day
+	 *
+	 * @since  1.1.0
+	 *
+	 * @param $email
+	 * @param $limit
+	 *
+	 * @return bool
+	 * @author Jonathan Roley, 6/6/23
+	 */
+	public function check_if_ratelimited( $email, $limit ) {
+		if( Settings::get( 'throttle_staff_emails', 'off' ) == 'off' ) {
+			return false;
+		}
+
+		return $this->limiter->add_entries(
+			array(
+				$_SERVER['REMOTE_ADDR'], // user IP address
+				$email // sender email address
+			),
+			$limit
+		);
+	}
+
+	/**
+	 * Determine if the provided address is restricted
+	 *
+	 * @since  1.1.0
+	 *
+	 * @param $email
+	 *
+	 * @return bool
+	 * @author Jonathan Roley, 6/6/23
+	 */
+	public function is_address_blocked( $email ) {
+		if( Settings::get( 'block_staff_emails', 'on' ) == 'off' ) {
+			return false;
+		}
+
+		$site_domain = explode( '//', site_url() )[1];
+
+		return str_contains( $email, $site_domain );
+	}
+
+	/**
+	 * Determine if the captcha is verified
+	 *
+	 * @since  1.1.0
+	 *
+	 * @return bool
+	 * @author Jonathan Roley, 6/6/23
+	 */
+	public function is_verified_captcha() {
+		$token      = Helpers::get_post( 'token' );
+		$action     = Helpers::get_post( 'action' );
+		$secret_key = Settings::get( 'captcha_secret_key', '' );
+
+		if( empty( $secret_key ) ) {
+			return true;
+		}
+
+		$post_body = array(
+			'secret'   => $secret_key,
+			'response' => $token
+		);
+
+		$ch = curl_init();
+
+		curl_setopt( $ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify' );
+		curl_setopt( $ch, CURLOPT_POST, 1 );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $post_body ) );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+
+		$response = json_decode( curl_exec( $ch ), true );
+		curl_close( $ch );
+
+		return $response['success'] == '1' && $response['action'] == $action && $response['score'] > 0.5;
 	}
 
 	/**

@@ -1,3 +1,5 @@
+
+
 (function($){
 	'use strict'
 
@@ -97,18 +99,40 @@ window.CP_Staff_Mail = {
 
 		this.$form = this.$modal.find('.cp-staff-email-form');
 
-		this.$form.ajaxForm({
-			beforeSubmit: self.before_submit,
-			success     : self.success,
-			complete    : self.complete,
-			dataType    : 'json',
-			error       : self.error,
-		});
+		this.$form.on('submit', async function(e) {
+			e.preventDefault()
+
+			const form = self.$form
+
+			await self.before_submit( form )
+
+			form.ajaxSubmit({
+				success     : self.success,
+				complete    : self.complete,
+				dataType    : 'json',
+				error       : self.error,
+			})
+		})
+
 	},
 
-	before_submit: function (arr, form, options) {
+	before_submit: function (form) {
 		form.find('.notice-wrap').remove();
 		form.append('<div class="notice-wrap"><div class="update success"><p>Sending message.</p></div>');
+
+		if(!window.recaptchaSiteKey) {
+			return true
+		}
+
+		return new Promise((resolve) => {
+			grecaptcha.ready(() => {
+				grecaptcha.execute(window.recaptchaSiteKey, { action: 'contact_staff' } ).then((token) => {
+					this.$form.prepend('<input type="hidden" name="token" value="' + token + '">');
+					this.$form.prepend('<input type="hidden" name="action" value="contact_staff">');
+					resolve(true)
+				})
+			})
+		})
 	},
 
 	success: function (responseText, statusText, xhr, form) {},
