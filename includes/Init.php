@@ -2,7 +2,6 @@
 namespace CP_Staff;
 
 use ChurchPlugins\Helpers;
-use CP_Library\Admin\Settings as AdminSettings;
 use CP_Staff\Admin\Settings;
 
 /**
@@ -111,7 +110,6 @@ class Init {
 		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
 			$site_key = Settings::get( 'captcha_site_key', '' );
 			if( ! empty( $site_key ) ) {
-				wp_enqueue_script( 'grecaptcha-site-key', plugins_url( '/assets/js/captcha.js', dirname( __FILE__ ) ) );
 				wp_localize_script( 'grecaptcha-site-key', 'recaptchaSiteKey', $site_key );
 				wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
 			}
@@ -176,7 +174,7 @@ class Init {
 		if( ! empty( $honeypot ) ) {
 			wp_send_json_error( array( 'error' => __( 'Blocked for suspicious activity', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
-		
+
 		if( empty( $subject ) ) {
 			wp_send_json_error( array( 'error' => __( 'Please add an Email Subject.', 'church-plugins' ), 'request' => $_REQUEST ) );
 		}
@@ -284,24 +282,41 @@ class Init {
 		return CP_STAFF_PLUGIN_URL . '/app/public/logo512.png';
 	}
 
+	/**
+	 * Determine if the current user has exceeded the number of responses allowed per day
+	 *
+	 * @since  1.1.0
+	 *
+	 * @param $email
+	 * @param $limit
+	 *
+	 * @return bool
+	 * @author Jonathan Roley, 6/6/23
+	 */
 	public function check_if_ratelimited( $email, $limit ) {
 		if( Settings::get( 'throttle_staff_emails', 'off' ) == 'off' ) {
 			return false;
 		}
 
-		$is_within_ratelimit = $this->limiter->add_entries( 
+		return $this->limiter->add_entries(
 			array(
 				$_SERVER['REMOTE_ADDR'], // user IP address
 				$email // sender email address
 			),
 			$limit
 		);
-
-		if( ! $is_within_ratelimit ) {
-			return true;
-		}
 	}
 
+	/**
+	 * Determine if the provided address is restricted
+	 *
+	 * @since  1.1.0
+	 *
+	 * @param $email
+	 *
+	 * @return bool
+	 * @author Jonathan Roley, 6/6/23
+	 */
 	public function is_address_blocked( $email ) {
 		if( Settings::get( 'block_staff_emails', 'on' ) == 'off' ) {
 			return false;
@@ -312,6 +327,14 @@ class Init {
 		return str_contains( $email, $site_domain );
 	}
 
+	/**
+	 * Determine if the captcha is verified
+	 *
+	 * @since  1.1.0
+	 *
+	 * @return bool
+	 * @author Jonathan Roley, 6/6/23
+	 */
 	public function is_verified_captcha() {
 		$token      = Helpers::get_post( 'token' );
 		$action     = Helpers::get_post( 'action' );
@@ -338,6 +361,7 @@ class Init {
 
 		return $response['success'] == '1' && $response['action'] == $action && $response['score'] > 0.5;
 	}
+
 	/**
 	 * Make sure required plugins are active
 	 *

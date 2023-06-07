@@ -3,7 +3,7 @@
  * Plugin Name: Church Plugins - Staff
  * Plugin URL: https://churchplugins.com
  * Description: Church Staff plugin for managing staff
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Church Plugins
  * Author URI: https://churchplugins.com
  * Text Domain: cp-staff
@@ -12,7 +12,7 @@
 
 if( !defined( 'CP_STAFF_PLUGIN_VERSION' ) ) {
 	 define ( 'CP_STAFF_PLUGIN_VERSION',
-	 	'1.0.1'
+	 	'1.1.0'
 	);
 }
 

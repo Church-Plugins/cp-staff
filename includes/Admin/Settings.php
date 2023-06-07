@@ -2,8 +2,6 @@
 
 namespace CP_Staff\Admin;
 
-use function PHPSTORM_META\map;
-
 /**
  * Plugin settings
  *

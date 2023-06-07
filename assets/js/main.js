@@ -119,11 +119,11 @@ window.CP_Staff_Mail = {
 	before_submit: function (form) {
 		form.find('.notice-wrap').remove();
 		form.append('<div class="notice-wrap"><div class="update success"><p>Sending message.</p></div>');
-		
+
 		if(!window.recaptchaSiteKey) {
 			return true
 		}
-		
+
 		return new Promise((resolve) => {
 			grecaptcha.ready(() => {
 				grecaptcha.execute(window.recaptchaSiteKey, { action: 'contact_staff' } ).then((token) => {
