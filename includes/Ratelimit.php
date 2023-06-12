@@ -2,6 +2,9 @@
 
 namespace CP_Staff;
 
+use RuntimeException;
+use YoastSEO_Vendor\GuzzleHttp\Exception\RequestException;
+
 class Ratelimit {
   
   protected $key;
@@ -47,14 +50,17 @@ class Ratelimit {
 
     update_option( $this->key, $this->data );
 
-    return $data_today[ $key ] <= $limit;
+    if ($data_today[ $key ] > $limit ) {
+      throw new RuntimeException( esc_html__( "You have made too many requests"), 429 );
+      return false;
+    }
+
+    return true;
   }
 
   public function add_entries( $keys, $limit ) {
-    $is_within_ratelimit = true;
     foreach ( $keys as $key ) {
-      $is_within_ratelimit = $this->add_entry( $key, $limit ) && $is_within_ratelimit;
+      $this->add_entry( $key, $limit );
     }
-    return $is_within_ratelimit;
   }
 }

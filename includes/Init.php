@@ -3,6 +3,7 @@ namespace CP_Staff;
 
 use ChurchPlugins\Helpers;
 use CP_Staff\Admin\Settings;
+use RuntimeException;
 
 /**
  * Provides the global $cp_staff object
@@ -298,13 +299,19 @@ class Init {
 			return false;
 		}
 
-		return $this->limiter->add_entries(
-			array(
-				$_SERVER['REMOTE_ADDR'], // user IP address
-				$email // sender email address
-			),
-			$limit
-		);
+		try {
+			$this->limiter->add_entries(
+				array(
+					$_SERVER['REMOTE_ADDR'], // user IP address
+					$email // sender email address
+				),
+				$limit
+			);
+			return false;
+		}
+		catch(RuntimeException $err) {
+			return true;
+		}
 	}
 
 	/**
