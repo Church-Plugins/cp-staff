@@ -104,7 +104,7 @@ class Settings {
 
 		$main_options->add_field( array(
 			'name' => __( 'Enable staff contact form throttling', 'cp-staff' ),
-			'desc' => __( 'Will prevent users and bots from sending large amounts of emails', 'cp-staff' ),
+			'desc' => __( 'Limit the number of submissions an email or IP address can send in a day.', 'cp-staff' ),
 			'type' => 'checkbox',
 			'id'   => 'throttle_staff_emails'
 		) );
