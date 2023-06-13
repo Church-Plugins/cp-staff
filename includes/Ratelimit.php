@@ -3,7 +3,6 @@
 namespace CP_Staff;
 
 use RuntimeException;
-use YoastSEO_Vendor\GuzzleHttp\Exception\RequestException;
 
 class Ratelimit {
   
@@ -50,8 +49,8 @@ class Ratelimit {
 
     update_option( $this->key, $this->data );
 
-    if ($data_today[ $key ] > $limit ) {
-      throw new RuntimeException( esc_html__( "You have made too many requests"), 429 );
+    if ( $data_today[ $key ] > $limit ) {
+      throw new RuntimeException( esc_html__( 'You have made too many requests', 'cp-staff' ), 429 );
       return false;
     }
 
