@@ -99,6 +99,7 @@ window.CP_Staff_Mail = {
 
 		this.$form = this.$modal.find('.cp-staff-email-form');
 
+		this.$form.unbind('submit')
 		this.$form.on('submit', async function(e) {
 			e.preventDefault()
 
