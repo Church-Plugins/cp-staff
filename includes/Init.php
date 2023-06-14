@@ -300,9 +300,14 @@ class Init {
 		}
 
 		try {
+			$remote_addr = '0.0.0.0';
+			if( !empty( $_SERVER ) && is_array( $_SERVER ) && !empty( $_SERVER['REMOTE_ADDR'] ) ) {
+				$remote_addr = $_SERVER['REMOTE_ADDR'];
+			}
+
 			$this->limiter->add_entries(
 				array(
-					$_SERVER['REMOTE_ADDR'], // user IP address
+					$remote_addr, // user IP address
 					$email // sender email address
 				),
 				$limit
