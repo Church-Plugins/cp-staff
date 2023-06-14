@@ -51,7 +51,6 @@ class Ratelimit {
 
     if ( $data_today[ $key ] > $limit ) {
       throw new RuntimeException( esc_html__( 'You have made too many requests', 'cp-staff' ), 429 );
-      return false;
     }
 
     return true;
