@@ -88,7 +88,7 @@ class Settings {
 			'desc'         => __( 'If active, when a staff record has an email and a user clicks on their staff profile, then a contact form will display inside of a modal (in-browser window popup).', 'cp-staff' ),
 			'id'           => 'use_email_modal',
 			'type'         => 'checkbox',
-			'default'      => 'on'
+			'default_cb'   => [ $this, 'default_checked' ]
 		) );
 
 		$main_options->add_field( array(
@@ -125,16 +125,14 @@ class Settings {
 			'name' => __( 'Prevent staff from sending emails', 'cp-staff' ),
 			'description' => __( 'Blocks messages from email addresses that contain the site domain', 'cp-staff' ),
 			'type' => 'checkbox',
-			'id'   => 'block_staff_emails',
-			'default' => 'on'
+			'id'   => 'block_staff_emails'
 		) );
 
 
 		$main_options->add_field( array(
 			'name' => __( 'Enable captcha on message form', 'cp-staff' ),
 			'type' => 'checkbox',
-			'id'   => 'enable_captcha',
-			'default' => 'off'
+			'id'   => 'enable_captcha'
 		) );
 
 		$main_options->add_field( array(
@@ -172,6 +170,13 @@ class Settings {
 		) );
 
 		$this->license_fields();
+	}
+
+	/**
+	 * Setting a checkbox to be on by default doesn't work in CMB2, this is a way to get around that
+	 */
+	public function default_checked() {
+		return isset( $_GET['page'] ) ? '' : true;
 	}
 
 	protected function license_fields() {
