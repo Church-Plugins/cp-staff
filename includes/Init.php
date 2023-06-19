@@ -1,7 +1,6 @@
 <?php
 namespace CP_Staff;
 
-use ChurchPlugins\Helpers;
 use CP_Staff\Admin\Settings;
 use RuntimeException;
 
@@ -147,12 +146,12 @@ class Init {
 
 	public function maybe_send_email() {
 
-		$email_to = Helpers::get_post( 'email-to' );
-		$reply_to = Helpers::get_post( 'email-from' );
-		$honeypot = Helpers::get_post( 'email-verify' );
-		$name     = Helpers::get_post( 'from-name' );
-		$subject  = Helpers::get_post( 'subject' );
-		$message  = Helpers::get_post( 'message' );
+		$email_to = \ChurchPlugins\Helpers::get_post( 'email-to' );
+		$reply_to = \ChurchPlugins\Helpers::get_post( 'email-from' );
+		$honeypot = \ChurchPlugins\Helpers::get_post( 'email-verify' );
+		$name     = \ChurchPlugins\Helpers::get_post( 'from-name' );
+		$subject  = \ChurchPlugins\Helpers::get_post( 'subject' );
+		$message  = \ChurchPlugins\Helpers::get_post( 'message' );
 		$limit    = intval( Settings::get( 'throttle_amount', 3 ) );
 
 
@@ -230,7 +229,7 @@ class Init {
 							<input type="hidden" name="email-to" class="staff-email-to" />
 							<input type="text" disabled="disabled" class="staff-email-to"/>
 							<div class="staff-copy-email"
-								 title="Copy email address"><?php echo Helpers::get_icon( 'copy' ); ?></div>
+								 title="Copy email address"><?php echo \ChurchPlugins\Helpers::get_icon( 'copy' ); ?></div>
 						</label>
 					</div>
 
@@ -348,8 +347,8 @@ class Init {
 	 * @author Jonathan Roley, 6/6/23
 	 */
 	public function is_verified_captcha() {
-		$token      = Helpers::get_post( 'token' );
-		$action     = Helpers::get_post( 'action' );
+		$token      = \ChurchPlugins\Helpers::get_post( 'token' );
+		$action     = \ChurchPlugins\Helpers::get_post( 'action' );
 		$secret_key = Settings::get( 'captcha_secret_key', '' );
 
 		if( empty( $secret_key ) ) {
