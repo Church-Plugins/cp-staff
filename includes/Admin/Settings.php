@@ -125,7 +125,8 @@ class Settings {
 			'name' => __( 'Prevent staff from sending emails', 'cp-staff' ),
 			'description' => __( 'Blocks messages from email addresses that contain the site domain', 'cp-staff' ),
 			'type' => 'checkbox',
-			'id'   => 'block_staff_emails'
+			'id'   => 'block_staff_emails',
+			'default_cb'   => [ $this, 'default_checked' ]
 		) );
 
 
