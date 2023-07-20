@@ -14,7 +14,6 @@ class ComposerStaticInit12c70d6e4d8831726a95675c62a4dd84
         'C' => 
         array (
             'Composer\\Installers\\' => 20,
-            'ChurchPlugins\\' => 14,
             'CP_Staff\\' => 9,
         ),
     );
@@ -27,10 +26,6 @@ class ComposerStaticInit12c70d6e4d8831726a95675c62a4dd84
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
-        ),
-        'ChurchPlugins\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/includes/ChurchPlugins',
         ),
         'CP_Staff\\' => 
         array (

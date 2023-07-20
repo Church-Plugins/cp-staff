@@ -11,7 +11,7 @@ class Init {
 	 * @var Init
 	 */
 	protected static $_instance;
-	
+
 	/**
 	 * Setup Staff CPT
 	 *
@@ -57,7 +57,7 @@ class Init {
 	public function get_post_types() {
 		return [ $this->staff->post_type ];
 	}
-	
+
 	/**
 	 * Plugin init actions
 	 *
@@ -65,20 +65,20 @@ class Init {
 	 * @author costmo
 	 */
 	protected function actions() {
-		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_gutenberg' ], 10, 2 );
+//		add_filter( 'use_block_editor_for_post_type', [ $this, 'disable_gutenberg' ], 10, 2 );
 		add_action( 'init', [ $this, 'register_post_types' ], 4 );
 	}
 
 	public function register_post_types() {
 
 		$this->staff = Staff::get_instance();
-		
+
 		if ( cp_staff()->enabled() ) {
 			$this->staff->add_actions();
 			do_action( 'cp_register_post_types' );
 		}
 	}
-	
+
 	public function disable_gutenberg( $status, $post_type ) {
 		if ( $this->in_post_types( $post_type ) ) {
 			return false;
@@ -86,6 +86,6 @@ class Init {
 
 		return $status;
 	}
-	
+
 
 }

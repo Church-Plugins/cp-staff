@@ -84,10 +84,76 @@ class Settings {
 		$main_options = new_cmb2_box( $args );
 
 		$main_options->add_field( array(
-			'name'         => __( 'Staff email modal.', 'cp-staff' ),
-			'desc'         => __( 'Check this to popup an email modal when a staff item is clicked.', 'cp-staff' ),
+			'name'         => __( 'Staff contact modal', 'cp-staff' ),
+			'desc'         => __( 'If active, when a staff record has an email and a user clicks on their staff profile, then a contact form will display inside of a modal (in-browser window popup).', 'cp-staff' ),
 			'id'           => 'use_email_modal',
 			'type'         => 'checkbox',
+			'default_cb'   => [ $this, 'default_checked' ]
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Display staff\'s email address', 'cp-staff' ),
+			'desc' => __( 'If checked, the staff\'s email address will be visible inside the contact form', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id' => 'show_staff_email',
+			'attributes' => array(
+				'data-conditional-id' => 'use_email_modal',
+				'data-conditionl-value' => 'on'
+			)
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Enable staff contact form throttling', 'cp-staff' ),
+			'desc' => __( 'Limit the number of submissions an email or IP address can send in a day.', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'throttle_staff_emails'
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Max submissions per day from same user', 'cp-staff' ),
+			'type' => 'select',
+			'id'   => 'throttle_amount',
+			'options' => $this->range_options(2, 10),
+			'default' => '3',
+			'attributes' => array(
+				'data-conditional-id' => 'throttle_staff_emails',
+				'data-conditional-value' => 'on'
+			)
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Prevent staff from sending emails', 'cp-staff' ),
+			'description' => __( 'Blocks messages from email addresses that contain the site domain', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'block_staff_emails',
+			'default_cb'   => [ $this, 'default_checked' ]
+		) );
+
+
+		$main_options->add_field( array(
+			'name' => __( 'Enable captcha on message form', 'cp-staff' ),
+			'type' => 'checkbox',
+			'id'   => 'enable_captcha'
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Recaptcha site key', 'cp-staff' ),
+			'type' => 'text',
+			'id'   => 'captcha_site_key',
+			'attributes' => array(
+				'data-conditional-id' => 'enable_captcha',
+				'data-conditional-value' => 'on'
+			)
+		) );
+
+		$main_options->add_field( array(
+			'name' => __( 'Recaptcha secret key', 'cp-staff' ),
+			'type' => 'text',
+			'id'   => 'captcha_secret_key',
+			'attributes' => array(
+				'data-conditional-id' => 'enable_captcha',
+				'data-conditional-value' => 'on'
+			)
 		) );
 
 		$main_options->add_field( array(
@@ -107,8 +173,15 @@ class Settings {
 		$this->license_fields();
 	}
 
+	/**
+	 * Setting a checkbox to be on by default doesn't work in CMB2, this is a way to get around that
+	 */
+	public function default_checked() {
+		return isset( $_GET['page'] ) ? '' : true;
+	}
+
 	protected function license_fields() {
-		$license = new \ChurchPlugins\Setup\Admin\License( 'cp_staff_license', 436, CP_STAFF_STORE_URL, CP_STAFF_PLUGIN_FILE, get_admin_url( null, 'admin.php?page=cp_staff_license' ) );
+		$license = new \ChurchPlugins\Setup\Admin\License( 'cp_staff_license', 444, CP_STAFF_STORE_URL, CP_STAFF_PLUGIN_FILE, get_admin_url( null, 'admin.php?page=cp_staff_license' ) );
 
 		/**
 		 * Registers settings page, and set main item as parent.
@@ -126,6 +199,17 @@ class Settings {
 
 		$options = new_cmb2_box( $args );
 		$license->license_field( $options );
+	}
+
+	protected function range_options( $min, $max ) {
+		$range = array();
+
+		for ( $val = $min; $val <= $max; $val++ ) {
+			$val_str = strval( $val );
+			$range[$val_str] = $val_str;
+		}
+
+		return $range;
 	}
 
 	/**

@@ -24,24 +24,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '43c4af374d98b3b2664976b0b3af951ceabb5840',
     'name' => 'churchplugins/cp-staff',
   ),
   'versions' => 
   array (
     'churchplugins/cp-staff' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '43c4af374d98b3b2664976b0b3af951ceabb5840',
     ),
     'composer/installers' => 
     array (

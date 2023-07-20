@@ -19,6 +19,9 @@ npm run build
 
 ### Change Log
 
+#### 1.1.0
+* Add security hardening for staff messaging
+
 #### 1.0.1
 * Add settings for Staff message modal
 * Update CP core
