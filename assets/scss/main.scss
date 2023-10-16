@@ -1,14 +1,7 @@
 @import 'variables.scss';
 @import '../../includes/ChurchPlugins/assets/scss/vars';
+@import '../../includes/ChurchPlugins/assets/scss/main.scss';
 @import '../../includes/ChurchPlugins/assets/scss/elements/button';
-
-.cp-staff-pg-template {
-	max-width: 100%;
-	width: var(--cp-content-width);
-	padding: var(--cp-content-padding);
-	color: var(--cpl--text-color);
-	margin: auto;
-}
 
 .cp-staff {
 	&--has-email {

@@ -25,7 +25,7 @@ get_header();
  */
 do_action( 'cp_staff_default_template_after_header' );
 ?>
-<main id="cp-staff-pg-template" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
+<main id="cp-pg-template" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 	<?php // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	<?php echo apply_filters( 'cp_staff_default_template_before_content', '' ); ?>
 	<?php cp_staff()->templates->get_view(); ?>
