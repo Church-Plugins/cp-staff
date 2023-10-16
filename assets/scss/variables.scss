@@ -1,6 +1,7 @@
 
 
 :root {
+	--cp-gap-base: 0.5rem;
 	--cp-gap--md: 1.3rem;
 	--cp-gap--sm: .7rem;
 	--cp-gap--lg: 2.5rem;
@@ -8,4 +9,5 @@
 	--cp-content-width: 70rem;
 	--cp-content-padding: var(--cp-gap--lg);
 	--cp-color-text-primary: #333333;
+	--cp-ui--gap-y-x--lg: var(--cp-gap--sm) var(--cp-gap--md);
 }
