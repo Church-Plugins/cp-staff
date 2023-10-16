@@ -1,3 +1,13 @@
+@import 'variables.scss';
+
+.cp-staff-pg-template {
+	max-width: 100%;
+	width: var(--cp-content-width);
+	padding: var(--cp-content-padding);
+	color: var(--cpl--text-color);
+	margin: auto;
+}
+
 .cp-staff {
 	&--has-email {
 		.fl-photo {
@@ -154,5 +164,76 @@
 		//	content: 'x';
 		//	color: black;
 		//}
+	}
+}
+
+.cp-staff-department-heading {
+	margin-bottom: var(--cp-gap--md);
+}
+
+.cp-staff-archive--title-wrapper {
+	padding-top: var(--cp-gap--lg);
+	padding-bottom: var(--cp-gap--lg);
+}
+
+.cp-staff-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-gap: var(--cp-gap--md);
+	padding-top: var(--cp-gap--md);
+	padding-bottom: var(--cp-gap--md);
+}
+
+.cp-staff-card {
+	&--image-wrapper {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 3 / 4;
+	}
+
+	&--image {
+		width: 100%;
+		height:	100%;
+		object-fit: cover;
+	}
+
+	&--image-overlay {
+		position: absolute;
+		inset: 0;
+		background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 60%, rgba(0, 0, 0, .5));
+		display: flex;
+		align-items: end;
+		padding: var(--cp-gap--md);
+	}
+
+	&--name, &--role {
+		color: var(--cp-color-text-primary);
+	}
+
+	.cp-staff-card--name {
+		margin-top: var(--cp-gap--sm);
+		margin-bottom: 0;
+	}
+
+	.cp-staff-card--role {
+		font-size: var(--cp-font-size-sm);
+	}
+
+	&--mail-icon {
+		color: white;
+		padding: 1em;
+		border-radius: 100px;
+		aspect-ratio: 1;
+		background-color: var(--cp-color-ui-secondary);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		left: var(--cp-gap--md);
+		bottom: var(--cp-gap--md);
+		.feather {
+			width: 1.6em;
+			height: auto;
+		}
 	}
 }

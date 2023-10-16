@@ -94,9 +94,9 @@ class Staff extends PostType {
 	 * @author costmo
 	 */
 	public function get_args() {
-		$args               = parent::get_args();
-		$args['menu_icon']  = apply_filters( "{$this->post_type}_icon", 'dashicons-id' );
-		$args['has_archive'] = false;
+		$args              = parent::get_args();
+		$args['menu_icon'] = apply_filters( "{$this->post_type}_icon", 'dashicons-id' );
+		// $args['has_archive'] = false;
 		$args['supports'][] = 'page-attributes';
 		return $args;
 	}
@@ -129,5 +129,4 @@ class Staff extends PostType {
 			'type' => 'text_email',
 		] );
 	}
-	
 }

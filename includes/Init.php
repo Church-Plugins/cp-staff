@@ -26,6 +26,13 @@ class Init {
 	protected $limiter;
 
 	/**
+	 * Template class instance
+	 *
+	 * @var Templates
+	 */
+	public $templates;
+
+	/**
 	 * Only make one instance of Init
 	 *
 	 * @return Init
@@ -114,6 +121,8 @@ class Init {
 				wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
 			}
 		}
+
+		wp_enqueue_script( 'feather-icons' );
 	}
 
 	public function admin_scripts() {
@@ -128,7 +137,8 @@ class Init {
 	protected function includes() {
 		require_once( 'Templates.php' );
 		Admin\Init::get_instance();
-		$this->setup = Setup\Init::get_instance();
+		$this->setup     = Setup\Init::get_instance();
+		$this->templates = Templates::get_instance();
 	}
 
 	protected function actions() {
