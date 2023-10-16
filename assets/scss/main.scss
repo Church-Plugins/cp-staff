@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import '../../includes/ChurchPlugins/assets/scss/vars';
 @import '../../includes/ChurchPlugins/assets/scss/elements/button';
 
 .cp-staff-pg-template {
@@ -123,12 +124,16 @@
 		background-color: white;
 	}
 
-	input:disabled,textarea:disabled {
-		background-color: var(--cp-color-canvas-inverted);
+	input:disabled, textarea:disabled {
+		opacity: .6;
 	}
 
 	.cp-button {
 		@extend .cp-button;
+	}
+
+	.cp-button:hover {
+		background-color: var(--cp-button--bg--hover);
 	}
 	
 	input[type=submit] {
