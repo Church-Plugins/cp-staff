@@ -42,7 +42,6 @@ class Init {
 	 * Class constructor: Add Hooks and Actions
 	 */
 	protected function __construct() {
-		$this->enqueue = new \WPackio\Enqueue( 'cpStaff', 'dist', $this->get_version(), 'plugin', CP_STAFF_PLUGIN_FILE );
 		$this->limiter = new Ratelimit( "send_staff_email" );
 		add_action( 'cp_core_loaded', [ $this, 'maybe_setup' ], - 9999 );
 		add_action( 'init', [ $this, 'maybe_init' ] );
@@ -101,10 +100,10 @@ class Init {
 	 * @author costmo
 	 */
 	public function scripts() {
-		$this->enqueue->enqueue( 'styles', 'main', [] );
+		$this->enqueue_style( 'styles', array(), '1.0' );
 
 		if ( Settings::get( 'use_email_modal', false ) ) {
-			$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
+			$this->enqueue_script( 'main', array( 'jquery', 'jquery-ui-dialog', 'jquery-form' ), '1.0' );
 		}
 
 		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
@@ -117,7 +116,8 @@ class Init {
 	}
 
 	public function admin_scripts() {
-		$this->enqueue->enqueue( 'styles', 'admin', [] );
+		$this->enqueue_style( 'admin-styles' );
+		$this->enqueue_script( 'admin' );
 	}
 
 	/**
@@ -458,4 +458,36 @@ class Init {
 		return true;
 	}
 
+	/**
+	 * Enqueue a script
+	 *
+	 * @param string $name The entrypoint to include.
+	 * @param array  $deps Additional dependencies.
+	 * @param string $ver Version number.
+	 * @param bool   $in_footer Whether to enqueue in the footer.
+	 */
+	public function enqueue_script( $name, $deps = array(), $ver = false, $in_footer = false ) {
+		$src    = CP_STAFF_PLUGIN_URL . "build/{$name}.js";
+		$assets = require CP_STAFF_PLUGIN_DIR . "build/{$name}.asset.php";
+
+		$hook = "cp-staff-{$name}";
+		$deps = array_merge( $assets['dependencies'], $deps );
+
+		wp_enqueue_script( $hook, $src, $deps, $ver, $in_footer );
+	}
+
+	/**
+	 * Enqueue a style
+	 *
+	 * @param string $name The entrypoint to include.
+	 * @param array  $deps Additional dependencies.
+	 * @param string $ver Version number.
+	 * @param string $media Media type.
+	 */
+	public function enqueue_style( $name, $deps = array(), $ver = false, $media = 'all' ) {
+		$src  = CP_STAFF_PLUGIN_URL . "build/{$name}.css";
+		$hook = "cp-staff-{$name}-css";
+
+		wp_enqueue_style( $hook, $src, $deps, $ver, $media );
+	}
 }

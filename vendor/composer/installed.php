@@ -1,42 +1,32 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'name' => 'churchplugins/cp-staff',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '771b0ad28efdd2d9616a1a987e78d560d4aee73f',
+        'type' => 'wordpress-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
     ),
-    'reference' => '43c4af374d98b3b2664976b0b3af951ceabb5840',
-    'name' => 'churchplugins/cp-staff',
-  ),
-  'versions' => 
-  array (
-    'churchplugins/cp-staff' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '43c4af374d98b3b2664976b0b3af951ceabb5840',
+    'versions' => array(
+        'churchplugins/cp-staff' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '771b0ad28efdd2d9616a1a987e78d560d4aee73f',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/installers' => array(
+            'pretty_version' => 'v2.2.0',
+            'version' => '2.2.0.0',
+            'reference' => 'c29dc4b93137acb82734f672c37e029dfbd95b35',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/./installers',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
     ),
-    'composer/installers' => 
-    array (
-      'pretty_version' => 'v2.1.1',
-      'version' => '2.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'af93ba6e52236418f07a278033eba6959ee5b983',
-    ),
-    'wpackio/enqueue' => 
-    array (
-      'pretty_version' => '3.4.0',
-      'version' => '3.4.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '8a5604f5ab3bd5f000e503dda02603e15e534d47',
-    ),
-  ),
 );

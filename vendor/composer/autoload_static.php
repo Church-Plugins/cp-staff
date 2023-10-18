@@ -7,10 +7,6 @@ namespace Composer\Autoload;
 class ComposerStaticInit12c70d6e4d8831726a95675c62a4dd84
 {
     public static $prefixLengthsPsr4 = array (
-        'W' => 
-        array (
-            'WPackio\\' => 8,
-        ),
         'C' => 
         array (
             'Composer\\Installers\\' => 20,
@@ -19,10 +15,6 @@ class ComposerStaticInit12c70d6e4d8831726a95675c62a4dd84
     );
 
     public static $prefixDirsPsr4 = array (
-        'WPackio\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/wpackio/enqueue/inc',
-        ),
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
