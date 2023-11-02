@@ -250,7 +250,7 @@ class Init {
 					<div class='cp-staff-email-form--email-verify'>
 						<label>
 							<?php _e( 'Email Verify', 'cp-staff' ) ?>
-							<input type='text' name='email-verify'>
+							<input type='text' name='email-verify' tabindex="-1">
 						</label>
 					</div>
 
