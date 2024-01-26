@@ -128,6 +128,21 @@ class Staff extends PostType {
 			'id'   => 'email',
 			'type' => 'text_email',
 		] );
+
+
+		$cmb->add_field( [
+			'name' => __( 'LinkedIn URL', 'cp-staff' ),
+			'desc' => __( 'The URL to this staff member\'s LinkedIn profile.', 'cp-staff' ),
+			'id'   => 'linkedin_url',
+			'type' => 'text_url',
+		] );
+
+		$cmb->add_field( [
+			'name' => __( 'Acronyms', 'cp-staff' ),
+			'desc' => __( 'Staff member acronyms.', 'cp-staff' ),
+			'id'   => 'acronyms',
+			'type' => 'text',
+		] );
 	}
 	
 }
