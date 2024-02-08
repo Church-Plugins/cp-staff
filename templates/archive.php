@@ -31,12 +31,13 @@ foreach ( $departments as $department ) {
 	$staff = new WP_Query(
 		array(
 			'post_type'      => cp_staff()->setup->post_types->staff->post_type,
-			'posts_per_page' => -1,
+			'posts_per_page' => 999,
 			'tax_query'      => array(
 				array(
-					'taxonomy' => cp_staff()->setup->taxonomies->department->taxonomy,
-					'field'    => 'slug',
-					'terms'    => $department->slug,
+					'taxonomy'         => cp_staff()->setup->taxonomies->department->taxonomy,
+					'field'            => 'term_id',
+					'terms'            => [ $department->term_id ],
+					'include_children' => false,
 				),
 			),
 		)

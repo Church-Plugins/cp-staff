@@ -29,7 +29,7 @@
 
 			$this.addClass( 'cp-staff--has-email' );
 
-			$this.on( 'click', 'a', function(e) {
+			$this.on( 'click', '.cp-staff-card--mail-icon', function(e) {
 				e.preventDefault();
 
 				let $modalElem = $('.staff-modal-' + data.id);

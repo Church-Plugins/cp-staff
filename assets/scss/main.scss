@@ -227,8 +227,12 @@
 		padding: var(--cp-gap--md);
 	}
 
-	&--name, &--role {
+	&--name, &--role, &--name-link {
 		color: var(--cp-color-text-primary);
+	}
+
+	a.cp-staff-card--name-link {
+		text-decoration: none;
 	}
 
 	.cp-staff-card--name {
