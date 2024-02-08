@@ -109,7 +109,8 @@
 				$infoModal.dialog('open');
 			});
 
-			$(this).find('.cp-staff-info-modal--close-btn').on('click', function(e) {
+			$infoModal.find('.cp-staff-info-modal--close-btn').on('click', function(e) {
+				e.preventDefault();
 				$infoModal.dialog('close');
 			})
 		});

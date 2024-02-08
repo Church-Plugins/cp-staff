@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $static      = boolval( isset( $args['static'] ) ? $args['static'] : false );
 $staff_title = get_post_meta( get_the_ID(), 'title', true );
+$staff_email = get_post_meta( get_the_ID(), 'email', true );
 ?>
 
 <div class="cp-staff-card cp_staff type-cp_staff">
@@ -20,7 +21,7 @@ $staff_title = get_post_meta( get_the_ID(), 'title', true );
 	<div class="cp-staff-card--image-wrapper">
 		<?php echo get_the_post_thumbnail( get_the_ID(), 'medium', array( 'class' => 'cp-staff-card--image' ) ); ?>
 		<div class="cp-staff-card--image-overlay"></div>
-		<?php if ( ! $static ) : ?>
+		<?php if ( ! $static && ! empty( $staff_email ) ) : ?>
 			<a href="<?php echo esc_url( get_permalink() ); ?>" class="cp-staff-card--mail-icon">
 				<i data-feather="mail"></i>
 			</a>
