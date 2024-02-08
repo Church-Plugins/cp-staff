@@ -64,6 +64,10 @@ class Init {
 			return;
 		}
 
+		if ( ! Settings::get( 'use_email_modal', false ) ) {
+			return;
+		}
+
 		$details = [
 			'name'       => get_the_title(),
 			'id'         => get_the_ID(),
@@ -110,9 +114,7 @@ class Init {
 	public function scripts() {
 		$this->enqueue->enqueue( 'styles', 'main', [] );
 
-		if ( Settings::get( 'use_email_modal', false ) ) {
-			$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
-		}
+		$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 
 		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
 			$site_key = Settings::get( 'captcha_site_key', '' );
