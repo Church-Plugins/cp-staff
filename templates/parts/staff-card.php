@@ -8,7 +8,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
+	exit;
 }
 
 $static      = boolval( isset( $args['static'] ) ? $args['static'] : false );
@@ -34,4 +34,7 @@ $staff_title = get_post_meta( get_the_ID(), 'title', true );
 	<div class="cp-staff-card--role">
 		<?php echo esc_html( $staff_title ); ?>
 	</div>
+	<?php if ( ! empty( get_the_content() ) ) : ?>
+		<?php cp_staff()->templates->get_template_part( 'parts/info-modal' ); ?>
+	<?php endif; ?>
 </div>

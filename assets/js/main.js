@@ -81,6 +81,39 @@
 			} );
 		});
 
+		$staff.each(function() {
+			const $infoModal = $(this).find('.cp-staff-info-modal');
+
+			if ( ! $infoModal.length ) {
+				return;
+			}
+
+			$infoModal.dialog({
+				title        : '',
+				dialogClass  : 'cp-staff-info-modal--popup',
+				autoOpen     : false,
+				draggable    : false,
+				width        : 'min(90%, 1250px)',
+				modal        : true,
+				resizable    : false,
+				closeOnEscape: true,
+				position     : {
+					my: 'center',
+					at: 'center',
+					of: window
+				}
+			})
+
+			$(this).on('click', 'a:not(.cp-staff-card--mail-icon)', function(e) {
+				e.preventDefault();
+				$infoModal.dialog('open');
+			});
+
+			$(this).find('.cp-staff-info-modal--close-btn').on('click', function(e) {
+				$infoModal.dialog('close');
+			})
+		});
+
 	} );
 
 })(jQuery);

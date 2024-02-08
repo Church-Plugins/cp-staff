@@ -7,6 +7,10 @@
  * @package cp-staff
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use CP_Staff\Admin\Settings;
 
 $is_hidden_att = Settings::get( 'show_staff_email', 'off' ) === 'on' ? '' : 'hidden';
