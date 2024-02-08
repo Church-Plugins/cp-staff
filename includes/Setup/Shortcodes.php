@@ -80,9 +80,10 @@ class Shortcodes {
 		$static = boolval( $atts['static'] === 'true' );
 
 		$query_args = array(
-			'post_type' => cp_staff()->setup->post_types->staff->post_type,
-			'orderby'   => 'ID',
-			'order'     => 'ASC',
+			'post_type'      => cp_staff()->setup->post_types->staff->post_type,
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
+			'posts_per_page' => 999,
 		);
 
 		$term = false;
