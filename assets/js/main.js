@@ -29,7 +29,7 @@
 
 			$this.addClass( 'cp-staff--has-email' );
 
-			$this.on( 'click', '.cp-staff-card--mail-icon', function(e) {
+			$this.on( 'click', 'a[data-action=email]', function(e) {
 				e.preventDefault();
 
 				let $modalElem = $('.staff-modal-' + data.id);
@@ -104,7 +104,7 @@
 				}
 			})
 
-			$(this).on('click', 'a:not(.cp-staff-card--mail-icon)', function(e) {
+			$(this).on('click', 'a:not([data-action])', function(e) {
 				e.preventDefault();
 				$infoModal.dialog('open');
 			});

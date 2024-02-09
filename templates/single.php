@@ -11,8 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$staff_title = get_post_meta( get_the_ID(), 'title', true );
-
+$staff_title  = get_post_meta( get_the_ID(), 'title', true );
+$social_links = get_post_meta( get_the_ID(), 'social', true );
+$social_links = is_array( $social_links ) ? $social_links : array();
 ?>
 
 <div class="cp-staff-single">
@@ -29,5 +30,14 @@ $staff_title = get_post_meta( get_the_ID(), 'title', true );
 		<div class="cp-staff-single--bio">
 			<?php the_content(); ?>
 		</div>
+		<?php if ( ! empty( $social_links ) ) : ?>
+			<div class="cp-staff-single--social-links">
+				<?php foreach ( $social_links as $link ) : ?>
+					<a href="<?php echo esc_url( $link['url'] ); ?>" class="cp-staff-single--social-link">
+						<?php echo \ChurchPlugins\Helpers::get_icon( $link['network'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					</a>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
 	</div>
 </div>

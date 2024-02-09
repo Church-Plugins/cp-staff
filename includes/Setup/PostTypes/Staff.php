@@ -128,5 +128,22 @@ class Staff extends PostType {
 			'id'   => 'email',
 			'type' => 'text_email',
 		] );
+
+		$cmb->add_field( [
+			'name'       => __( 'Phone', 'cp-staff' ),
+			'desc'       => __( 'The phone number for this staff member.', 'cp-staff' ),
+			'id'         => 'phone',
+			'type'       => 'text',
+			'attributes' => [
+				'type' => 'tel',
+			],
+		] );
+
+		$cmb->add_field( [
+			'name' => __( 'Social', 'cp-staff' ),
+			'desc' => __( 'Staff member social links.', 'cp-staff' ),
+			'id'   => 'social',
+			'type' => 'cp_social_links',
+		] );
 	}
 }
