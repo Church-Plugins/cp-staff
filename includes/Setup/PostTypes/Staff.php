@@ -140,6 +140,13 @@ class Staff extends PostType {
 		] );
 
 		$cmb->add_field( [
+			'name' => __( 'Acronyms', 'cp-staff' ),
+			'desc' => __( 'Staff member acronyms.', 'cp-staff' ),
+			'id'   => 'acronyms',
+			'type' => 'text',
+		] );
+
+		$cmb->add_field( [
 			'name' => __( 'Social', 'cp-staff' ),
 			'desc' => __( 'Staff member social links.', 'cp-staff' ),
 			'id'   => 'social',
