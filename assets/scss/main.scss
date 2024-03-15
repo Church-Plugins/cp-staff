@@ -225,10 +225,15 @@
 		display: flex;
 		align-items: end;
 		justify-content: start;
-		gap: var(--cp-gap--sm);
 		padding: var(--cp-gap--md);
 		pointer-events: none;
+	}
+
+	&--social-links {
+		align-self: end;
+		display: flex;
 		flex-wrap: wrap;
+		gap: var(--cp-gap--sm);
 	}
 
 	&--name, &--role, &--name-link {
