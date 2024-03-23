@@ -29,7 +29,7 @@
 
 			$this.addClass( 'cp-staff--has-email' );
 
-			$this.on( 'click', 'a', function(e) {
+			$this.on( 'click', 'a[data-action=email]', function(e) {
 				e.preventDefault();
 
 				let $modalElem = $('.staff-modal-' + data.id);
@@ -79,6 +79,40 @@
 				CP_Staff_Mail.init($modalElem);
 
 			} );
+		});
+
+		$staff.each(function() {
+			const $infoModal = $(this).find('.cp-staff-info-modal');
+
+			if ( ! $infoModal.length ) {
+				return;
+			}
+
+			$infoModal.dialog({
+				title        : '',
+				dialogClass  : 'cp-staff-info-modal--popup',
+				autoOpen     : false,
+				draggable    : false,
+				width        : 'min(90%, 1250px)',
+				modal        : true,
+				resizable    : false,
+				closeOnEscape: true,
+				position     : {
+					my: 'center',
+					at: 'center',
+					of: window
+				}
+			})
+
+			$(this).on('click', 'a:not([data-action])', function(e) {
+				e.preventDefault();
+				$infoModal.dialog('open');
+			});
+
+			$infoModal.find('.cp-staff-info-modal--close-btn').on('click', function(e) {
+				e.preventDefault();
+				$infoModal.dialog('close');
+			})
 		});
 
 	} );
