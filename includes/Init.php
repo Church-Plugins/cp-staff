@@ -26,6 +26,13 @@ class Init {
 	protected $limiter;
 
 	/**
+	 * Template class instance
+	 *
+	 * @var Templates
+	 */
+	public $templates;
+
+	/**
 	 * Only make one instance of Init
 	 *
 	 * @return Init
@@ -54,6 +61,10 @@ class Init {
 
 	public function staff_meta() {
 		if ( 'cp_staff' != get_post_type() ) {
+			return;
+		}
+
+		if ( ! Settings::get( 'use_email_modal', false ) ) {
 			return;
 		}
 
@@ -103,9 +114,7 @@ class Init {
 	public function scripts() {
 		$this->enqueue->enqueue( 'styles', 'main', [] );
 
-		if ( Settings::get( 'use_email_modal', false ) ) {
-			$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
-		}
+		$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 
 		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
 			$site_key = Settings::get( 'captcha_site_key', '' );
@@ -114,6 +123,9 @@ class Init {
 				wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
 			}
 		}
+
+		wp_enqueue_script( 'feather-icons' );
+		wp_enqueue_style( 'material-icons' );
 	}
 
 	public function admin_scripts() {
@@ -128,7 +140,8 @@ class Init {
 	protected function includes() {
 		require_once( 'Templates.php' );
 		Admin\Init::get_instance();
-		$this->setup = Setup\Init::get_instance();
+		$this->setup     = Setup\Init::get_instance();
+		$this->templates = Templates::get_instance();
 	}
 
 	protected function actions() {
@@ -209,71 +222,7 @@ class Init {
 	}
 
 	public function modal_template() {
-		$is_hidden_att = Settings::get( 'show_staff_email', 'off' ) == 'on' ? '' : 'hidden';
-		?>
-		<div id="cp-staff-email-modal-template" style="display:none;">
-			<div class="cp-staff-email-modal">
-				<form class="cp-staff-email-form"
-					  action="<?php echo esc_url( add_query_arg( 'cp_action', 'cp_staff_send_email', admin_url( 'admin-ajax.php' ) ) ); ?>"
-					  method="post" enctype="multipart/form-data">
-
-					<?php wp_nonce_field( 'cp_staff_send_email', 'cp_staff_send_email_nonce' ); ?>
-
-					<div class="cp-staff-email-form--name">
-						<h4><?php _e( 'Send a message to', 'cp-staff' ); ?> <span class="staff-name"></span></h4>
-					</div>
-
-					<div class="cp-staff-email-form--email-to" <?php echo $is_hidden_att ?>>
-						<label>
-							<?php _e( 'To:', 'cp-staff' ); ?>
-							<input type="hidden" name="email-to" class="staff-email-to" />
-							<input type="text" disabled="disabled" class="staff-email-to"/>
-							<div class="staff-copy-email"
-								 title="Copy email address"><?php echo \ChurchPlugins\Helpers::get_icon( 'copy' ); ?></div>
-						</label>
-					</div>
-
-					<div class="cp-staff-email-form--name">
-						<label>
-							<?php _e( 'Your Full Name:', 'cp-staff' ); ?>
-							<input type="text" name="from-name" />
-						</label>
-					</div>
-
-					<div class="cp-staff-email-form--email-from">
-						<label>
-							<?php _e( 'Your Email:', 'cp-staff' ); ?>
-							<input type="text" name="email-from" class="staff-email-from"/>
-						</label>
-					</div>
-
-					<div class='cp-staff-email-form--email-verify'>
-						<label>
-							<?php _e( 'Email Verify', 'cp-staff' ) ?>
-							<input type='text' name='email-verify' tabindex="-1">
-						</label>
-					</div>
-
-					<div class="cp-staff-email-form--subject">
-						<label>
-							<?php _e( 'Email Subject:', 'cp-staff' ); ?>
-							<input type="text" name="subject"/>
-						</label>
-					</div>
-
-					<div class="cp-staff-email-form--message">
-						<label>
-							<?php _e( 'Email Message:', 'cp-staff' ); ?>
-							<textarea name="message" rows="3"></textarea>
-						</label>
-					</div>
-
-					<input class="cp-button is-large" type="submit" value="Send"/>
-
-				</form>
-			</div>
-		</div>
-		<?php
+		cp_staff()->templates->get_template_part( 'parts/email-modal' );
 	}
 
 	/** Helper Methods **************************************/
