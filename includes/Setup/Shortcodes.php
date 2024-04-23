@@ -77,44 +77,89 @@ class Shortcodes {
 			'cp_staff_list'
 		);
 
-		$static = boolval( $atts['static'] === 'true' );
+		$static = 'true' === $atts['static'];
 
 		$query_args = array(
 			'post_type'      => cp_staff()->setup->post_types->staff->post_type,
-			'orderby'        => 'ID',
-			'order'          => 'ASC',
 			'posts_per_page' => 999,
 		);
 
-		$term = false;
+		$term     = false;
+		$children = [];
 
 		if ( ! empty( $atts['department'] ) ) {
 			$term = get_term_by( 'slug', $atts['department'], cp_staff()->setup->taxonomies->department->taxonomy );
+
+			// check if term has children
+			$children = get_term_children( $term->term_id, cp_staff()->setup->taxonomies->department->taxonomy );
 		}
 
+		// if there are no children, get all staff that have this department
 		if ( $term ) {
 			$query_args['tax_query'] = array(
 				array(
 					'taxonomy'         => cp_staff()->setup->taxonomies->department->taxonomy,
 					'field'            => 'term_id',
 					'terms'            => [ $term->term_id ],
-					'include_children' => true,
+					'include_children' => false,
 				),
 			);
 		}
 
-		$staff_query = new \WP_Query( $query_args );
+		// groupings of staff
+		$groupings = [];
+
+		// add top-level grouping
+		$groupings[] = [
+			'title' => empty( $children ) ? false : $term->name,
+			'posts' => get_posts( $query_args ),
+		];
+
+		foreach ( $children as $department ) {
+			$posts = get_posts(
+				[
+					'post_type'      => cp_staff()->setup->post_types->staff->post_type,
+					'posts_per_page' => 6,
+					'tax_query'      => [
+						[
+							'taxonomy'         => cp_staff()->setup->taxonomies->department->taxonomy,
+							'field'            => 'term_id',
+							'terms'            => [ $department ],
+							'include_children' => false,
+						],
+					],
+				]
+			);
+
+			$groupings[] = [
+				'title' => get_term( $department )->name,
+				'posts' => $posts,
+			];
+		}
 
 		ob_start();
 
-		echo '<div class="cp-staff-grid">';
-		if ( $staff_query->have_posts() ) {
-			while ( $staff_query->have_posts() ) {
-				$staff_query->the_post();
+		echo '<div class="cp-staff-list">';
+
+		foreach ( $groupings as $group ) {
+			if ( empty( $group['posts'] ) ) {
+				continue;
+			}
+
+			if ( ! empty( $group['title'] ) ) {
+				echo '<h3 class="cp-staff-department-heading">' . esc_html( $group['title'] ) . '</h3>';
+			}
+
+			echo '<div class="cp-staff-grid">';
+
+			global $post;
+
+			foreach ( $group['posts'] as $post ) {
+				setup_postdata( $post );
 				cp_staff()->templates->get_template_part( 'parts/staff-card', array( 'static' => $static ) );
 			}
-		} else {
-			echo '<p>' . esc_html__( 'No staff found', 'cp-staff' ) . '</p>';
+
+			echo '</div>';
 		}
 
 		echo '</div>';

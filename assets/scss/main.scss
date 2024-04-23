@@ -200,8 +200,11 @@
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	grid-gap: var(--cp-gap--md);
-	padding-top: var(--cp-gap--md);
-	padding-bottom: var(--cp-gap--md);
+	margin-bottom: var(--cp-gap--md);
+}
+
+.cp-staff-list {
+	margin-top: var(--cp-gap--lg);
 	margin-bottom: var(--cp-gap--lg);
 }
 
