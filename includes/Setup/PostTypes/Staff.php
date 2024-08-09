@@ -152,5 +152,12 @@ class Staff extends PostType {
 			'id'   => 'social',
 			'type' => 'cp_social_links',
 		] );
+
+		$cmb->add_field( [
+			'name' => __( 'Alternate image', 'cp-staff' ),
+			'desc' => __( 'An alternative image to use on the staff member page. Preferably portrait.', 'cp-staff' ),
+			'id'   => 'alt_image',
+			'type' => 'file'
+		] );
 	}
 }
