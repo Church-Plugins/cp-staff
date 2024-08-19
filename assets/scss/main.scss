@@ -3,6 +3,10 @@
 @import '../../includes/ChurchPlugins/assets/scss/main.scss';
 @import '../../includes/ChurchPlugins/assets/scss/elements/button';
 
+.cp-staff-pg-template {
+	flex-grow: 1; // in case inside of a flex container
+}
+
 .cp-staff {
 	&--has-email {
 		.fl-photo {
@@ -253,26 +257,41 @@
 		font-size: var(--cp-font-size-sm);
 	}
 
-	&--action-icon {
-		color: var(--cp-color-canvas-main);
-		padding: 1em;
-		border-radius: 100px;
-		aspect-ratio: 1;
+	
+}
+
+.cp-staff--action-icon {
+	color: var(--cp-color-canvas-main);
+	padding: 1em;
+	border-radius: 100px;
+	aspect-ratio: 1;
+	background-color: var(--cp-color-ui-primary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.feather, .cp-icon {
+		width: 1.6em;
+		height: 1.6em;
+	}
+	cursor: pointer;
+	pointer-events: all;
+
+	&:hover {
 		background-color: var(--cp-color-ui-secondary);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		.feather, .cp-icon {
-			width: 1.6em;
-			height: 1.6em;
-		}
-		cursor: pointer;
-		pointer-events: all;
+		color: var(--cp-color-canvas-main);
 	}
 
-	&--action-icon:hover {
-		background-color: var(--cp-color-ui-primary);
+	&:focus {
+		outline: none;
 		color: var(--cp-color-canvas-main);
+	}
+}
+
+.cp-staff-single--social-links .cp-staff--action-icon {
+	margin: -1rem; // no padding around mail button
+
+	& + .cp-staff-single--social-link {
+		margin-left: 1rem; // space between mail and social links
 	}
 }
 
@@ -329,6 +348,10 @@
 		gap: var(--cp-gap--sm);
 		margin-top: var(--cp-gap--md);
 		align-items: center;
+		padding: 1rem;
+		background-color: var(--cp-color-canvas-main);
+		border-radius: 999px;
+		max-width: fit-content;
 	}
 
 	&--social-link {
