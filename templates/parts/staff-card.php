@@ -11,30 +11,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$static      = boolval( isset( $args['static'] ) ? $args['static'] : false );
-$staff_title = get_post_meta( get_the_ID(), 'title', true );
-$staff_email = get_post_meta( get_the_ID(), 'email', true );
-$staff_phone = get_post_meta( get_the_ID(), 'phone', true );
-$clickable   = ! empty( get_the_content() ) && ! $static;
+$click_action = \CP_Staff\Admin\Settings::get( 'click_action', 'none' );
+$static       = boolval( isset( $args['static'] ) ? $args['static'] : false );
+$staff_title  = get_post_meta( get_the_ID(), 'title', true );
+$staff_email  = get_post_meta( get_the_ID(), 'email', true );
+$staff_phone  = get_post_meta( get_the_ID(), 'phone', true );
+$clickable    = ! empty( get_the_content() ) && ! $static;
 ?>
 
-<div class="cp-staff-card cp_staff type-cp_staff click-action-<?php echo $click_action; ?>">
+<div class="cp-staff-card cp_staff type-cp_staff click-action-<?php echo esc_attr( $click_action ); ?>">
 	<?php cp_staff()->staff_meta(); ?>
 	<div class="cp-staff-card--image-wrapper">
-		<?php if ( $clickable ) : echo sprintf( '<a href="%s">', esc_url( get_permalink() ) ); else : echo '<div>'; endif; ?>
-			<?php
-			echo get_the_post_thumbnail(
-				get_the_ID(),
-				'medium',
-				array(
-					'class' => 'cp-staff-card--image',
-					/* translators: %s: staff member's name */
-					'alt'   => sprintf( __( 'Photo of %s', 'cp-staff' ), get_the_title() ),
-				)
-			);
-			?>
-		<?php if ( $clickable ) : echo '</a>'; else : echo '</div>'; endif; ?>
-		
+		<?php
+		if ( $clickable ) : printf( '<a href="%s">', esc_url( get_permalink() ) ); else: echo '<div>'; endif;
+
+		echo get_the_post_thumbnail(
+			get_the_ID(),
+			'medium',
+			array(
+				'class' => 'cp-staff-card--image',
+				/* translators: %s: staff member's name */
+				'alt'   => sprintf( __( 'Photo of %s', 'cp-staff' ), get_the_title() ),
+			)
+		);
+
+		if ( $clickable ) : echo '</a>'; else: echo '</div>'; endif;
+		?>
+
 		<div class="cp-staff-card--image-overlay">
 			<?php if ( ! $static && ! empty( $staff_email ) ) : ?>
 				<a href="javascript:void(0);" class="cp-staff--action-icon" data-action="email">

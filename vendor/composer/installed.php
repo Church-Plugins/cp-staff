@@ -1,42 +1,41 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'name' => 'churchplugins/cp-staff',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '88d0d44e288e3d9d53f5e96468c49c5fe1238c47',
+        'type' => 'wordpress-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
     ),
-    'reference' => '43c4af374d98b3b2664976b0b3af951ceabb5840',
-    'name' => 'churchplugins/cp-staff',
-  ),
-  'versions' => 
-  array (
-    'churchplugins/cp-staff' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '43c4af374d98b3b2664976b0b3af951ceabb5840',
+    'versions' => array(
+        'churchplugins/cp-staff' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '88d0d44e288e3d9d53f5e96468c49c5fe1238c47',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/installers' => array(
+            'pretty_version' => 'v2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => '12fb2dfe5e16183de69e784a7b84046c43d97e8e',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/./installers',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'wpackio/enqueue' => array(
+            'pretty_version' => '3.5.0',
+            'version' => '3.5.0.0',
+            'reference' => '944dd17df10e2e534e62ca3f5f20e550c2058a63',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../wpackio/enqueue',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
     ),
-    'composer/installers' => 
-    array (
-      'pretty_version' => 'v2.1.1',
-      'version' => '2.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'af93ba6e52236418f07a278033eba6959ee5b983',
-    ),
-    'wpackio/enqueue' => 
-    array (
-      'pretty_version' => '3.4.0',
-      'version' => '3.4.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '8a5604f5ab3bd5f000e503dda02603e15e534d47',
-    ),
-  ),
 );
