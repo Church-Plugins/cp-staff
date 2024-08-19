@@ -23,7 +23,7 @@ $clickable    = ! empty( get_the_content() ) && ! $static;
 	<?php cp_staff()->staff_meta(); ?>
 	<div class="cp-staff-card--image-wrapper">
 		<?php
-		if ( $clickable ) : printf( '<a href="%s">', esc_url( get_permalink() ) ); else: echo '<div>'; endif;
+		if ( $clickable ) printf( '<a href="%s">', esc_url( get_permalink() ) );
 
 		echo get_the_post_thumbnail(
 			get_the_ID(),
@@ -35,7 +35,7 @@ $clickable    = ! empty( get_the_content() ) && ! $static;
 			)
 		);
 
-		if ( $clickable ) : echo '</a>'; else: echo '</div>'; endif;
+		if ( $clickable ) echo '</a>';
 		?>
 
 		<div class="cp-staff-card--image-overlay">
