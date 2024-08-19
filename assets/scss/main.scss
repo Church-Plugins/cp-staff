@@ -202,7 +202,7 @@
 
 .cp-staff-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(calc(var(--cp-gap-base) * 24), 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(calc(var(--cp-gap-base) * 28), 1fr));
 	grid-gap: var(--cp-gap--md);
 	padding-top: var(--cp-gap--md);
 	padding-bottom: var(--cp-gap--md);

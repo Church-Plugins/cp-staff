@@ -47,7 +47,7 @@
 					dialogClass  : 'cp-staff--email-modal-popup',
 					autoOpen     : false,
 					draggable    : false,
-					width        : 500,
+					width        : 'calc(var(--cp-gap-base) * 64)',
 					modal        : true,
 					resizable    : false,
 					closeOnEscape: true,
