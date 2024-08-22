@@ -63,21 +63,59 @@ class Shortcodes {
 	/**
 	 * Staff list shortcode
 	 *
+	 * @since 1.1.0
+	 * @since 1.2.0 Added support for filtering by taxonomies.
+	 *
 	 * @param array $atts Shortcode attributes.
 	 *
 	 * @return string
 	 */
 	public function staff_list( $atts ) {
-		$atts = shortcode_atts(
-			array(
-				'department' => '',
-				'static'     => false,
-			),
-			$atts,
-			'cp_staff_list'
+		// get associated taxonomies
+		$taxonomies = get_object_taxonomies( cp_staff()->setup->post_types->staff->post_type );
+
+		$allowed_atts = array(
+			'static' => false
 		);
 
-		$static = boolval( $atts['static'] === 'true' );
+		foreach ( $taxonomies as $taxonomy ) {
+			$allowed_atts[$taxonomy] = '';
+			$allowed_atts["exclude_$taxonomy"] = '';
+		}
+
+		// backward compatibility width < 1.2.0
+		if ( isset( $atts['department'] ) ) {
+			$atts['cp_department'] = $atts['department'];
+			unset( $atts['department'] );
+		}
+
+		$atts = shortcode_atts( $allowed_atts, $atts, 'cp_staff_list' );
+
+		$static = 'true' === $atts['static'];
+
+		$tax_query = array( 'relation' => 'AND' );
+
+		// build tax query from shortcode attributes
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( ! empty( $atts[$taxonomy] ) ) {
+				$tax_query[] = array(
+					'taxonomy'         => $taxonomy,
+					'field'            => 'slug',
+					'terms'            => explode( ',', $atts[$taxonomy] ),
+					'include_children' => false,
+				);
+			}
+
+			if ( ! empty( $atts["exclude_$taxonomy"] ) ) {
+				$tax_query[] = array(
+					'taxonomy'         => $taxonomy,
+					'field'            => 'slug',
+					'terms'            => explode( ',', $atts["exclude_$taxonomy"] ),
+					'operator'         => 'NOT IN',
+					'include_children' => false,
+				);
+			}
+		}
 
 		$query_args = array(
 			'post_type'      => cp_staff()->setup->post_types->staff->post_type,
@@ -86,21 +124,8 @@ class Shortcodes {
 			'posts_per_page' => 999,
 		);
 
-		$term = false;
-
-		if ( ! empty( $atts['department'] ) ) {
-			$term = get_term_by( 'slug', $atts['department'], cp_staff()->setup->taxonomies->department->taxonomy );
-		}
-
-		if ( $term ) {
-			$query_args['tax_query'] = array(
-				array(
-					'taxonomy'         => cp_staff()->setup->taxonomies->department->taxonomy,
-					'field'            => 'term_id',
-					'terms'            => [ $term->term_id ],
-					'include_children' => true,
-				),
-			);
+		if ( ! empty( $tax_query ) ) {
+			$query_args['tax_query'] = $tax_query;
 		}
 
 		$staff_query = new \WP_Query( $query_args );
