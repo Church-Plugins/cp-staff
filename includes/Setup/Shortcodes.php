@@ -7,6 +7,8 @@
 
 namespace CP_Staff\Setup;
 
+use WP_Query;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -128,21 +130,29 @@ class Shortcodes {
 			$query_args['tax_query'] = $tax_query;
 		}
 
-		$staff_query = new \WP_Query( $query_args );
+		/**
+		 * Filter the query arguments for the staff list shortcode.
+		 *
+		 * @since 1.2.0
+		 * @param array $query_args Query arguments.
+		 * @param array $atts Shortcode attributes.
+		 */
+		$query_args = apply_filters( 'cp_staff_list_query_args', $query_args, $atts );
+
+		$query = new WP_Query( $query_args );
+
+		if ( ! $query->have_posts() ) {
+			return '';
+		}
 
 		ob_start();
 
 		echo '<div class="cp-staff-grid">';
-		if ( $staff_query->have_posts() ) {
-			while ( $staff_query->have_posts() ) {
-				$staff_query->the_post();
-				cp_staff()->templates->get_template_part( 'parts/staff-card', array( 'static' => $static ) );
-			}
-		} else {
-			echo '<p>' . esc_html__( 'No staff found', 'cp-staff' ) . '</p>';
-		}
 
-		echo '</div>';
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			cp_staff()->templates->get_template_part( 'parts/staff-card', array( 'static' => $static ) );
+		}
 
 		wp_reset_postdata();
 
