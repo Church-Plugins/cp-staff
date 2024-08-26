@@ -154,6 +154,8 @@ class Shortcodes {
 			cp_staff()->templates->get_template_part( 'parts/staff-card', array( 'static' => $static ) );
 		}
 
+		echo '</div>';
+
 		wp_reset_postdata();
 
 		return ob_get_clean();
