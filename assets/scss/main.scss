@@ -335,6 +335,11 @@
 .cp-staff-single {
 	margin-top: var(--cp-gap--lg);
 	margin-bottom: var(--cp-gap--lg);
+	overflow: hidden;
+
+	&--image {
+		max-width: 100%;
+	}
 
 	&--name {
 		display: inline-block;
