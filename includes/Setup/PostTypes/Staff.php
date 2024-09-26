@@ -94,9 +94,9 @@ class Staff extends PostType {
 	 * @author costmo
 	 */
 	public function get_args() {
-		$args               = parent::get_args();
-		$args['menu_icon']  = apply_filters( "{$this->post_type}_icon", 'dashicons-id' );
-		$args['has_archive'] = false;
+		$args              = parent::get_args();
+		$args['menu_icon'] = apply_filters( "{$this->post_type}_icon", 'dashicons-id' );
+		// $args['has_archive'] = false;
 		$args['supports'][] = 'page-attributes';
 		return $args;
 	}
@@ -129,12 +129,14 @@ class Staff extends PostType {
 			'type' => 'text_email',
 		] );
 
-
 		$cmb->add_field( [
-			'name' => __( 'LinkedIn URL', 'cp-staff' ),
-			'desc' => __( 'The URL to this staff member\'s LinkedIn profile.', 'cp-staff' ),
-			'id'   => 'linkedin_url',
-			'type' => 'text_url',
+			'name'       => __( 'Phone', 'cp-staff' ),
+			'desc'       => __( 'The phone number for this staff member.', 'cp-staff' ),
+			'id'         => 'phone',
+			'type'       => 'text',
+			'attributes' => [
+				'type' => 'tel',
+			],
 		] );
 
 		$cmb->add_field( [
@@ -143,6 +145,19 @@ class Staff extends PostType {
 			'id'   => 'acronyms',
 			'type' => 'text',
 		] );
+
+		$cmb->add_field( [
+			'name' => __( 'Social', 'cp-staff' ),
+			'desc' => __( 'Staff member social links.', 'cp-staff' ),
+			'id'   => 'social',
+			'type' => 'cp_social_links',
+		] );
+
+		$cmb->add_field( [
+			'name' => __( 'Alternate image', 'cp-staff' ),
+			'desc' => __( 'An alternative image to use on the staff member page. Preferably portrait.', 'cp-staff' ),
+			'id'   => 'alt_image',
+			'type' => 'file'
+		] );
 	}
-	
 }

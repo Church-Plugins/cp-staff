@@ -84,6 +84,19 @@ class Settings {
 		$main_options = new_cmb2_box( $args );
 
 		$main_options->add_field( array(
+			'name'    => __( 'Staff click action', 'cp-staff' ),
+			'desc'    => __( 'What happens when a user clicks on a staff member card.', 'cp-staff' ),
+			'id'      => 'click_action',
+			'type'    => 'radio',
+			'default' => 'none',
+			'options' => array(
+				'none'  => __( 'None', 'cp-staff' ),
+				'link'  => __( 'Link to single staff page (if content exists for Staff member)', 'cp-staff' ),
+				'modal' => __( 'Display popup modal', 'cp-staff' ),
+			),
+		) );
+
+		$main_options->add_field( array(
 			'name'         => __( 'Staff contact modal', 'cp-staff' ),
 			'desc'         => __( 'If active, when a staff record has an email and a user clicks on their staff profile, then a contact form will display inside of a modal (in-browser window popup).', 'cp-staff' ),
 			'id'           => 'use_email_modal',

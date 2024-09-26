@@ -52,6 +52,7 @@ class Init {
 	protected function includes() {
 		$this->post_types = PostTypes\Init::get_instance();
 		$this->taxonomies = Taxonomies\Init::get_instance();
+		Shortcodes::get_instance();
 	}
 
 	protected function actions() {}

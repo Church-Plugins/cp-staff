@@ -19,6 +19,12 @@ npm run build
 
 ### Change Log
 
+### 1.2.0
+* Add staff archive page
+* Add staff social links
+* Add add email/phone buttons to staff cards
+* Change staff card interaction
+
 #### 1.1.0
 * Add security hardening for staff messaging
 
