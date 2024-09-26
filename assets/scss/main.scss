@@ -5,6 +5,10 @@
 
 .cp-staff-pg-template {
 	flex-grow: 1; // in case inside of a flex container
+
+	* {
+		box-sizing: border-box;
+	}
 }
 
 .cp-staff {
@@ -59,6 +63,10 @@
 	overflow: auto;
 	//max-width: 60%;
 	background: #f5f5fa;
+
+	* {
+		box-sizing: border-box;
+	}
 	
 	.notice-wrap {
 		
