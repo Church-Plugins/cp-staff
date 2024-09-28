@@ -144,6 +144,7 @@ module.exports = {
 		'layouts/**',
 		'LICENSE',
 		'*.css',
+		'templates/**',
 	],
 	// Path to package directory, relative to the root
 	packageDirPath: 'package',
