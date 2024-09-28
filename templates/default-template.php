@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 $classes = apply_filters( 'cp_staff_default_template_classes', array( 'cp-staff-pg-template', 'cp-pg-template' ) );
 
-get_header();
+do_action( 'cp_do_header' );
 
 /**
  * Provides an action that allows for the injection of HTML at the top of the template after the header.
@@ -39,4 +39,4 @@ do_action( 'cp_staff_default_template_after_header' );
  */
 do_action( 'cp_staff_default_template_before_footer' );
 
-get_footer();
+do_action( 'cp_do_footer' );
