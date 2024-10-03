@@ -91,7 +91,7 @@ class Settings {
 			'default' => 'none',
 			'options' => array(
 				'none'  => __( 'None', 'cp-staff' ),
-				'link'  => __( 'Link to single staff page', 'cp-staff' ),
+				'link'  => __( 'Link to single staff page (if content exists for Staff member)', 'cp-staff' ),
 				'modal' => __( 'Display popup modal', 'cp-staff' ),
 			),
 		) );
