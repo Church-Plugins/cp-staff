@@ -77,7 +77,8 @@ class Shortcodes {
 		$taxonomies = get_object_taxonomies( cp_staff()->setup->post_types->staff->post_type );
 
 		$allowed_atts = array(
-			'static' => false
+			'static'           => false,
+			'include_children' => false,
 		);
 
 		foreach ( $taxonomies as $taxonomy ) {
@@ -104,7 +105,7 @@ class Shortcodes {
 					'taxonomy'         => $taxonomy,
 					'field'            => 'slug',
 					'terms'            => explode( ',', $atts[$taxonomy] ),
-					'include_children' => false,
+					'include_children' => boolval( $atts['include_children'] ),
 				);
 			}
 
@@ -114,7 +115,7 @@ class Shortcodes {
 					'field'            => 'slug',
 					'terms'            => explode( ',', $atts["exclude_$taxonomy"] ),
 					'operator'         => 'NOT IN',
-					'include_children' => false,
+					'include_children' => boolval( $atts['include_children'] ),
 				);
 			}
 		}
