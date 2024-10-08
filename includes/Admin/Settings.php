@@ -61,6 +61,22 @@ class Settings {
 	protected function __construct() {
 		add_action( 'cmb2_admin_init', [ $this, 'register_main_options_metabox' ] );
 		add_action( 'cmb2_save_options_page_fields', 'flush_rewrite_rules' );
+
+		// action that runs when settings change
+		add_action( 'cmb2_save_field_disable_archive', [ $this, 'flush_rewrite' ], 10, 3 );
+	}
+
+	/**
+	 * Flush rewrite rules when settings change
+	 *
+	 * @param $object_id
+	 * @param $updated
+	 * @param $cmb
+	 */
+	public function flush_rewrite( $object_id, $updated, $cmb ) {
+		if ( 'cp_staff_main_options_page' === $cmb->cmb_id && $cmb->value !== self::get( 'disable_archive', false ) ) {
+			flush_rewrite_rules();
+		}
 	}
 
 	public function register_main_options_metabox() {
@@ -82,6 +98,13 @@ class Settings {
 		);
 
 		$main_options = new_cmb2_box( $args );
+
+		$main_options->add_field( array(
+			'name'       => __( 'Disable Archive Page', 'cp-staff' ),
+			'desc'       => __( 'Disable the archive page for staff.', 'cp-staff' ),
+			'id'         => 'disable_archive',
+			'type'       => 'checkbox',
+		) );
 
 		$main_options->add_field( array(
 			'name'    => __( 'Staff click action', 'cp-staff' ),
