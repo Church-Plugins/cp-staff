@@ -119,8 +119,8 @@ class Init {
 		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
 			$site_key = Settings::get( 'captcha_site_key', '' );
 			if( ! empty( $site_key ) ) {
-				wp_localize_script( 'grecaptcha-site-key', 'recaptchaSiteKey', $site_key );
-				wp_enqueue_script( 'grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
+				wp_enqueue_script( 'cp-staff-grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
+				wp_localize_script( 'cp-staff-grecaptcha', 'recaptchaSiteKey', $site_key );
 			}
 		}
 
