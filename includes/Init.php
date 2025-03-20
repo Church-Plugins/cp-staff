@@ -4,12 +4,14 @@ namespace CP_Staff;
 use CP_Staff\Admin\Settings;
 use RuntimeException;
 
+require_once __DIR__ . '/../includes/ChurchPlugins/Setup/Plugin.php';
+
 /**
  * Provides the global $cp_staff object
  *
  * @author costmo
  */
-class Init {
+class Init extends \ChurchPlugins\Setup\Plugin {
 
 	/**
 	 * @var
@@ -49,14 +51,11 @@ class Init {
 	 * Class constructor: Add Hooks and Actions
 	 */
 	protected function __construct() {
-		$this->enqueue = new \WPackio\Enqueue( 'cpStaff', 'dist', $this->get_version(), 'plugin', CP_STAFF_PLUGIN_FILE );
-		$this->limiter = new Ratelimit( "send_staff_email" );
-		add_action( 'cp_core_loaded', [ $this, 'maybe_setup' ], - 9999 );
-		add_action( 'init', [ $this, 'maybe_init' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts'] );
-		add_action( 'wp_footer', [ $this, 'modal_template' ] );
-		add_action( 'fl_after_schema_meta', [ $this, 'staff_meta' ] );
+		$this->enqueue  = new \WPackio\Enqueue( 'cpStaff', 'dist', $this->get_version(), 'plugin', CP_STAFF_PLUGIN_FILE );
+		$this->limiter  = new Ratelimit( "send_staff_email" );
+		$this->migrator = Setup\Migrator::get_instance();
+
+		parent::__construct();
 	}
 
 	public function staff_meta() {
@@ -69,40 +68,12 @@ class Init {
 		}
 
 		$details = [
-			'name'       => get_the_title(),
-			'id'         => get_the_ID(),
-			'email' 		 => base64_encode( get_post_meta( get_the_ID(), 'email', true ) )
+			'name'  => get_the_title(),
+			'id'    => get_the_ID(),
+			'email' => base64_encode( get_post_meta( get_the_ID(), 'email', true ) )
 		];
 
 		echo '<meta itemprop="staffDetails" data-details="' . esc_attr( json_encode( $details ) ) . '">';
-	}
-
-	/**
-	 * Plugin setup entry hub
-	 *
-	 * @return void
-	 */
-	public function maybe_setup() {
-		if ( ! $this->check_required_plugins() ) {
-			return;
-		}
-
-		$this->includes();
-		$this->actions();
-	}
-
-	/**
-	 * Actions that must run through the `init` hook
-	 *
-	 * @return void
-	 * @author costmo
-	 */
-	public function maybe_init() {
-
-		if ( ! $this->check_required_plugins() ) {
-			return;
-		}
-
 	}
 
 	/**
@@ -142,10 +113,16 @@ class Init {
 		Admin\Init::get_instance();
 		$this->setup     = Setup\Init::get_instance();
 		$this->templates = Templates::get_instance();
+
+		parent::includes();
 	}
 
 	protected function actions() {
 		add_action( 'cp_staff_send_email', [ $this, 'maybe_send_email' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts'] );
+		add_action( 'wp_footer', [ $this, 'modal_template' ] );
+		add_action( 'fl_after_schema_meta', [ $this, 'staff_meta' ] );
 	}
 
 	/**
@@ -283,6 +260,7 @@ class Init {
 		}
 
 		$site_domain = explode( '//', site_url() )[1];
+		$site_domain = str_replace( 'www.', '', $site_domain );
 
 		return str_contains( $email, $site_domain );
 	}
@@ -320,27 +298,6 @@ class Init {
 		curl_close( $ch );
 
 		return $response['success'] == '1' && $response['action'] == $action && $response['score'] > 0.5;
-	}
-
-	/**
-	 * Make sure required plugins are active
-	 *
-	 * @return bool
-	 */
-	protected function check_required_plugins() {
-
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		}
-
-		// @todo check for requirements before loading
-		if ( 1 ) {
-			return true;
-		}
-
-		add_action( 'admin_notices', array( $this, 'required_plugins' ) );
-
-		return false;
 	}
 
 	/**
@@ -388,7 +345,7 @@ class Init {
 	 * @return string
 	 */
 	public function get_version() {
-		return '0.0.1';
+		return CP_STAFF_PLUGIN_VERSION;
 	}
 
 	/**
@@ -405,6 +362,51 @@ class Init {
 
 	public function enabled() {
 		return true;
+	}
+
+	public function get_plugin_dir() {
+		return CP_STAFF_PLUGIN_DIR;
+	}
+
+	public function get_plugin_url() {
+		return CP_STAFF_PLUGIN_URL;
+	}
+
+	/*** @TODO Remove at a later point. The following functions are copied from ChurchPlugins\Setup\Plugin.php and inserted here as overrides for old versions of core in other plugins ***/
+
+	/**
+	 * Handles the table upgrades for the plugin
+	 *
+	 * @return void
+	 */
+	public function maybe_migrate() {
+		if ( ! $this->migrator ) {
+			return;
+		}
+
+		// get old version (if exists)
+		$old_version = get_option( $this->get_id() . '-version', '0.0.1' );
+		$new_version = $this->get_version();
+
+		// don't migrate if we don't need to
+		if ( $old_version === $new_version ) {
+			return;
+		}
+
+		$this->migrator->run_migrations( $old_version, $new_version );
+
+		// update version
+		update_option( $this->get_id() . '-version', $new_version );
+	}
+
+	public function activate() {
+		update_option( $this->get_id() . '-version', $this->get_version() );
+
+		do_action( 'cp_activated_' . $this->get_id(), $this );
+	}
+
+	public function deactivate() {
+		do_action( 'cp_deactivated_' . $this->get_id(), $this );
 	}
 
 }

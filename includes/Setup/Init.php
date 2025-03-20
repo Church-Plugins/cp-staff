@@ -23,6 +23,11 @@ class Init {
 	public $taxonomies;
 	
 	/**
+	 * @var Migrator
+	 */
+	public $migrator;
+	
+	/**
 	 * Only make one instance of Init
 	 *
 	 * @return Init
@@ -52,6 +57,7 @@ class Init {
 	protected function includes() {
 		$this->post_types = PostTypes\Init::get_instance();
 		$this->taxonomies = Taxonomies\Init::get_instance();
+		$this->migrator = Migrator::get_instance();
 		Shortcodes::get_instance();
 	}
 

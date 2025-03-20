@@ -121,8 +121,7 @@ class Shortcodes {
 
 		$query_args = array(
 			'post_type'      => cp_staff()->setup->post_types->staff->post_type,
-			'orderby'        => 'ID',
-			'order'          => 'ASC',
+			'orderby'        => array('menu_order' => 'ASC', 'title' => 'ASC'),
 			'posts_per_page' => 999,
 		);
 

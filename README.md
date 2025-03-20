@@ -19,6 +19,14 @@ npm run build
 
 ### Change Log
 
+### 1.2.1
+* Add support for hierarchical departments in staff archive
+* Add migration framework
+* Configure archive page to be disabled by default
+* Improve staff archive template structure
+* Update default staff ordering to use menu_order for better control
+* Add compatibility with plugins like Simple Page Ordering and WP Term Order
+
 ### 1.2.0
 * Add staff archive page
 * Add staff social links

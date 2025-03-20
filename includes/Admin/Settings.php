@@ -51,7 +51,7 @@ class Settings {
 	}
 
 	public static function get_staff( $key, $default = '' ) {
-		return self::get( $key, $default, 'cp_staff_options' );
+		return self::get( $key, $default, 'cp_staff_staff_options' );
 	}
 
 	/**
@@ -67,6 +67,8 @@ class Settings {
 
 		$post_type = cp_staff()->setup->post_types->staff->post_type;
 
+		$this->staff_options();
+
 		/**
 		 * Registers main options page menu item and form.
 		 */
@@ -75,9 +77,9 @@ class Settings {
 			'title'        => 'Settings',
 			'object_types' => array( 'options-page' ),
 			'option_key'   => 'cp_staff_main_options',
-			'tab_group'    => 'cp_staff_main_options',
-			'tab_title'    => 'Main',
-			'parent_slug'  => 'edit.php?post_type=' . $post_type,
+			'tab_group'    => 'cp_staff_staff_options',
+			'tab_title'    => 'Advanced',
+			'parent_slug'  => 'cp_staff_staff_options',
 			'display_cb'   => [ $this, 'options_display_with_tabs'],
 		);
 
@@ -186,6 +188,54 @@ class Settings {
 		$this->license_fields();
 	}
 
+	protected function staff_options() {
+		/**
+		 * Registers secondary options page, and set main item as parent.
+		 */
+		$args = array(
+			'id'           => 'cp_staff_staff_options_page',
+			'title'        => 'Settings',
+			'object_types' => array( 'options-page' ),
+			'option_key'   => 'cp_staff_staff_options',
+			'tab_group'    => 'cp_staff_staff_options',
+			'tab_title'    => cp_staff()->setup->post_types->staff->plural_label,
+			'parent_slug'  => 'edit.php?post_type=' . cp_staff()->setup->post_types->staff->post_type,
+			'display_cb'   => [ $this, 'options_display_with_tabs' ],
+		);
+
+		$options = new_cmb2_box( $args );
+
+		$options->add_field( array(
+			'name' => __( 'Labels' ),
+			'id'   => 'labels',
+			'type' => 'title',
+		) );
+
+		$options->add_field( array(
+			'name'    => __( 'Singular Label', 'cp-staff' ),
+			'id'      => 'singular_label',
+			'type'    => 'text',
+			'default' => cp_staff()->setup->post_types->staff->single_label,
+		) );
+
+		$options->add_field( array(
+			'name'    => __( 'Plural Label', 'cp-staff' ),
+			'id'      => 'plural_label',
+			'desc'    => __( 'Caution: changing this value will also adjust the url structure and may affect your SEO.', 'cp-staff' ),
+			'type'    => 'text',
+			'default' => cp_staff()->setup->post_types->staff->plural_label,
+		) );
+
+		$options->add_field( array(
+			'name'    => __( 'Disable Archive Page', 'cp-staff' ),
+			'id'      => 'disable_archive',
+			'desc'    => sprintf( __( 'Check this box to disable the /%s/ archive page. Use this option if you want to use the %s shortcode on a page that you create.', 'cp-staff' ), strtolower( cp_staff()->setup->post_types->staff->plural_label ), cp_staff()->setup->post_types->staff->single_label ),
+			'type'    => 'checkbox',
+		) );
+
+	}
+
+
 	/**
 	 * Setting a checkbox to be on by default doesn't work in CMB2, this is a way to get around that
 	 */
@@ -204,8 +254,8 @@ class Settings {
 			'title'        => 'CP Staff Settings',
 			'object_types' => array( 'options-page' ),
 			'option_key'   => 'cp_staff_license',
-			'parent_slug'  => 'cp_staff_main_options',
-			'tab_group'    => 'cp_staff_main_options',
+			'parent_slug'  => 'cp_staff_staff_options',
+			'tab_group'    => 'cp_staff_staff_options',
 			'tab_title'    => 'License',
 			'display_cb'   => [ $this, 'options_display_with_tabs' ]
 		);
