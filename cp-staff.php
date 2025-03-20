@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Church Plugins - Staff
+ * Plugin Name: CP Staff
  * Plugin URL: https://churchplugins.com
- * Description: Church Staff plugin for managing staff
+ * Description: Staff management for churches
  * Version: 1.2.0
  * Author: Church Plugins
  * Author URI: https://churchplugins.com
@@ -12,7 +12,7 @@
 
 if( !defined( 'CP_STAFF_PLUGIN_VERSION' ) ) {
 	 define ( 'CP_STAFF_PLUGIN_VERSION',
-	 	'1.2.0'
+	 	'1.2.1'
 	);
 }
 
@@ -21,12 +21,6 @@ require_once( dirname( __FILE__ ) . "/includes/Constants.php" );
 require_once( CP_STAFF_PLUGIN_DIR . "/includes/ChurchPlugins/init.php" );
 require_once( CP_STAFF_PLUGIN_DIR . 'vendor/autoload.php' );
 
-
-use CP_Staff\Init as Init;
-
-/**
- * @var CP_Staff\Init
- */
 global $cp_staff;
 $cp_staff = cp_staff();
 
@@ -34,8 +28,11 @@ $cp_staff = cp_staff();
  * @return CP_Staff\Init
  */
 function cp_staff() {
-	return Init::get_instance();
+	return CP_Staff\Init::get_instance();
 }
+
+register_activation_hook( __FILE__, array( $cp_staff, 'activate' ) );
+register_deactivation_hook( __FILE__, array( $cp_staff, 'deactivate' ) );
 
 /**
  * Load plugin text domain for translations.

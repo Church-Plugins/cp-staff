@@ -57,7 +57,7 @@ $is_hidden_att = Settings::get( 'show_staff_email', 'off' ) === 'on' ? '' : 'hid
 			<div class='cp-staff-email-form--email-verify'>
 				<label>
 					<?php esc_html_e( 'Email Verify', 'cp-staff' ); ?>
-					<input type='text' name='email-verify'>
+					<input type='text' name='email-verify' tabindex="-1" autocomplete="do-not-autofill" />
 				</label>
 			</div>
 

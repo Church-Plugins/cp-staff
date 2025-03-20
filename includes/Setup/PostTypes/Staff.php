@@ -94,10 +94,22 @@ class Staff extends PostType {
 	 * @author costmo
 	 */
 	public function get_args() {
-		$args              = parent::get_args();
-		$args['menu_icon'] = apply_filters( "{$this->post_type}_icon", 'dashicons-id' );
-		// $args['has_archive'] = false;
+		$args               = parent::get_args();
+		$args['menu_icon']  = apply_filters( "{$this->post_type}_icon", 'dashicons-id' );
 		$args['supports'][] = 'page-attributes';
+
+		/**
+		 * Disable the archive page for groups
+		 *
+		 * @param bool $is_archive_disabled Whether the archive page is disabled. Default is the setting from the admin.
+		 * @since 1.1.0
+		 */
+		$is_archive_disabled = apply_filters( 'cp_staff_disable_archive', Settings::get_staff( 'disable_archive', false ) );
+
+		if ( $is_archive_disabled ) {
+			$args['has_archive'] = false;
+		}
+
 		return $args;
 	}
 	
