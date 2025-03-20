@@ -27,6 +27,7 @@ npm run build
 * Update default staff ordering to use menu_order for better control
 * Add compatibility with plugins like Simple Page Ordering and WP Term Order
 * Add Staff settings for controlling labels and archive page
+* Remove Honeypot field from staff message validation (it was returning false positives)
 
 ### 1.2.0
 * Add staff archive page
