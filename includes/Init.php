@@ -138,7 +138,7 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 
 		$email_to = \ChurchPlugins\Helpers::get_post( 'email-to' );
 		$reply_to = \ChurchPlugins\Helpers::get_post( 'email-from' );
-		$honeypot = \ChurchPlugins\Helpers::get_post( 'email-verify' );
+		$honeypot = false; // \ChurchPlugins\Helpers::get_post( 'email-verify' ); // honeypot is not working correctly
 		$name     = \ChurchPlugins\Helpers::get_post( 'from-name' );
 		$subject  = \ChurchPlugins\Helpers::get_post( 'subject' );
 		$message  = \ChurchPlugins\Helpers::get_post( 'message' );
