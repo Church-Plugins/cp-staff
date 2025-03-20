@@ -26,6 +26,7 @@ npm run build
 * Improve staff archive template structure
 * Update default staff ordering to use menu_order for better control
 * Add compatibility with plugins like Simple Page Ordering and WP Term Order
+* Add Staff settings for controlling labels and archive page
 
 ### 1.2.0
 * Add staff archive page
