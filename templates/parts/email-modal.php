@@ -23,6 +23,7 @@ $is_hidden_att = Settings::get( 'show_staff_email', 'off' ) === 'on' ? '' : 'hid
 				method="post" enctype="multipart/form-data">
 
 			<?php wp_nonce_field( 'cp_staff_send_email', 'cp_staff_send_email_nonce' ); ?>
+			<input type="hidden" name="staff-id" class="staff-id" value="" />
 
 			<div class="cp-staff-email-form--name">
 				<h4><?php esc_html_e( 'Send a message to', 'cp-staff' ); ?> <span class="staff-name"></span></h4>
@@ -31,7 +32,6 @@ $is_hidden_att = Settings::get( 'show_staff_email', 'off' ) === 'on' ? '' : 'hid
 			<div class="cp-staff-email-form--email-to" <?php echo esc_html( $is_hidden_att ); ?>>
 				<label>
 					<?php esc_html_e( 'To:', 'cp-staff' ); ?>
-					<input type="hidden" name="email-to" class="staff-email-to" />
 					<div class="cp-staff--input-wrapper">
 						<input type="text" disabled="disabled" class="staff-email-to"/>
 						<div class="staff-copy-email"
