@@ -154,7 +154,10 @@ add_filter('cp_staff_archive_starting_heading_level', function($level) {
 
 ## JavaScript Customization
 
-Front-end behavior, including reCAPTCHA, is in `assets/js/main.js`.
+- `assets/js/main.js` runs the contact form. When `recaptchaSiteKey` is set, submit calls `grecaptcha.execute` with the action `contact_staff` and posts `token` and `action` with the form.
+- `assets/js/captcha.js` is an empty file. The plugin does not load it.
+
+When **Enable captcha on message form** is on and **Recaptcha site key** is set, the plugin loads Google reCAPTCHA v3 and sets `recaptchaSiteKey` on the page.
 
 ## Advanced Customization
 
