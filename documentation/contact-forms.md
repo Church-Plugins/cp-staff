@@ -44,8 +44,7 @@ CP Staff includes several security features to protect staff from spam:
 
 #### Staff Protection
 
-1. Check **Prevent staff from sending emails** (enabled by default)
-2. This blocks submissions from email addresses containing your site's domain
+**Prevent staff from sending emails** blocks contact-form messages whose sender address uses the site's own domain (`includes/Init.php:262-265`).
 
 ## How the Contact Form Works
 
