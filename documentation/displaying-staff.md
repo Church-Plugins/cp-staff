@@ -4,7 +4,7 @@ This guide covers the various ways to display staff members on your website usin
 
 ## Default Archive Page
 
-By default, CP Staff creates an archive page that displays all staff members organized by department. This page is typically accessible at:
+By default, CP Staff creates an archive page that displays staff members assigned to a department, grouped by department. This page is typically accessible at:
 
 ```
 https://yoursite.com/staff/
@@ -70,7 +70,7 @@ If you prefer to use shortcodes on a custom page:
 
 ### Staff Archive Shortcode
 
-Display the complete staff archive, identical to the default archive page:
+Display the same department listing as the archive page:
 
 ```
 [cp_staff_archive]
@@ -106,16 +106,6 @@ Show staff from multiple departments:
 [cp_staff_list cp_department="leadership" exclude_cp_department="pastoral-team" static="true"]
 ```
 
-### CP Location Integration (Planned Feature)
-
-Integration with the CP Location plugin is planned for a future release, which will allow filtering staff by location:
-
-```
-[cp_staff_list cp_location="main-campus"]
-```
-
-*Note: This feature is currently in development and not yet available.*
-
 ## Single Staff Display
 
 When a visitor clicks on a staff member's card (if enabled), they'll see:
@@ -124,17 +114,17 @@ When a visitor clicks on a staff member's card (if enabled), they'll see:
 - Name and title
 - Full biography
 - Social media links
-- Contact options
+- Email button, when **Staff contact modal** is checked and the staff member has an **Email**
 
 ### Click Action Settings
 
 Control what happens when visitors click a staff card:
 
 1. Go to Staff > Settings > Advanced
-2. Set "Staff click action" to:
-   - None: Disable clicking entirely
-   - Link to single staff page: Open the staff member's dedicated page (default)
-   - Display popup modal: Show information in a modal window
+2. Set **Staff click action** to:
+   - **None**: Disable clicking entirely (default)
+   - **Link to single staff page (if content exists for Staff member)**: Open the staff member's dedicated page
+   - **Display popup modal**: Show information in a modal window
 
 ## Template Customization
 
@@ -147,8 +137,10 @@ You can customize how staff are displayed by overriding templates:
 Available templates:
 - `archive.php` - Staff directory
 - `single.php` - Individual staff pages
+- `default-template.php` - Page wrapper for the archive and single views
 - `parts/staff-card.php` - Individual staff card
 - `parts/email-modal.php` - Email contact form
+- `parts/info-modal.php` - Staff info modal
 
 See [Customization](customization.md) for more details on template overrides.
 

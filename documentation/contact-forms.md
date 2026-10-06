@@ -13,8 +13,7 @@ The contact form system allows website visitors to:
 ## Enabling Contact Forms
 
 1. Go to Staff > Settings > Advanced
-2. Check "Staff contact modal" to enable contact forms
-3. Configure additional options as needed
+2. Check **Staff contact modal** to enable contact forms
 
 ## Contact Form Settings
 
@@ -22,10 +21,10 @@ The contact form system allows website visitors to:
 
 | Setting | Description |
 |---------|-------------|
-| Use email modal | Enable/disable the contact form feature |
+| Staff contact modal | Enable/disable the contact form feature |
 | Display staff's email address | Show or hide the staff member's email in the form |
 | From Address | The email address that will appear in the "From" field (defaults to site admin email) |
-| From Name | The name that will appear in the "From" field (defaults to site name) |
+| From Name | The name that will appear in the "From" field (defaults to the site title) |
 
 ### Security Settings
 
@@ -33,36 +32,35 @@ CP Staff includes several security features to protect staff from spam:
 
 #### CAPTCHA Protection
 
-1. Check "Enable captcha on message form"
-2. Enter your Google reCAPTCHA v3 site key and secret key
+1. Check **Enable captcha on message form**
+2. Enter **Recaptcha site key** and **Recaptcha secret key** (Google reCAPTCHA v3)
 3. This will add invisible CAPTCHA validation to all submissions
 
 #### Email Throttling
 
-1. Check "Enable staff contact form throttling"
-2. Select the maximum number of submissions allowed per day (2-10)
+1. Check **Enable staff contact form throttling**
+2. Set **Max submissions per day from same user** (2-10)
 3. This limits submissions from the same IP address or email
 
 #### Staff Protection
 
-1. Check "Prevent staff from sending emails" (enabled by default)
+1. Check **Prevent staff from sending emails** (enabled by default)
 2. This blocks submissions from email addresses containing your site's domain
-3. Prevents staff from receiving emails from themselves or colleagues
 
 ## How the Contact Form Works
 
 1. Visitor clicks the email icon on a staff card or profile
 2. Contact form modal appears
 3. Visitor enters:
-   - Their full name
-   - Their email address
-   - Subject line
-   - Message content
+   - **Your Full Name:**
+   - **Your Email:**
+   - **Email Subject:**
+   - **Email Message:**
 4. After submission:
    - The form is validated (required fields, CAPTCHA, throttling)
    - An email is sent to the staff member
    - The staff member sees who sent it and can reply directly
-   - The visitor sees a success message
+   - The visitor sees **Email sent!**
 
 ## Customizing the Contact Form
 

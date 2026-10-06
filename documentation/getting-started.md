@@ -18,15 +18,15 @@ This guide will help you get started with the CP Staff plugin, from installation
 ## Basic Configuration
 
 1. Go to Staff > Settings to configure the plugin options.
-2. In the "Staff" tab, you can:
-   - Customize the singular and plural labels for staff (e.g., "Staff Member" and "Staff Team")
-   - Enable or disable the staff archive page
+2. In the **Staff** tab, you can:
+   - Set **Singular Label** and **Plural Label** (for example, "Staff Member" and "Staff Team")
+   - Check **Disable Archive Page**
 
-3. In the "Advanced" tab, you can configure:
-   - Staff click actions (none, link to single page, or display modal)
-   - Email contact form settings
-   - CAPTCHA protection for contact forms
-   - Rate limiting for contact form submissions
+3. In the **Advanced** tab, you can set:
+   - **Staff click action**: **None** (default), **Link to single staff page (if content exists for Staff member)**, or **Display popup modal**
+   - **Staff contact modal**, **Display staff's email address**, **From Address**, and **From Name**
+   - **Enable captcha on message form**, **Recaptcha site key**, and **Recaptcha secret key**
+   - **Enable staff contact form throttling** and **Max submissions per day from same user**
 
 ## Creating Your First Staff Member
 
@@ -34,12 +34,13 @@ This guide will help you get started with the CP Staff plugin, from installation
 2. Enter the staff member's name in the title field.
 3. Add a biographical description in the main editor.
 4. Set a featured image for the staff member's profile photo.
-5. In the "Staff Details" box below the editor, add:
-   - Title/position
-   - Email address
-   - Phone number
-   - Social media links
-   - Optional alternate image
+5. In the **Staff Details** box below the editor, fill in:
+   - **Title**
+   - **Email**
+   - **Phone**
+   - **Acronyms**
+   - **Social**
+   - **Alternate image**
 6. Click "Publish" to make the staff member live on your site.
 
 ## Organizing with Departments
@@ -49,7 +50,7 @@ This guide will help you get started with the CP Staff plugin, from installation
    - Department name (e.g., "Pastoral Staff")
    - Slug (automatically generated from the name)
    - Optional description
-3. When creating or editing staff members, you can assign them to one or more departments using the Department sidebar box.
+3. When creating or editing staff members, you can assign them to one or more departments in the **Departments** box.
 
 ## Next Steps
 
