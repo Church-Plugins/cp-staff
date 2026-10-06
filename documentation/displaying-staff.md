@@ -61,7 +61,7 @@ The `cp_staff_disable_archive` filter turns the archive off as well.
 add_filter( 'cp_staff_disable_archive', '__return_true' );
 ```
 
-Shortcodes for a page you create are covered in [Shortcodes](https://docs.churchplugins.com/knowledge-base/shortcodes-cp-staff/).
+Shortcodes for a page you create are covered in [Shortcodes](shortcodes.md).
 
 ## CP Locations
 
@@ -103,4 +103,4 @@ Template files are covered in [Template Overrides](customization.md).
 
 Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/).
 
-Department query filters are covered in the [Developer Guide](https://docs.churchplugins.com/knowledge-base/developer-guide-cp-staff/).
+Department query filters are covered in the [Developer Guide](developer-guide.md).
