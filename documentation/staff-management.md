@@ -39,26 +39,22 @@ Assign staff to departments using the **Departments** box:
 
 1. Select one or more existing departments, or
 2. Click "+ Add New Department" to create a new department
-3. Save the staff profile to apply the department assignment
+3. Click **Publish** or **Update** to save the department assignment
 
 ## Managing Staff Order
 
-You can control the order in which staff appear:
+The archive page and the staff shortcodes sort by menu order, then by name. A lower **Order** appears first.
 
-1. On the Staff list page, staff are ordered by Menu Order first, then by Name
-2. To change a staff member's position:
-   - Edit the staff member
-   - In the Page Attributes box, set the Order number (lower numbers appear first)
-   - Save changes
+1. Edit the staff member
+2. In the **Page Attributes** box, set **Order**
+3. Click **Update**
 
 ## Bulk Management
 
-Use the main staff listing screen for bulk actions:
-
-1. Filter by department using the dropdown at the top
-2. Use the bulk actions dropdown to:
-   - Move multiple staff to trash
-   - Edit departments in bulk
+1. On the staff list, filter with the **All Departments** dropdown
+2. Select the staff members you want to change
+3. Choose **Edit** or **Move to Trash** in **Bulk actions**, then click **Apply**
+4. **Edit** includes a **Departments** checklist
 
 ## Customizing Labels
 

@@ -12,8 +12,10 @@ The contact form system allows website visitors to:
 
 ## Enabling Contact Forms
 
-1. Go to Staff > Settings > Advanced
-2. Check **Staff contact modal** to enable contact forms
+1. Go to **Staff > Settings**, then open the **Advanced** tab.
+2. Check **Staff contact modal** to enable contact forms.
+
+Add an **Email** on the staff member. The contact form uses that address.
 
 ## Contact Form Settings
 
