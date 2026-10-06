@@ -11,7 +11,7 @@ Each staff member in CP Staff is represented as a custom post type with:
 - Featured image (profile photo)
 - Custom fields for additional information
 - Department organization (taxonomy)
-- Page attributes for ordering
+- Order
 
 ## Creating Staff Profiles
 
@@ -22,7 +22,7 @@ Each staff member in CP Staff is represented as a custom post type with:
 
 ### Staff Details Box
 
-The Staff Details metabox provides fields for additional information:
+The **Staff Details** box provides fields for additional information:
 
 | Field | Description |
 |-------|-------------|
@@ -35,23 +35,23 @@ The Staff Details metabox provides fields for additional information:
 
 ### Department Organization
 
-Assign staff to departments using the **Departments** box:
+Assign staff to departments in the **Departments** panel:
 
 1. Select one or more existing departments, or
-2. Click "+ Add New Department" to create a new department
-3. Click **Publish** or **Update** to save the department assignment
+2. Click **Add New Department** to create a new department
+3. Click **Publish** or **Save**
 
 ## Managing Staff Order
 
 The archive page and the staff shortcodes sort by menu order, then by name. A lower **Order** appears first.
 
 1. Edit the staff member
-2. In the **Page Attributes** box, set **Order**
-3. Click **Update**
+2. In the **Order…** panel, set **Order**
+3. Click **Save**
 
 ## Bulk Management
 
-1. On the staff list, filter with the **All Departments** dropdown
+1. On the staff list, click a department in the **Departments** column
 2. Select the staff members you want to change
 3. Choose **Edit** or **Move to Trash** in **Bulk actions**, then click **Apply**
 4. **Edit** includes a **Departments** checklist

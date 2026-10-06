@@ -53,7 +53,7 @@ This guide will help you get started with the CP Staff plugin, from installation
    - **Parent Category** (optional, for a department under another department)
    - **Description** (optional)
 3. Click **Add New Department**.
-4. When you create or edit a staff member, assign departments in the **Departments** box.
+4. When you create or edit a staff member, assign departments in the **Departments** panel.
 
 ## Next Steps
 
