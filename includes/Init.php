@@ -134,9 +134,9 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 
 	public function maybe_send_email() {
 
-		$email_to = \ChurchPlugins\Helpers::get_post( 'email-to' );
+		$email_to = $this->get_staff_recipient_email( \ChurchPlugins\Helpers::get_post( 'staff-id' ) );
 		$reply_to = \ChurchPlugins\Helpers::get_post( 'email-from' );
-		$honeypot = false; // \ChurchPlugins\Helpers::get_post( 'email-verify' ); // honeypot is not working correctly
+		$honeypot = \ChurchPlugins\Helpers::get_post( 'email-verify' );
 		$name     = \ChurchPlugins\Helpers::get_post( 'from-name' );
 		$subject  = \ChurchPlugins\Helpers::get_post( 'subject' );
 		$message  = \ChurchPlugins\Helpers::get_post( 'message' );
@@ -198,6 +198,38 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 
 	public function modal_template() {
 		cp_staff()->templates->get_template_part( 'parts/email-modal' );
+	}
+
+	/**
+	 * Email stored on a published staff record.
+	 *
+	 * The contact form posts the staff post ID. An address in the request is not used.
+	 *
+	 * @param mixed $staff_id Staff post ID.
+	 *
+	 * @return string Staff email, or an empty string when the record cannot be used.
+	 */
+	public function get_staff_recipient_email( $staff_id ) {
+		$staff_id = absint( $staff_id );
+		if ( ! $staff_id ) {
+			return '';
+		}
+
+		$staff = get_post( $staff_id );
+		if ( ! is_object( $staff ) || ! isset( $staff->post_type, $staff->post_status ) ) {
+			return '';
+		}
+
+		if ( 'cp_staff' !== $staff->post_type || 'publish' !== $staff->post_status ) {
+			return '';
+		}
+
+		$email = get_post_meta( $staff_id, 'email', true );
+		if ( ! is_string( $email ) || ! is_email( $email ) ) {
+			return '';
+		}
+
+		return $email;
 	}
 
 	/** Helper Methods **************************************/

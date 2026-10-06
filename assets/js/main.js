@@ -21,7 +21,7 @@
 
 			let data = $details.data('details' );
 
-			if ( undefined === data.name || undefined === data.email || '' === data.email ) {
+			if ( undefined === data.name || undefined === data.id || undefined === data.email || '' === data.email ) {
 				return;
 			}
 
@@ -40,6 +40,7 @@
 				}
 
 				$modalElem.find('.staff-name').html(data.name);
+				$modalElem.find('.staff-id').val(data.id);
 				$modalElem.find('.staff-email-to').val(data.email);
 
 				$modalElem.dialog({

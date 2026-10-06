@@ -23,6 +23,8 @@ npm run build
 * Fix "Enable captcha on message form" and "Prevent staff from sending emails" so unchecking them and saving turns those checks off
 * Keep both features on for existing sites that never saved the setting
 * Run captcha only when it is enabled and both the site key and secret key are set
+* Contact form now resolves the recipient from the staff record
+* Check the contact form email-verify field again
 
 ### 1.2.1
 * Add support for hierarchical departments in staff archive

@@ -57,7 +57,7 @@ CP Staff includes several security features to protect staff from spam:
    - **Email Message:**
 4. After submission:
    - The form is validated (required fields, CAPTCHA, throttling)
-   - An email is sent to the staff member
+   - The form submits the staff member's post ID. The message is sent to the email saved on that published staff record.
    - The staff member sees who sent it and can reply directly
    - The visitor sees **Email sent!**
 
