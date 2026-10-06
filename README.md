@@ -24,8 +24,8 @@ npm run build
 * Keep both features on for existing sites that never saved the setting
 * Run captcha only when it is enabled and both the site key and secret key are set
 * Contact form now resolves the recipient from the staff record
-* Theme copies of the email modal should include `<input type="hidden" name="staff-id" class="staff-id">`. The script adds this field when it is missing.
-* Sites using page caching should purge their cache after updating so the new modal script loads.
+* Theme copies of parts/email-modal.php need `<input type="hidden" name="staff-id" class="staff-id">`. The script adds this field when it is missing.
+* Purge the page cache after updating so the new modal script loads.
 
 ### 1.2.1
 * Add support for hierarchical departments in staff archive
