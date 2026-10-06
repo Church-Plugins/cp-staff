@@ -16,7 +16,7 @@
 ## CAPTCHA Not Working
 
 1. Check **Recaptcha site key** and **Recaptcha secret key** under **Staff > Settings**, on the **Advanced** tab.
-2. The form uses reCAPTCHA v3: `grecaptcha.execute` with the action `contact_staff`. Verification checks the score and the action.
+2. The form uses Google reCAPTCHA v3. Use v3 keys, not v2.
 3. Register the site domain in the reCAPTCHA admin console.
 
 ## Static Staff Lists

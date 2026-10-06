@@ -17,7 +17,7 @@ These are the values CP Staff uses when the option is not stored:
 
 Enter **Recaptcha site key** and **Recaptcha secret key** from a Google reCAPTCHA v3 site.
 
-When **Enable captcha on message form** is on and a **Recaptcha site key** is saved, the form calls `grecaptcha.execute` with the action `contact_staff` and posts `token` and `action`. Verification sends that token to Google. The check passes when Google reports success, the action matches, and the score is above 0.5. An empty **Recaptcha secret key** makes this check pass.
+Captcha needs both a site key and a secret key.
 
 ## Email Throttling
 
@@ -44,7 +44,7 @@ CP Staff runs these checks in order:
 5. **Email Subject:**
 6. **Email Message:**
 7. The site-domain block
-8. The reCAPTCHA score, when a **Recaptcha secret key** is saved
+8. The reCAPTCHA score
 
 A failed check returns an error in the form.
 
