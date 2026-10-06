@@ -153,7 +153,7 @@ add_filter('cp_staff_archive_starting_heading_level', function($level) {
 
 ## JavaScript Customization
 
-The contact form calls `grecaptcha.execute` with the action `contact_staff` and posts `token` and `action` when `recaptchaSiteKey` is set. The captcha script is empty and is not loaded.
+The contact form calls `grecaptcha.execute` with the action `contact_staff` and posts `token` and `action` when `recaptchaSiteKey` is set.
 
 ## Advanced Customization
 
