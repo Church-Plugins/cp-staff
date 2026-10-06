@@ -10,6 +10,7 @@ class ContactFormTest extends TestCase {
 			'cp_staff_main_options' => array(
 				'enable_captcha'     => 'off',
 				'block_staff_emails' => 'off',
+				'use_email_modal'    => 'on',
 			),
 		);
 		$GLOBALS['cp_staff_posts'] = array();
@@ -159,5 +160,41 @@ class ContactFormTest extends TestCase {
 
 		$this->assertSame( 'json_error', $result );
 		$this->assertSame( array(), $GLOBALS['cp_staff_mail'] );
+	}
+
+	public function test_handler_does_nothing_when_the_contact_modal_is_off() {
+		unset( $GLOBALS['cp_staff_test_options']['cp_staff_main_options']['use_email_modal'] );
+		$this->add_staff( 7, 'publish', 'cp_staff', 'pastor@church.test' );
+
+		$_POST    = array(
+			'staff-id'   => '7',
+			'email-to'   => 'other@example.com',
+			'email-from' => 'visitor@gmail.com',
+			'from-name'  => 'Visitor',
+			'subject'    => 'Hello',
+			'message'    => 'Hi there',
+		);
+		$_REQUEST = array(
+			'cp_staff_send_email_nonce' => 'valid-nonce',
+		);
+
+		$this->plugin()->maybe_send_email();
+
+		$this->assertSame( array(), $GLOBALS['cp_staff_mail'] );
+		$this->assertNull( $GLOBALS['cp_staff_json'] );
+	}
+
+	public function test_script_adds_staff_id_when_a_modal_copy_omits_it() {
+		$js = file_get_contents( dirname( __DIR__ ) . '/assets/js/main.js' );
+
+		$this->assertNotFalse( $js );
+		$this->assertStringContainsString(
+			'<input type="hidden" name="staff-id" class="staff-id">',
+			$js
+		);
+		$this->assertMatchesRegularExpression(
+			'/if\s*\(\s*!\s*\$form\.find\(\s*[\'"]\.staff-id[\'"]\s*\)\.length\s*\)/',
+			$js
+		);
 	}
 }

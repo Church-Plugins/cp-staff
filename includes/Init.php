@@ -133,6 +133,9 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 	}
 
 	public function maybe_send_email() {
+		if ( ! Settings::get( 'use_email_modal', false ) ) {
+			return;
+		}
 
 		$staff_id = \ChurchPlugins\Helpers::get_post( 'staff-id' );
 		$email_to = $this->get_staff_recipient_email( $staff_id );
