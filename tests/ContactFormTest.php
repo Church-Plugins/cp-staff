@@ -162,26 +162,22 @@ class ContactFormTest extends TestCase {
 		$this->assertSame( array(), $GLOBALS['cp_staff_mail'] );
 	}
 
-	public function test_handler_does_nothing_when_the_contact_modal_is_off() {
+	public function test_handler_returns_an_error_when_the_contact_modal_is_off() {
 		unset( $GLOBALS['cp_staff_test_options']['cp_staff_main_options']['use_email_modal'] );
 		$this->add_staff( 7, 'publish', 'cp_staff', 'pastor@church.test' );
 
-		$_POST    = array(
+		$result = $this->send( array(
 			'staff-id'   => '7',
 			'email-to'   => 'other@example.com',
 			'email-from' => 'visitor@gmail.com',
 			'from-name'  => 'Visitor',
 			'subject'    => 'Hello',
 			'message'    => 'Hi there',
-		);
-		$_REQUEST = array(
-			'cp_staff_send_email_nonce' => 'valid-nonce',
-		);
+		) );
 
-		$this->plugin()->maybe_send_email();
-
+		$this->assertSame( 'json_error', $result );
 		$this->assertSame( array(), $GLOBALS['cp_staff_mail'] );
-		$this->assertNull( $GLOBALS['cp_staff_json'] );
+		$this->assertSame( 'Messaging is not available.', $GLOBALS['cp_staff_json']['data']['error'] );
 	}
 
 	public function test_script_adds_staff_id_when_a_modal_copy_omits_it() {

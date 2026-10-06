@@ -26,6 +26,7 @@ npm run build
 * Contact form now resolves the recipient from the staff record
 * Theme copies of parts/email-modal.php need `<input type="hidden" name="staff-id" class="staff-id">`. The script adds this field when it is missing.
 * Purge the page cache after updating so the new modal script loads.
+* Messages are not sent while the staff contact modal setting is turned off.
 
 ### 1.2.1
 * Add support for hierarchical departments in staff archive

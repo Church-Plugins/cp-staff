@@ -134,7 +134,7 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 
 	public function maybe_send_email() {
 		if ( ! Settings::get( 'use_email_modal', false ) ) {
-			return;
+			wp_send_json_error( array( 'error' => __( 'Messaging is not available.', 'cp-staff' ) ) );
 		}
 
 		$staff_id = \ChurchPlugins\Helpers::get_post( 'staff-id' );
