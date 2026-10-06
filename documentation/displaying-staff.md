@@ -1,201 +1,87 @@
-# Displaying Staff
+# Archive Page
 
-This guide covers the various ways to display staff members on your website using the CP Staff plugin.
+The archive lists staff members who are assigned to a department, grouped by department.
 
-## Default Archive Page
+## Default Archive
 
-By default, CP Staff creates an archive page that displays staff members assigned to a department, grouped by department. This page is typically accessible at:
+With the default **Plural Label**, the archive address is:
 
 ```
 https://yoursite.com/staff/
 ```
 
+**Plural Label** is the archive slug. Save a new label and the address follows it. **Our Team** uses `/our-team/`.
+
 The archive page:
-- Groups staff by department (including hierarchical department structures)
-- Shows staff cards with name, title, and photo
-- Links to individual staff member pages (if enabled)
-- Provides email and phone contact options
 
-### Hierarchical Departments
+- Groups staff by department, including child departments
+- Shows a card with the name, title, and photo
+- Links the photo and the name to the staff member's page when the biography has content
+- Shows an email icon when the staff member has an **Email**, and a phone link when the staff member has a **Phone**
 
-As of version 1.2.1, the archive page supports hierarchical departments:
+Cards are sorted by **Order**, then by name.
 
-- Parent departments are displayed first
-- Child departments are nested under their parents
-- Each department level uses appropriate heading levels (h3, h4, etc.)
-- Departments without staff members can still display their child departments
+## Hierarchical Departments
 
-### Ordering Staff and Departments
+- Parent departments are listed before their children.
+- Child departments are nested under the parent.
+- Headings start at h3. A department that has staff uses the next heading level for its children.
+- Departments without staff members can still display their child departments.
 
-Staff are ordered by:
-1. Menu order (primary sort)
-2. Title (secondary sort)
+Departments are ordered by name.
 
-Departments are ordered by name by default, but this can be modified using term order.
-
-#### Plugins for Custom Ordering
-
-For the best experience with ordering:
-- **Staff Members**: Use the "Simple Page Ordering" plugin to drag and drop staff into your preferred order
-- **Departments**: Use the "WP Term Order" plugin to arrange departments using drag and drop
-
-#### Custom Ordering Using Code
-
-Developers can use the `cp_staff_departments_args` filter to customize department ordering:
+The `cp_staff_archive_starting_heading_level` filter sets the first heading level. The default is 3.
 
 ```php
-// Example: Order departments by ID instead of name
-add_filter( 'cp_staff_departments_args', function( $args, $parent_id, $depth ) {
-    $args['orderby'] = 'term_id';
-    $args['order'] = 'DESC';
-    return $args;
-}, 10, 3 );
-
-// Example: If using WP Term Order plugin
-add_filter( 'cp_staff_departments_args', function( $args, $parent_id, $depth ) {
-    $args['orderby'] = 'term_order';
-    return $args;
-}, 10, 3 );
+add_filter( 'cp_staff_archive_starting_heading_level', function( $level ) {
+	return 2;
+} );
 ```
 
-### Disabling the Archive Page
+## Archive Title
 
-If you prefer to use shortcodes on a custom page:
+On the archive URL, the title is the **Plural Label**. The `cp_staff_archive_title` filter changes that title.
 
-1. Go to Staff > Settings > Staff
-2. Check "Disable Archive Page"
-3. Create a new page and use the shortcodes below
-
-## Shortcodes
-
-### Staff Archive Shortcode
-
-Display the same department listing as the archive page:
-
-```
-[cp_staff_archive]
+```php
+add_filter( 'cp_staff_archive_title', function( $title ) {
+	return 'Meet Our Team';
+} );
 ```
 
-On the staff archive URL, the page also shows the archive title. On any other page, the shortcode prints the department listing only.
+## Disabling the Archive
 
-### Staff List Shortcode
+1. Go to **Staff > Settings**, then open the **Staff** tab.
+2. Check **Disable Archive Page**.
+3. Click **Save Changes**.
 
-Display a customized list of staff members:
+The `cp_staff_disable_archive` filter turns the archive off as well.
 
-```
-[cp_staff_list]
-```
-
-#### Staff List Parameters
-
-| Parameter | Description | Example |
-|-----------|-------------|---------|
-| `cp_department` | Filter by department slug | `[cp_staff_list cp_department="pastoral-team"]` |
-| `exclude_cp_department` | Exclude department | `[cp_staff_list exclude_cp_department="support-staff"]` |
-| `static` | Disable click/contact functionality | `[cp_staff_list static="true"]` |
-
-#### Multiple Departments
-
-Show staff from multiple departments:
-
-```
-[cp_staff_list cp_department="pastoral-team,worship-team"]
+```php
+add_filter( 'cp_staff_disable_archive', '__return_true' );
 ```
 
-#### Combining Parameters
+Shortcodes for a page you create are covered in [Shortcodes](https://docs.churchplugins.com/knowledge-base/shortcodes-cp-staff/).
 
-```
-[cp_staff_list cp_department="leadership" exclude_cp_department="pastoral-team" static="true"]
-```
-
-### CP Locations
-
-You can filter staff by location when the CP Locations plugin is active and its location taxonomy is enabled. Define `CP_LOCATIONS_TAX_ENABLED` as true, or return true from the `cploc_location_taxonomy_enabled` filter, to enable that taxonomy.
-
-With the taxonomy enabled, assign locations in the **Locations** box (**Assign Locations**). Term slugs use `location_` plus the location post ID, such as `location_42`.
-
-```
-[cp_staff_list cp_location="location_42"]
-```
-
-To leave a location out:
-
-```
-[cp_staff_list exclude_cp_location="location_42"]
-```
-
-## Single Staff Display
+## Single Staff Page
 
 The single staff page shows:
 
-- Larger photo (or alternate image if set)
-- Name and title
-- Full biography
-- Social media links
-- Email button, when **Staff contact modal** is checked and the staff member has an **Email**
+- A photo when the staff member has a featured image. **Alternate image** is used when it is set.
+- The name and **Title**
+- The biography
+- Social links
+- An email button when **Staff contact modal** is checked and the staff member has an **Email**
 
-### Click Action Settings
+## Staff Click Action
 
-1. Go to Staff > Settings > Advanced
-2. Set **Staff click action** to:
+1. Go to **Staff > Settings**, then open the **Advanced** tab.
+2. Set **Staff click action** to one of:
    - **None**
    - **Link to single staff page (if content exists for Staff member)**
    - **Display popup modal**
 
-## Template Customization
+Template files are covered in [Template Overrides](customization.md).
 
-You can customize how staff are displayed by overriding templates:
+Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/).
 
-1. Create a `cp-staff` directory in your theme
-2. Copy template files from the plugin's `/templates/` directory to your theme's `cp-staff/` directory
-3. Modify the templates as needed
-
-Available templates:
-- `archive.php` - Staff directory
-- `single.php` - Individual staff pages
-- `default-template.php` - Page wrapper for the archive and single views
-- `parts/staff-card.php` - Individual staff card
-- `parts/email-modal.php` - Email contact form
-
-See [Customization](customization.md) for more details on template overrides.
-
-## CSS Styling
-
-The plugin includes basic styling that works with most themes. Main CSS classes:
-
-- `.cp-staff-grid` - Container for staff grid
-- `.cp-staff-card` - Individual staff card
-- `.cp-staff-single` - Single staff display
-- `.cp-staff-department-heading` - Department headings
-
-### Hierarchical Department CSS Classes
-
-For styling hierarchical departments (v1.2.1+):
-
-- `.cp-staff-department-wrapper` - Container for each department and its children
-- `.cp-staff-department-children` - Container for staff in a department
-- `.cp-staff-department-children--depth-3` - Department depth marker (3, 4, etc.)
-
-These classes make it easy to create custom styling for different levels of department hierarchy.
-
-### CSS Examples for Hierarchical Departments
-
-```css
-/* Indent child departments */
-.cp-staff-department-children--depth-4 {
-  margin-left: 2rem;
-}
-.cp-staff-department-children--depth-5 {
-  margin-left: 4rem;
-}
-
-/* Style department headings differently by level */
-h3.cp-staff-department-heading {
-  border-bottom: 2px solid #333;
-}
-h4.cp-staff-department-heading {
-  border-bottom: 1px solid #666;
-}
-```
-
-See [Customization](customization.md) for more styling details.
+Department query filters are covered in the [Developer Guide](https://docs.churchplugins.com/knowledge-base/developer-guide-cp-staff/).
