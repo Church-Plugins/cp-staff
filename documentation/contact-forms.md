@@ -34,7 +34,7 @@ CP Staff includes several security features to protect staff from spam:
 
 1. Check **Enable captcha on message form**
 2. Enter **Recaptcha site key** and **Recaptcha secret key** (Google reCAPTCHA v3)
-3. This will add invisible CAPTCHA validation to all submissions
+3. Captcha is added only when the box is checked and both keys are saved. Uncheck the box and save to turn it off. A secret key without a site key does not block messages.
 
 #### Email Throttling
 
@@ -44,7 +44,7 @@ CP Staff includes several security features to protect staff from spam:
 
 #### Staff Protection
 
-**Prevent staff from sending emails** blocks contact-form messages when the sender's address contains your site's domain.
+**Prevent staff from sending emails** blocks contact-form messages when the sender's address contains your site's domain. Sites that have not saved this setting stay protected. Uncheck the box and save to allow those addresses.
 
 ## How the Contact Form Works
 

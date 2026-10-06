@@ -7,5 +7,6 @@ package-lock.json
 /node_modules/
 /docs/
 .phpdoc
+.phpunit.cache
 .vscode
 app/templates/*.rt.js

@@ -87,12 +87,10 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 
 		$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 
-		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
+		if ( Settings::is_captcha_active() ) {
 			$site_key = Settings::get( 'captcha_site_key', '' );
-			if( ! empty( $site_key ) ) {
-				wp_enqueue_script( 'cp-staff-grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
-				wp_localize_script( 'cp-staff-grecaptcha', 'recaptchaSiteKey', $site_key );
-			}
+			wp_enqueue_script( 'cp-staff-grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
+			wp_localize_script( 'cp-staff-grecaptcha', 'recaptchaSiteKey', $site_key );
 		}
 
 		wp_enqueue_script( 'feather-icons' );
@@ -255,7 +253,7 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 	 * @author Jonathan Roley, 6/6/23
 	 */
 	public function is_address_blocked( $email ) {
-		if( Settings::get( 'block_staff_emails', 'on' ) == 'off' ) {
+		if ( ! Settings::is_on( 'block_staff_emails', 'on' ) ) {
 			return false;
 		}
 
@@ -274,13 +272,13 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 	 * @author Jonathan Roley, 6/6/23
 	 */
 	public function is_verified_captcha() {
+		if ( ! Settings::is_captcha_active() ) {
+			return true;
+		}
+
 		$token      = \ChurchPlugins\Helpers::get_post( 'token' );
 		$action     = \ChurchPlugins\Helpers::get_post( 'action' );
 		$secret_key = Settings::get( 'captcha_secret_key', '' );
-
-		if( empty( $secret_key ) ) {
-			return true;
-		}
 
 		$post_body = array(
 			'secret'   => $secret_key,

@@ -55,6 +55,93 @@ class Settings {
 	}
 
 	/**
+	 * Whether a checkbox setting is enabled.
+	 *
+	 * A missing value uses $default. Captcha and staff-email protection
+	 * historically treated a missing value as on, because CMB2 drops
+	 * unchecked checkboxes instead of saving them.
+	 *
+	 * @param string $key
+	 * @param string $default
+	 * @param string $group
+	 *
+	 * @return bool
+	 */
+	public static function is_on( $key, $default = 'on', $group = 'cp_staff_main_options' ) {
+		return self::get( $key, $default, $group ) === 'on';
+	}
+
+	/**
+	 * Captcha runs only when it is enabled and both reCAPTCHA keys are set.
+	 *
+	 * The script enqueue and the server-side check must use this same rule.
+	 * A secret key on its own must not reject every message.
+	 *
+	 * @return bool
+	 */
+	public static function is_captcha_active() {
+		if ( ! self::is_on( 'enable_captcha', 'on' ) ) {
+			return false;
+		}
+
+		$site_key   = self::get( 'captcha_site_key', '' );
+		$secret_key = self::get( 'captcha_secret_key', '' );
+
+		return $site_key !== '' && $secret_key !== '';
+	}
+
+	/**
+	 * Save an explicit off when a default-on checkbox is unchecked.
+	 *
+	 * CMB2's checkbox sanitizer returns false for an unchecked box, and the
+	 * options saver then deletes the key. A missing key is still read as on,
+	 * so the box could not be turned off.
+	 *
+	 * @param mixed $value Submitted field value. Null when the box is unchecked.
+	 * @param array $field_args CMB2 field arguments.
+	 * @param mixed $field CMB2 field object.
+	 *
+	 * @return string 'on' or 'off'
+	 */
+	public static function sanitize_on_off_checkbox( $value, $field_args = array(), $field = null ) {
+		return $value === 'on' ? 'on' : 'off';
+	}
+
+	/**
+	 * Show a default-on checkbox as checked unless it was saved as off.
+	 *
+	 * CMB2 treats any non-empty value as checked, so the stored off value
+	 * has to render as empty. A missing value still displays as checked,
+	 * matching the effective on state.
+	 *
+	 * @param mixed $value Stored field value. Empty when the setting was never saved.
+	 * @param array $field_args CMB2 field arguments.
+	 * @param mixed $field CMB2 field object.
+	 *
+	 * @return string 'on' when checked, otherwise an empty string
+	 */
+	public static function escape_on_off_checkbox( $value, $field_args = array(), $field = null ) {
+		return $value === 'off' ? '' : 'on';
+	}
+
+	/**
+	 * Fill in the historical on state for settings that were never saved.
+	 *
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+	public static function with_legacy_feature_defaults( array $options ) {
+		foreach ( array( 'enable_captcha', 'block_staff_emails' ) as $key ) {
+			if ( ! array_key_exists( $key, $options ) ) {
+				$options[ $key ] = 'on';
+			}
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Class constructor. Add admin hooks and actions
 	 *
 	 */
@@ -141,14 +228,17 @@ class Settings {
 			'description' => __( 'Blocks messages from email addresses that contain the site domain', 'cp-staff' ),
 			'type' => 'checkbox',
 			'id'   => 'block_staff_emails',
-			'default_cb'   => [ $this, 'default_checked' ]
+			'sanitization_cb' => array( __CLASS__, 'sanitize_on_off_checkbox' ),
+			'escape_cb'       => array( __CLASS__, 'escape_on_off_checkbox' ),
 		) );
 
 
 		$main_options->add_field( array(
 			'name' => __( 'Enable captcha on message form', 'cp-staff' ),
 			'type' => 'checkbox',
-			'id'   => 'enable_captcha'
+			'id'   => 'enable_captcha',
+			'sanitization_cb' => array( __CLASS__, 'sanitize_on_off_checkbox' ),
+			'escape_cb'       => array( __CLASS__, 'escape_on_off_checkbox' ),
 		) );
 
 		$main_options->add_field( array(
