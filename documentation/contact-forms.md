@@ -46,10 +46,10 @@ If mail does not arrive:
 2. Send WordPress mail through your provider, for example with WP Mail SMTP.
 3. Use a **From Address** your provider accepts.
 
-Spam protection is covered in [Contact Form Security](https://docs.churchplugins.com/knowledge-base/contact-form-security-cp-staff/).
+Spam protection is covered in [Contact Form Security](contact-form-security.md).
 
-Email problems are covered in [Troubleshooting](https://docs.churchplugins.com/knowledge-base/troubleshooting-cp-staff/).
+Email problems are covered in [Troubleshooting](troubleshooting.md).
 
 Form markup is covered in [Template Overrides](customization.md).
 
-Filters for the subject and message are covered in the [Developer Guide](https://docs.churchplugins.com/knowledge-base/developer-guide-cp-staff/).
+Filters for the subject and message are covered in the [Developer Guide](developer-guide.md).
