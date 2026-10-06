@@ -44,7 +44,7 @@ CP Staff includes several security features to protect staff from spam:
 
 #### Staff Protection
 
-**Prevent staff from sending emails** blocks contact-form messages whose sender address uses the site's own domain (`includes/Init.php:262-265`).
+**Prevent staff from sending emails** blocks contact-form messages when the sender's address contains your site's domain.
 
 ## How the Contact Form Works
 
@@ -92,8 +92,8 @@ add_filter('cp_staff_email_message_suffix', function($suffix) {
 If contact forms aren't working correctly:
 
 1. **Emails not sending**: Check your site's email configuration using a plugin like WP Mail SMTP
-2. **CAPTCHA failures**: Verify your site and secret keys are correct, or temporarily disable CAPTCHA
+2. **CAPTCHA failures**: Verify your site key and secret key
 3. **Messages being blocked**: Check if the throttling limits need adjustment
-4. **Staff can't receive emails**: Make sure "Prevent staff from sending emails" doesn't block legitimate messages
+4. **Staff can't receive emails**: Messages are blocked when the sender's address contains your site's domain.
 
 For persistent issues, check server logs or contact your host about email delivery.

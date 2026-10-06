@@ -108,7 +108,7 @@ Show staff from multiple departments:
 
 ## Single Staff Display
 
-When a visitor clicks on a staff member's card (if enabled), they'll see:
+The single staff page shows:
 
 - Larger photo (or alternate image if set)
 - Name and title
@@ -118,13 +118,11 @@ When a visitor clicks on a staff member's card (if enabled), they'll see:
 
 ### Click Action Settings
 
-Control what happens when visitors click a staff card:
-
 1. Go to Staff > Settings > Advanced
 2. Set **Staff click action** to:
-   - **None**: Disable clicking entirely (default)
-   - **Link to single staff page (if content exists for Staff member)**: Open the staff member's dedicated page
-   - **Display popup modal**: Show information in a modal window
+   - **None**
+   - **Link to single staff page (if content exists for Staff member)**
+   - **Display popup modal**
 
 ## Template Customization
 
@@ -140,7 +138,6 @@ Available templates:
 - `default-template.php` - Page wrapper for the archive and single views
 - `parts/staff-card.php` - Individual staff card
 - `parts/email-modal.php` - Email contact form
-- `parts/info-modal.php` - Staff info modal
 
 See [Customization](customization.md) for more details on template overrides.
 

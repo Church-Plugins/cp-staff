@@ -23,7 +23,7 @@ This guide will help you get started with the CP Staff plugin, from installation
    - Check **Disable Archive Page**
 
 3. In the **Advanced** tab, you can set:
-   - **Staff click action**: **None** (default), **Link to single staff page (if content exists for Staff member)**, or **Display popup modal**
+   - **Staff click action**: **None**, **Link to single staff page (if content exists for Staff member)**, or **Display popup modal**
    - **Staff contact modal**, **Display staff's email address**, **From Address**, and **From Name**
    - **Enable captcha on message form**, **Recaptcha site key**, and **Recaptcha secret key**
    - **Enable staff contact form throttling** and **Max submissions per day from same user**

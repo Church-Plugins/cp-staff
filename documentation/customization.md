@@ -18,7 +18,6 @@ CP Staff uses a template system that allows you to override any template file in
 | Single | `/templates/single.php` | Individual staff member pages |
 | Staff Card | `/templates/parts/staff-card.php` | Individual staff card in grids |
 | Email Modal | `/templates/parts/email-modal.php` | Contact form modal |
-| Info Modal | `/templates/parts/info-modal.php` | Staff info modal (when using modal click action) |
 | Default | `/templates/default-template.php` | Page wrapper for the archive and single views |
 
 ### Hierarchical Department Templates (v1.2.1+)
@@ -154,10 +153,7 @@ add_filter('cp_staff_archive_starting_heading_level', function($level) {
 
 ## JavaScript Customization
 
-- `assets/js/main.js` runs the contact form. When `recaptchaSiteKey` is set, submit calls `grecaptcha.execute` with the action `contact_staff` and posts `token` and `action` with the form.
-- `assets/js/captcha.js` is an empty file. The plugin does not load it.
-
-When **Enable captcha on message form** is on and **Recaptcha site key** is set, the plugin loads Google reCAPTCHA v3 and sets `recaptchaSiteKey` on the page.
+The contact form calls `grecaptcha.execute` with the action `contact_staff` and posts `token` and `action` when `recaptchaSiteKey` is set. The captcha script is empty and is not loaded.
 
 ## Advanced Customization
 
