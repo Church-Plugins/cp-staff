@@ -46,8 +46,7 @@ Assign staff to departments in the **Departments** panel:
 The archive page and the staff shortcodes sort by menu order, then by name. A lower **Order** appears first.
 
 1. Edit the staff member
-2. In the **Order…** panel, set **Order**
-3. Click **Save**
+2. Open the actions menu (⋮) next to the staff member's title and choose **Order…**. Set **Order**, then click **Save**.
 
 ## Bulk Management
 
