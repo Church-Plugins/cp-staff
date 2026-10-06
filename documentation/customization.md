@@ -62,4 +62,4 @@ The email icon is output when `$static` is false and `$staff_email` is set. The 
 
 Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/).
 
-Filters, actions, and script hooks are covered in the [Developer Guide](developer-guide.md).
+Filters and actions are covered in the [Developer Guide](developer-guide.md).

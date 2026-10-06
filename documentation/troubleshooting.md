@@ -34,7 +34,7 @@ Staff are ordered by **Order**, then by name.
 
 ## Rate Limiting
 
-**Enable staff contact form throttling** is off when that option is not stored.
+**Enable staff contact form throttling** is off until you check it. **Max submissions per day from same user** starts at 3.
 
 1. On the **Advanced** tab, raise **Max submissions per day from same user**. The choices are 2 through 10.
 2. The count resets on the next calendar day.

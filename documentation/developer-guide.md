@@ -21,7 +21,6 @@ $value = \CP_Staff\Admin\Settings::get_staff( 'disable_archive', false );
 // Advanced tab
 $value = \CP_Staff\Admin\Settings::get( 'click_action', 'none' );
 $value = \CP_Staff\Admin\Settings::get( 'use_email_modal', false );
-$value = \CP_Staff\Admin\Settings::get( 'enable_captcha', 'on' );
 ```
 
 The second argument is the value used when that option is not stored.
@@ -90,7 +89,7 @@ add_filter( 'cp_staff_list_query_args', function( $args, $atts ) {
 }, 10, 2 );
 
 add_filter( 'cp_staff_departments_args', function( $args, $parent_id, $depth ) {
-	$args['orderby'] = 'name';
+	$args['orderby'] = 'term_id';
 	return $args;
 }, 10, 3 );
 ```
@@ -144,7 +143,7 @@ add_action( 'cp_staff_default_template_before_footer', function() {
 
 ## CP Locations
 
-When CP Locations is active, CP Staff adds the staff post type to the location taxonomy. That taxonomy stays off until `CP_LOCATIONS_TAX_ENABLED` is defined as true in `wp-config.php`, because CP Locations sets it to false when it loads, or the `cploc_location_taxonomy_enabled` filter returns true. The constant defaults to false.
+When CP Locations is active, CP Staff adds the staff post type to the location taxonomy. That taxonomy stays off until you turn it on: add `define( 'CP_LOCATIONS_TAX_ENABLED', true );` to `wp-config.php`, or return true from the `cploc_location_taxonomy_enabled` filter. The constant defaults to false.
 
 With the taxonomy enabled, the staff editor includes a **Locations** box. Choose locations under **Assign Locations**.
 
