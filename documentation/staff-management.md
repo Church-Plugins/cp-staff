@@ -31,11 +31,11 @@ The Staff Details metabox provides fields for additional information:
 | Phone | Phone number with click-to-call functionality |
 | Acronyms | Optional acronyms or credentials |
 | Social | Social media profile links |
-| Alt Image | Optional alternate image (often a portrait-oriented image for single staff view) |
+| Alternate image | Optional alternate image (often a portrait-oriented image for single staff view) |
 
 ### Department Organization
 
-Assign staff to departments using the Department taxonomy box:
+Assign staff to departments using the **Departments** box:
 
 1. Select one or more existing departments, or
 2. Click "+ Add New Department" to create a new department
@@ -68,17 +68,6 @@ You can customize the terminology used throughout the plugin:
 2. Change the Singular Label (e.g., "Staff Member", "Leader", "Pastor")
 3. Change the Plural Label (e.g., "Staff", "Team", "Leadership")
 4. Note that changing the plural label will change the URL structure and may affect SEO
-
-## Importing Staff (Planned Feature)
-
-Bulk import functionality for staff members is planned for a future release.
-
-Once implemented, this feature will allow you to:
-1. Import staff data from CSV files
-2. Map CSV columns to staff fields
-3. Batch process multiple staff entries at once
-
-*Note: This feature is currently in development and not yet available.*
 
 ## Best Practices
 

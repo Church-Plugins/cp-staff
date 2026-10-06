@@ -18,7 +18,7 @@ CP Staff uses a template system that allows you to override any template file in
 | Single | `/templates/single.php` | Individual staff member pages |
 | Staff Card | `/templates/parts/staff-card.php` | Individual staff card in grids |
 | Email Modal | `/templates/parts/email-modal.php` | Contact form modal |
-| Info Modal | `/templates/parts/info-modal.php` | Staff info modal (when using modal click action) |
+| Default | `/templates/default-template.php` | Page wrapper for the archive and single views |
 
 ### Hierarchical Department Templates (v1.2.1+)
 
@@ -75,7 +75,7 @@ Option 1: Add to your theme's style.css:
 }
 ```
 
-Option 2: Use the WordPress Customizer CSS editor
+Option 2: In the Customizer, open **Additional CSS**
 
 ## PHP Filters and Actions
 
@@ -153,25 +153,7 @@ add_filter('cp_staff_archive_starting_heading_level', function($level) {
 
 ## JavaScript Customization
 
-CP Staff uses a few JavaScript files that you can extend:
-
-- `assets/js/main.js` - Front-end functionality
-- `assets/js/captcha.js` - reCAPTCHA integration
-
-Example: Add custom behavior after form submission
-
-```javascript
-// Listen for form submission success
-jQuery(document).on('cp_staff_email_sent', function(e, response) {
-    // Custom code after successful email
-    console.log('Email sent successfully');
-    
-    // Perhaps show a custom thank you message
-    setTimeout(function() {
-        alert('Thank you for your message!');
-    }, 1000);
-});
-```
+The contact form calls `grecaptcha.execute` with the action `contact_staff` and posts `token` and `action` when `recaptchaSiteKey` is set.
 
 ## Advanced Customization
 
