@@ -65,7 +65,7 @@ Shortcodes for a page you create are covered in [Shortcodes](shortcodes.md).
 
 ## CP Locations
 
-When CP Locations is active, CP Staff adds the staff post type to the location taxonomy. That taxonomy stays off until `CP_LOCATIONS_TAX_ENABLED` is defined as true in `wp-config.php`, because CP Locations sets it to false when it loads, or the `cploc_location_taxonomy_enabled` filter returns true. The constant defaults to false.
+When CP Locations is active, CP Staff adds the staff post type to the location taxonomy. That taxonomy stays off until you turn it on: add `define( 'CP_LOCATIONS_TAX_ENABLED', true );` to `wp-config.php`, or return true from the `cploc_location_taxonomy_enabled` filter. The constant defaults to false.
 
 With the taxonomy enabled, the staff editor includes a **Locations** box. Choose locations under **Assign Locations**. Each term slug is `location_` plus the location post ID, such as `location_42`.
 
