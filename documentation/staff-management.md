@@ -11,7 +11,7 @@ Each staff member in CP Staff is represented as a custom post type with:
 - Featured image (profile photo)
 - Custom fields for additional information
 - Department organization (taxonomy)
-- Page attributes for ordering
+- Order
 
 ## Creating Staff Profiles
 
@@ -22,7 +22,7 @@ Each staff member in CP Staff is represented as a custom post type with:
 
 ### Staff Details Box
 
-The Staff Details metabox provides fields for additional information:
+The **Staff Details** box provides fields for additional information:
 
 | Field | Description |
 |-------|-------------|
@@ -35,30 +35,25 @@ The Staff Details metabox provides fields for additional information:
 
 ### Department Organization
 
-Assign staff to departments using the **Departments** box:
+Assign staff to departments in the **Departments** panel:
 
 1. Select one or more existing departments, or
-2. Click "+ Add New Department" to create a new department
-3. Save the staff profile to apply the department assignment
+2. Click **Add New Department** to create a new department
+3. Click **Publish** or **Save**
 
 ## Managing Staff Order
 
-You can control the order in which staff appear:
+The archive page and the staff shortcodes sort by menu order, then by name. A lower **Order** appears first.
 
-1. On the Staff list page, staff are ordered by Menu Order first, then by Name
-2. To change a staff member's position:
-   - Edit the staff member
-   - In the Page Attributes box, set the Order number (lower numbers appear first)
-   - Save changes
+1. Edit the staff member
+2. Open the actions menu (⋮) next to the staff member's title and choose **Order…**. Set **Order**, then click **Save**.
 
 ## Bulk Management
 
-Use the main staff listing screen for bulk actions:
-
-1. Filter by department using the dropdown at the top
-2. Use the bulk actions dropdown to:
-   - Move multiple staff to trash
-   - Edit departments in bulk
+1. On the staff list, click a department in the **Departments** column
+2. Select the staff members you want to change
+3. Choose **Edit** or **Move to Trash** in **Bulk actions**, then click **Apply**
+4. **Edit** includes a **Departments** checklist
 
 ## Customizing Labels
 

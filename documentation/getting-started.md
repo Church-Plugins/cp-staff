@@ -11,9 +11,10 @@ This guide will help you get started with the CP Staff plugin, from installation
 
 ## License Activation
 
-1. After activation, go to Staff > Settings > License.
-2. Enter your license key in the field provided.
-3. Click "Activate License" to validate your license and enable automatic updates.
+1. After activation, go to **Staff > Settings**, then open the **License** tab.
+2. Enter your license key in **License Key**.
+3. Click **Save Changes**.
+4. Click **Activate License** to validate your license and turn on automatic updates.
 
 ## Basic Configuration
 
@@ -45,12 +46,14 @@ This guide will help you get started with the CP Staff plugin, from installation
 
 ## Organizing with Departments
 
-1. Go to Staff > Departments to create department categories.
-2. Click "Add New Department" and enter:
-   - Department name (e.g., "Pastoral Staff")
-   - Slug (automatically generated from the name)
-   - Optional description
-3. When creating or editing staff members, you can assign them to one or more departments in the **Departments** box.
+1. Go to **Staff > Departments**.
+2. Enter:
+   - **Name** (for example, "Pastoral Staff")
+   - **Slug** (filled in from the name if you leave it blank)
+   - **Parent Category** (optional, for a department under another department)
+   - **Description** (optional)
+3. Click **Add New Department**.
+4. When you create or edit a staff member, assign departments in the **Departments** panel.
 
 ## Next Steps
 

@@ -76,6 +76,8 @@ Display the same department listing as the archive page:
 [cp_staff_archive]
 ```
 
+On the staff archive URL, the page also shows the archive title. On any other page, the shortcode prints the department listing only.
+
 ### Staff List Shortcode
 
 Display a customized list of staff members:
@@ -104,6 +106,22 @@ Show staff from multiple departments:
 
 ```
 [cp_staff_list cp_department="leadership" exclude_cp_department="pastoral-team" static="true"]
+```
+
+### CP Locations
+
+You can filter staff by location when the CP Locations plugin is active and its location taxonomy is enabled. Define `CP_LOCATIONS_TAX_ENABLED` as true, or return true from the `cploc_location_taxonomy_enabled` filter, to enable that taxonomy.
+
+With the taxonomy enabled, assign locations in the **Locations** box (**Assign Locations**). Term slugs use `location_` plus the location post ID, such as `location_42`.
+
+```
+[cp_staff_list cp_location="location_42"]
+```
+
+To leave a location out:
+
+```
+[cp_staff_list exclude_cp_location="location_42"]
 ```
 
 ## Single Staff Display
