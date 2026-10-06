@@ -4,7 +4,7 @@ This guide covers installing CP Staff, activating the license, and saving the fi
 
 ## Prerequisites
 
-- An active CP Staff license from [churchplugins.com](https://churchplugins.com)
+CP Staff runs without a license. A license key from [churchplugins.com](https://churchplugins.com) turns on plugin updates.
 
 ## Installing the Plugin
 
@@ -26,14 +26,10 @@ This guide covers installing CP Staff, activating the license, and saving the fi
 ## Initial Configuration
 
 1. Go to **Staff > Settings**.
-2. On the **Staff** tab:
-   - Set **Singular Label**. The default is **Staff**.
-   - Set **Plural Label**. The default is **Staff**.
-   - Check **Disable Archive Page** to turn off the automatic archive URL.
-3. On the **Advanced** tab, set **Staff click action** and **Staff contact modal**.
-4. Click **Save Changes**.
+2. On the **Staff** tab, set **Singular Label**, **Plural Label** and **Disable Archive Page**, then click **Save Changes**.
+3. Open the **Advanced** tab, set **Staff click action** and **Staff contact modal**, then click **Save Changes**.
 
-**Plural Label** is the archive slug. After you save a new label, the archive address changes. **Our Team** uses `/our-team/`.
+The default for **Singular Label** and **Plural Label** is **Staff**. The archive slug comes from **Plural Label**. **Our Team** gives `/our-team/`.
 
 The **Advanced** tab contact fields are covered in [Contact Form Setup](contact-forms.md). Spam protection is covered in [Contact Form Security](https://docs.churchplugins.com/knowledge-base/contact-form-security-cp-staff/).
 
@@ -41,7 +37,6 @@ The **Advanced** tab contact fields are covered in [Contact Form Setup](contact-
 
 1. Go to **Staff > Add New** and confirm the staff editor opens.
 2. With **Disable Archive Page** unchecked, open `/staff/` on your site.
-3. Change **Plural Label**, click **Save Changes**, and open the new archive address.
 
 ## Next Steps
 

@@ -30,7 +30,7 @@ These fields are on **Staff > Settings**, on the **Advanced** tab.
 3. The form asks for **Your Full Name:**, **Your Email:**, **Email Subject:**, and **Email Message:**.
 4. All four are required. **Your Email:** must be an email address.
 5. The visitor clicks **Send**.
-6. On success the visitor sees **Email sent!** The dialog closes after 3 seconds.
+6. The visitor sees **Email sent!** The dialog closes after 3 seconds.
 
 When **Display staff's email address** is checked, the form also shows **To:** with the staff email.
 

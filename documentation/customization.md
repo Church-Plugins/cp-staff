@@ -34,11 +34,10 @@ The theme file is chosen before the plugin file.
 
 - `$click_action` — stored **Staff click action** value: `none`, `link`, or `modal`. It is printed as a class on the card: `click-action-none`, `click-action-link`, or `click-action-modal`.
 - `$static` — true when the template is included with `static`.
-- **Title**, **Email**, and **Phone** from the staff member.
+- `$staff_title`, `$staff_email`, and `$staff_phone` — the **Title**, **Email**, and **Phone** fields.
+- `$clickable` — true when the biography has content and `$static` is false. The photo and the name link to the staff page when `$clickable` is true.
 
-The photo and the name link to the staff page when the biography has content and `$static` is false.
-
-The email icon is output when `$static` is false and **Email** is set. The phone icon links with `tel:` when `$static` is false and **Phone** is set.
+The email icon is output when `$static` is false and `$staff_email` is set. The phone icon links with `tel:` when `$static` is false and `$staff_phone` is set.
 
 ### Single staff page
 

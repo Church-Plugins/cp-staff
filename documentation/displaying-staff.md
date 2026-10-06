@@ -10,14 +10,15 @@ With the default **Plural Label**, the archive address is:
 https://yoursite.com/staff/
 ```
 
-**Plural Label** is the archive slug. Save a new label and the address follows it. **Our Team** uses `/our-team/`.
+The archive slug comes from **Plural Label**. **Our Team** gives `/our-team/`.
 
 The archive page:
 
 - Groups staff by department, including child departments
 - Shows a card with the name, title, and photo
 - Links the photo and the name to the staff member's page when the biography has content
-- Shows an email icon when the staff member has an **Email**, and a phone link when the staff member has a **Phone**
+- With **Staff contact modal** checked, the email icon opens the contact form for a staff member who has an **Email**
+- Shows a phone link when the staff member has a **Phone**
 
 Cards are sorted by **Order**, then by name.
 
@@ -61,6 +62,24 @@ add_filter( 'cp_staff_disable_archive', '__return_true' );
 ```
 
 Shortcodes for a page you create are covered in [Shortcodes](https://docs.churchplugins.com/knowledge-base/shortcodes-cp-staff/).
+
+## CP Locations
+
+When CP Locations is active, CP Staff adds the staff post type to the location taxonomy. That taxonomy stays off until `CP_LOCATIONS_TAX_ENABLED` is defined as true, or the `cploc_location_taxonomy_enabled` filter returns true. The constant defaults to false.
+
+With the taxonomy enabled, the staff editor includes a **Locations** box. Choose locations under **Assign Locations**. Each term slug is `location_` plus the location post ID, such as `location_42`.
+
+The staff list shortcode can limit the list to one location:
+
+```
+[cp_staff_list cp_location="location_42"]
+```
+
+To leave a location out:
+
+```
+[cp_staff_list exclude_cp_location="location_42"]
+```
 
 ## Single Staff Page
 
