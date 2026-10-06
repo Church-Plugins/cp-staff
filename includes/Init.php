@@ -134,14 +134,18 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 
 	public function maybe_send_email() {
 
-		$email_to = $this->get_staff_recipient_email( \ChurchPlugins\Helpers::get_post( 'staff-id' ) );
+		$staff_id = \ChurchPlugins\Helpers::get_post( 'staff-id' );
+		$email_to = $this->get_staff_recipient_email( $staff_id );
 		$reply_to = \ChurchPlugins\Helpers::get_post( 'email-from' );
-		$honeypot = \ChurchPlugins\Helpers::get_post( 'email-verify' );
+		$honeypot = false; // \ChurchPlugins\Helpers::get_post( 'email-verify' ); // honeypot is not working correctly
 		$name     = \ChurchPlugins\Helpers::get_post( 'from-name' );
 		$subject  = \ChurchPlugins\Helpers::get_post( 'subject' );
 		$message  = \ChurchPlugins\Helpers::get_post( 'message' );
 		$limit    = intval( Settings::get( 'throttle_amount', 3 ) );
 
+		if ( '' === $staff_id ) {
+			wp_send_json_error( array( 'error' => __( 'Please refresh the page and try again.', 'cp-staff' ) ) );
+		}
 
 		if( ! wp_verify_nonce( $_REQUEST['cp_staff_send_email_nonce'], 'cp_staff_send_email' ) || ! is_email( $email_to ) ) {
 			wp_send_json_error( array( 'error' => __( 'Something went wrong. Please reload the page and try again.', 'church-plugins' ) ) );

@@ -78,6 +78,10 @@ class ContactFormTest extends TestCase {
 		$this->assertSame( 'json_error', $result );
 		$this->assertSame( array(), $GLOBALS['cp_staff_mail'] );
 		$this->assertSame( '', $this->plugin()->get_staff_recipient_email( '' ) );
+		$this->assertSame(
+			'Please refresh the page and try again.',
+			$GLOBALS['cp_staff_json']['data']['error']
+		);
 	}
 
 	public function test_valid_staff_id_sends_to_the_stored_email() {
@@ -123,7 +127,7 @@ class ContactFormTest extends TestCase {
 		}
 	}
 
-	public function test_filled_email_verify_field_is_rejected() {
+	public function test_normal_submission_passes_when_email_verify_is_filled() {
 		$this->add_staff( 7, 'publish', 'cp_staff', 'pastor@church.test' );
 
 		$result = $this->send( array(
@@ -135,8 +139,8 @@ class ContactFormTest extends TestCase {
 			'email-verify' => 'filled-in',
 		) );
 
-		$this->assertSame( 'json_error', $result );
-		$this->assertSame( array(), $GLOBALS['cp_staff_mail'] );
+		$this->assertSame( 'json_success', $result );
+		$this->assertSame( 'pastor@church.test', $GLOBALS['cp_staff_mail'][0]['to'] );
 	}
 
 	public function test_staff_record_without_a_valid_email_is_rejected() {
