@@ -4,11 +4,16 @@ Welcome to the documentation for the CP Staff plugin. This directory contains co
 
 ## Contents
 
-1. [Getting Started](getting-started.md) - Installation and basic setup
-2. [Staff Management](staff-management.md) - Creating and managing staff profiles
-3. [Displaying Staff](displaying-staff.md) - Templates and shortcodes for displaying staff
-4. [Contact Forms](contact-forms.md) - Staff contact form configuration
-5. [Customization](customization.md) - Theming and template overrides
+1. [Installation](getting-started.md) - Installing CP Staff and saving the first settings
+2. [Creating Staff Profiles](staff-management.md) - Creating and managing staff profiles
+3. [Archive Page](displaying-staff.md) - The staff archive
+4. [Contact Form Setup](contact-forms.md) - Staff contact form configuration
+5. [Template Overrides](customization.md) - Theme template overrides
+6. [Departments](departments.md) - Department taxonomy
+7. [Shortcodes](shortcodes.md) - Staff archive and staff list shortcodes
+8. [Contact Form Security](contact-form-security.md) - Captcha, throttling, and the domain block
+9. [Developer Guide](developer-guide.md) - Hooks and template files
+10. [Troubleshooting](troubleshooting.md) - Common setup problems
 
 ## About CP Staff
 
