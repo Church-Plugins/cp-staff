@@ -19,6 +19,15 @@ npm run build
 
 ### Change Log
 
+### 1.2.2
+* Fix "Enable captcha on message form" and "Prevent staff from sending emails" so unchecking them and saving turns those checks off
+* Keep both features on for existing sites that never saved the setting
+* Run captcha only when it is enabled and both the site key and secret key are set
+* Contact form now resolves the recipient from the staff record
+* Theme copies of parts/email-modal.php need `<input type="hidden" name="staff-id" class="staff-id">`. The script adds this field when it is missing.
+* Purge the page cache after updating so the new modal script loads.
+* Messages are not sent while the staff contact modal setting is turned off.
+
 ### 1.2.1
 * Add support for hierarchical departments in staff archive
 * Add migration framework

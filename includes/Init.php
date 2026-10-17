@@ -87,12 +87,10 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 
 		$this->enqueue->enqueue( 'scripts', 'main', [ 'js_dep' => [ 'jquery', 'jquery-ui-dialog', 'jquery-form' ] ] );
 
-		if( Settings::get( 'enable_captcha', 'on' ) == 'on' ) {
+		if ( Settings::is_captcha_active() ) {
 			$site_key = Settings::get( 'captcha_site_key', '' );
-			if( ! empty( $site_key ) ) {
-				wp_enqueue_script( 'cp-staff-grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
-				wp_localize_script( 'cp-staff-grecaptcha', 'recaptchaSiteKey', $site_key );
-			}
+			wp_enqueue_script( 'cp-staff-grecaptcha', 'https://www.google.com/recaptcha/api.js?render=' . $site_key );
+			wp_localize_script( 'cp-staff-grecaptcha', 'recaptchaSiteKey', $site_key );
 		}
 
 		wp_enqueue_script( 'feather-icons' );
@@ -135,8 +133,12 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 	}
 
 	public function maybe_send_email() {
+		if ( ! Settings::get( 'use_email_modal', false ) ) {
+			wp_send_json_error( array( 'error' => __( 'Messaging is not available.', 'cp-staff' ) ) );
+		}
 
-		$email_to = \ChurchPlugins\Helpers::get_post( 'email-to' );
+		$staff_id = \ChurchPlugins\Helpers::get_post( 'staff-id' );
+		$email_to = $this->get_staff_recipient_email( $staff_id );
 		$reply_to = \ChurchPlugins\Helpers::get_post( 'email-from' );
 		$honeypot = false; // \ChurchPlugins\Helpers::get_post( 'email-verify' ); // honeypot is not working correctly
 		$name     = \ChurchPlugins\Helpers::get_post( 'from-name' );
@@ -144,6 +146,9 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 		$message  = \ChurchPlugins\Helpers::get_post( 'message' );
 		$limit    = intval( Settings::get( 'throttle_amount', 3 ) );
 
+		if ( '' === $staff_id ) {
+			wp_send_json_error( array( 'error' => __( 'Please refresh the page and try again.', 'cp-staff' ) ) );
+		}
 
 		if( ! wp_verify_nonce( $_REQUEST['cp_staff_send_email_nonce'], 'cp_staff_send_email' ) || ! is_email( $email_to ) ) {
 			wp_send_json_error( array( 'error' => __( 'Something went wrong. Please reload the page and try again.', 'church-plugins' ) ) );
@@ -202,6 +207,38 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 		cp_staff()->templates->get_template_part( 'parts/email-modal' );
 	}
 
+	/**
+	 * Email stored on a published staff record.
+	 *
+	 * The contact form posts the staff post ID. An address in the request is not used.
+	 *
+	 * @param mixed $staff_id Staff post ID.
+	 *
+	 * @return string Staff email, or an empty string when the record cannot be used.
+	 */
+	public function get_staff_recipient_email( $staff_id ) {
+		$staff_id = absint( $staff_id );
+		if ( ! $staff_id ) {
+			return '';
+		}
+
+		$staff = get_post( $staff_id );
+		if ( ! is_object( $staff ) || ! isset( $staff->post_type, $staff->post_status ) ) {
+			return '';
+		}
+
+		if ( 'cp_staff' !== $staff->post_type || 'publish' !== $staff->post_status ) {
+			return '';
+		}
+
+		$email = get_post_meta( $staff_id, 'email', true );
+		if ( ! is_string( $email ) || ! is_email( $email ) ) {
+			return '';
+		}
+
+		return $email;
+	}
+
 	/** Helper Methods **************************************/
 
 	public function get_default_thumb() {
@@ -255,7 +292,7 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 	 * @author Jonathan Roley, 6/6/23
 	 */
 	public function is_address_blocked( $email ) {
-		if( Settings::get( 'block_staff_emails', 'on' ) == 'off' ) {
+		if ( ! Settings::is_on( 'block_staff_emails', 'on' ) ) {
 			return false;
 		}
 
@@ -274,13 +311,13 @@ class Init extends \ChurchPlugins\Setup\Plugin {
 	 * @author Jonathan Roley, 6/6/23
 	 */
 	public function is_verified_captcha() {
+		if ( ! Settings::is_captcha_active() ) {
+			return true;
+		}
+
 		$token      = \ChurchPlugins\Helpers::get_post( 'token' );
 		$action     = \ChurchPlugins\Helpers::get_post( 'action' );
 		$secret_key = Settings::get( 'captcha_secret_key', '' );
-
-		if( empty( $secret_key ) ) {
-			return true;
-		}
 
 		$post_body = array(
 			'secret'   => $secret_key,

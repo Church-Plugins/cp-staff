@@ -21,7 +21,7 @@
 
 			let data = $details.data('details' );
 
-			if ( undefined === data.name || undefined === data.email || '' === data.email ) {
+			if ( undefined === data.name || undefined === data.id || undefined === data.email || '' === data.email ) {
 				return;
 			}
 
@@ -40,6 +40,14 @@
 				}
 
 				$modalElem.find('.staff-name').html(data.name);
+
+				// Theme copies of the modal may not include this field.
+				let $form = $modalElem.find('.cp-staff-email-form');
+				if ( ! $form.find('.staff-id').length ) {
+					$form.append('<input type="hidden" name="staff-id" class="staff-id">');
+				}
+
+				$modalElem.find('.staff-id').val(data.id);
 				$modalElem.find('.staff-email-to').val(data.email);
 
 				$modalElem.dialog({
