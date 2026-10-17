@@ -159,4 +159,6 @@ Copy a file to `yourtheme/cp-staff/`, keeping the same folders.
 | `parts/staff-card.php` | Staff card |
 | `parts/email-modal.php` | Contact form |
 
+A theme copy of `parts/email-modal.php` needs `<input type="hidden" name="staff-id" class="staff-id" value="" />` inside the form. The script adds it when it is missing.
+
 Override steps are covered in [Template Overrides](customization.md).

@@ -15,9 +15,17 @@
 
 ## CAPTCHA Not Working
 
-1. Check **Recaptcha site key** and **Recaptcha secret key** under **Staff > Settings**, on the **Advanced** tab.
+1. Under **Staff > Settings**, on the **Advanced** tab, check **Enable captcha on message form** and fill in **Recaptcha site key** and **Recaptcha secret key**. Captcha runs only when all three are set.
 2. The form uses Google reCAPTCHA v3. Use v3 keys, not v2.
 3. Register the site domain in the reCAPTCHA admin console.
+
+## "Please refresh the page and try again"
+
+The page was served with the contact form script from before CP Staff 1.2.2. Purge your page cache and any CDN cache after updating.
+
+## "Messaging is not available"
+
+Check **Staff contact modal** on the **Advanced** tab and click **Save Changes**.
 
 ## Static Staff Lists
 
@@ -45,5 +53,6 @@ Staff are ordered by **Order**, then by name.
 1. The theme directory must be named `cp-staff`.
 2. Keep the same folders the plugin uses under `templates/`.
 3. Clear any page cache after you change a template.
+4. A theme copy of `parts/email-modal.php` needs the hidden `staff-id` field. See [Template Overrides](customization.md).
 
 More help is at [Getting Help](https://docs.churchplugins.com/knowledge-base/getting-help-cp-staff/).
