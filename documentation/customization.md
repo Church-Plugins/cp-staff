@@ -20,6 +20,14 @@ The theme file is chosen before the plugin file.
 | Staff card | `templates/parts/staff-card.php` | Card used in the listing |
 | Email modal | `templates/parts/email-modal.php` | Contact form |
 
+A theme copy of `parts/email-modal.php` needs this field inside the form:
+
+```html
+<input type="hidden" name="staff-id" class="staff-id" value="" />
+```
+
+CP Staff 1.2.2 adds the field when it is missing. The old `email-to` field is no longer used.
+
 ## Staff Card Example
 
 1. Create `yourtheme/cp-staff/parts/`.
@@ -62,4 +70,4 @@ The email icon is output when `$static` is false and `$staff_email` is set. The 
 
 Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/).
 
-Filters, actions, and script hooks are covered in the [Developer Guide](https://docs.churchplugins.com/knowledge-base/developer-guide-cp-staff/).
+Filters and actions are covered in the [Developer Guide](developer-guide.md).

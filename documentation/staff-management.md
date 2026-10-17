@@ -42,7 +42,7 @@ Assign departments in the **Departments** panel:
 
 A person assigned to more than one department is listed under each of those departments on the archive page.
 
-Department setup is covered in [Departments](https://docs.churchplugins.com/knowledge-base/departments-cp-staff/).
+Department setup is covered in [Departments](departments.md).
 
 ## Bulk Management
 

@@ -61,11 +61,11 @@ The `cp_staff_disable_archive` filter turns the archive off as well.
 add_filter( 'cp_staff_disable_archive', '__return_true' );
 ```
 
-Shortcodes for a page you create are covered in [Shortcodes](https://docs.churchplugins.com/knowledge-base/shortcodes-cp-staff/).
+Shortcodes for a page you create are covered in [Shortcodes](shortcodes.md).
 
 ## CP Locations
 
-When CP Locations is active, CP Staff adds the staff post type to the location taxonomy. That taxonomy stays off until `CP_LOCATIONS_TAX_ENABLED` is defined as true in `wp-config.php`, because CP Locations sets it to false when it loads, or the `cploc_location_taxonomy_enabled` filter returns true. The constant defaults to false.
+When CP Locations is active, CP Staff adds the staff post type to the location taxonomy. That taxonomy stays off until you turn it on: add `define( 'CP_LOCATIONS_TAX_ENABLED', true );` to `wp-config.php`, or return true from the `cploc_location_taxonomy_enabled` filter. The constant defaults to false.
 
 With the taxonomy enabled, the staff editor includes a **Locations** box. Choose locations under **Assign Locations**. Each term slug is `location_` plus the location post ID, such as `location_42`.
 
@@ -103,4 +103,4 @@ Template files are covered in [Template Overrides](customization.md).
 
 Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/).
 
-Department query filters are covered in the [Developer Guide](https://docs.churchplugins.com/knowledge-base/developer-guide-cp-staff/).
+Department query filters are covered in the [Developer Guide](developer-guide.md).

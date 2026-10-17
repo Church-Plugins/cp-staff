@@ -8,7 +8,7 @@ Visitors can send a message to a staff member. WordPress delivers it with `wp_ma
 2. Check **Staff contact modal**.
 3. Click **Save Changes**.
 
-Put an **Email** on the staff member. The form sends to that address.
+Put an **Email** on the staff member and publish them. The form sends to that address. A draft staff member can't receive messages.
 
 On the single staff page, the email button is shown when **Staff contact modal** is checked and the staff member has an **Email**.
 
@@ -18,10 +18,10 @@ These fields are on **Staff > Settings**, on the **Advanced** tab.
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| **Staff contact modal** | Shows the contact form for a staff member who has an **Email** | Off |
+| **Staff contact modal** | Shows the contact form for a staff member who has an **Email**. While it is unchecked, messages are not sent. | Off |
 | **Display staff's email address** | Shows the staff email in the form | Off |
-| **From Address** | Address on the From header. A blank value uses the site admin email. | Site admin email |
-| **From Name** | Name on the From header. A blank value uses the site title. | Site title |
+| **From Address** | Address on the From header | Site admin email |
+| **From Name** | Name on the From header | Site title |
 
 ## How the Form Works
 
@@ -38,7 +38,7 @@ When **Staff contact modal** is checked, the page includes the staff email as ba
 
 ## Email Delivery
 
-`wp_mail()` sends the message to the staff member's **Email**. The From header uses **From Name** and **From Address**. The reply-to is the visitor. The subject line starts with **[Web Inquiry]**.
+`wp_mail()` sends the message to the **Email** saved on the published staff member. The form sends the staff member's ID, so the address can't be changed in the browser. The From header uses **From Name** and **From Address**. The reply-to is the visitor. The subject line starts with **[Web Inquiry]**.
 
 If mail does not arrive:
 
@@ -46,10 +46,10 @@ If mail does not arrive:
 2. Send WordPress mail through your provider, for example with WP Mail SMTP.
 3. Use a **From Address** your provider accepts.
 
-Spam protection is covered in [Contact Form Security](https://docs.churchplugins.com/knowledge-base/contact-form-security-cp-staff/).
+Spam protection is covered in [Contact Form Security](contact-form-security.md).
 
-Email problems are covered in [Troubleshooting](https://docs.churchplugins.com/knowledge-base/troubleshooting-cp-staff/).
+Email problems are covered in [Troubleshooting](troubleshooting.md).
 
 Form markup is covered in [Template Overrides](customization.md).
 
-Filters for the subject and message are covered in the [Developer Guide](https://docs.churchplugins.com/knowledge-base/developer-guide-cp-staff/).
+Filters for the subject and message are covered in the [Developer Guide](developer-guide.md).

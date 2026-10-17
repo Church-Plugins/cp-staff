@@ -31,7 +31,7 @@ CP Staff runs without a license. A license key from [churchplugins.com](https://
 
 The default for **Singular Label** and **Plural Label** is **Staff**. The archive slug comes from **Plural Label**. **Our Team** gives `/our-team/`.
 
-The **Advanced** tab contact fields are covered in [Contact Form Setup](contact-forms.md). Spam protection is covered in [Contact Form Security](https://docs.churchplugins.com/knowledge-base/contact-form-security-cp-staff/).
+The **Advanced** tab contact fields are covered in [Contact Form Setup](contact-forms.md). Spam protection is covered in [Contact Form Security](contact-form-security.md).
 
 ## Verifying Installation
 
@@ -41,6 +41,6 @@ The **Advanced** tab contact fields are covered in [Contact Form Setup](contact-
 ## Next Steps
 
 - [Creating Staff Profiles](staff-management.md)
-- [Departments](https://docs.churchplugins.com/knowledge-base/departments-cp-staff/)
+- [Departments](departments.md)
 - [Archive Page](displaying-staff.md)
 - [Contact Form Setup](contact-forms.md)
