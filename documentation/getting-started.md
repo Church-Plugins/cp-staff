@@ -1,62 +1,46 @@
-# Getting Started with CP Staff
+# Installation
 
-This guide will help you get started with the CP Staff plugin, from installation to basic configuration.
+This guide covers installing CP Staff, activating the license, and saving the first settings.
 
-## Installation
+## Prerequisites
 
-1. Download the CP Staff plugin from [churchplugins.com](https://churchplugins.com) or install it directly from your WordPress admin dashboard.
-2. Navigate to Plugins > Add New in your WordPress admin dashboard.
-3. Click "Upload Plugin" and select the downloaded zip file or search for "CP Staff" if installing directly.
-4. Click "Install Now" and then "Activate" to enable the plugin.
+CP Staff runs without a license. A license key from [churchplugins.com](https://churchplugins.com) turns on plugin updates.
 
-## License Activation
+## Installing the Plugin
 
-1. After activation, go to Staff > Settings > License.
-2. Enter your license key in the field provided.
-3. Click "Activate License" to validate your license and enable automatic updates.
+1. Download the CP Staff plugin from [churchplugins.com](https://churchplugins.com).
+2. In WordPress, go to **Plugins > Add New**.
+3. Click **Upload Plugin** and choose the zip file.
+4. Click **Install Now**.
+5. Click **Activate**.
 
-## Basic Configuration
+## Activating Your License
 
-1. Go to Staff > Settings to configure the plugin options.
-2. In the **Staff** tab, you can:
-   - Set **Singular Label** and **Plural Label** (for example, "Staff Member" and "Staff Team")
-   - Check **Disable Archive Page**
+1. Go to **Staff > Settings**, then open the **License** tab.
+2. Enter your key in **License Key**.
+3. Click **Save Changes**.
+4. Click **Activate License**.
 
-3. In the **Advanced** tab, you can set:
-   - **Staff click action**: **None**, **Link to single staff page (if content exists for Staff member)**, or **Display popup modal**
-   - **Staff contact modal**, **Display staff's email address**, **From Address**, and **From Name**
-   - **Enable captcha on message form**, **Recaptcha site key**, and **Recaptcha secret key**
-   - **Enable staff contact form throttling** and **Max submissions per day from same user**
+**Activate License** appears after the key is saved.
 
-## Creating Your First Staff Member
+## Initial Configuration
 
-1. Go to Staff > Add New in your WordPress admin.
-2. Enter the staff member's name in the title field.
-3. Add a biographical description in the main editor.
-4. Set a featured image for the staff member's profile photo.
-5. In the **Staff Details** box below the editor, fill in:
-   - **Title**
-   - **Email**
-   - **Phone**
-   - **Acronyms**
-   - **Social**
-   - **Alternate image**
-6. Click "Publish" to make the staff member live on your site.
+1. Go to **Staff > Settings**.
+2. On the **Staff** tab, set **Singular Label**, **Plural Label** and **Disable Archive Page**, then click **Save Changes**.
+3. Open the **Advanced** tab, set **Staff click action** and **Staff contact modal**, then click **Save Changes**.
 
-## Organizing with Departments
+The default for **Singular Label** and **Plural Label** is **Staff**. The archive slug comes from **Plural Label**. **Our Team** gives `/our-team/`.
 
-1. Go to Staff > Departments to create department categories.
-2. Click "Add New Department" and enter:
-   - Department name (e.g., "Pastoral Staff")
-   - Slug (automatically generated from the name)
-   - Optional description
-3. When creating or editing staff members, you can assign them to one or more departments in the **Departments** box.
+The **Advanced** tab contact fields are covered in [Contact Form Setup](contact-forms.md). Spam protection is covered in [Contact Form Security](contact-form-security.md).
+
+## Verifying Installation
+
+1. Go to **Staff > Add New** and confirm the staff editor opens.
+2. With **Disable Archive Page** unchecked, open `/staff/` on your site.
 
 ## Next Steps
 
-Now that you've set up the plugin and created your first staff member, you can:
-
-- Explore [Staff Management](staff-management.md) for advanced staff profile options
-- Learn about [Displaying Staff](displaying-staff.md) on your website
-- Configure [Contact Forms](contact-forms.md) for your staff
-- Customize the appearance with [Theme Customization](customization.md)
+- [Creating Staff Profiles](staff-management.md)
+- [Departments](departments.md)
+- [Archive Page](displaying-staff.md)
+- [Contact Form Setup](contact-forms.md)

@@ -1,99 +1,55 @@
-# Staff Contact Forms
+# Contact Form Setup
 
-CP Staff includes a built-in system for visitors to contact staff members through secure contact forms.
+Visitors can send a message to a staff member. WordPress delivers it with `wp_mail()`. The visitor's name and address are the reply-to.
 
-## Contact Form Overview
+## Enabling the Form
 
-The contact form system allows website visitors to:
+1. Go to **Staff > Settings**, then open the **Advanced** tab.
+2. Check **Staff contact modal**.
+3. Click **Save Changes**.
 
-- Send messages directly to staff members
-- Access the form through staff profile cards or single staff pages
-- Submit messages without seeing the staff email address (optional)
+Put an **Email** on the staff member and publish them. The form sends to that address. A draft staff member can't receive messages.
 
-## Enabling Contact Forms
+On the single staff page, the email button is shown when **Staff contact modal** is checked and the staff member has an **Email**.
 
-1. Go to Staff > Settings > Advanced
-2. Check **Staff contact modal** to enable contact forms
+## Settings
 
-## Contact Form Settings
+These fields are on **Staff > Settings**, on the **Advanced** tab.
 
-### Basic Settings
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Staff contact modal** | Shows the contact form for a staff member who has an **Email**. While it is unchecked, messages are not sent. | Off |
+| **Display staff's email address** | Shows the staff email in the form | Off |
+| **From Address** | Address on the From header | Site admin email |
+| **From Name** | Name on the From header | Site title |
 
-| Setting | Description |
-|---------|-------------|
-| Staff contact modal | Enable/disable the contact form feature |
-| Display staff's email address | Show or hide the staff member's email in the form |
-| From Address | The email address that will appear in the "From" field (defaults to site admin email) |
-| From Name | The name that will appear in the "From" field (defaults to the site title) |
+## How the Form Works
 
-### Security Settings
+1. The visitor opens the form from the email icon.
+2. The heading is **Send a message to**, followed by the staff member's name.
+3. The form asks for **Your Full Name:**, **Your Email:**, **Email Subject:**, and **Email Message:**.
+4. All four are required. **Your Email:** must be an email address.
+5. The visitor clicks **Send**.
+6. If the checks pass, the visitor sees **Email sent!** The dialog closes after 3 seconds.
 
-CP Staff includes several security features to protect staff from spam:
+When **Display staff's email address** is checked, the form also shows **To:** with the staff email.
 
-#### CAPTCHA Protection
+When **Staff contact modal** is checked, the page includes the staff email as base64 in a meta tag.
 
-1. Check **Enable captcha on message form**
-2. Enter **Recaptcha site key** and **Recaptcha secret key** (Google reCAPTCHA v3)
-3. This will add invisible CAPTCHA validation to all submissions
+## Email Delivery
 
-#### Email Throttling
+`wp_mail()` sends the message to the **Email** saved on the published staff member. The form sends the staff member's ID, so the address can't be changed in the browser. The From header uses **From Name** and **From Address**. The reply-to is the visitor. The subject line starts with **[Web Inquiry]**.
 
-1. Check **Enable staff contact form throttling**
-2. Set **Max submissions per day from same user** (2-10)
-3. This limits submissions from the same IP address or email
+If mail does not arrive:
 
-#### Staff Protection
+1. Confirm the staff member has an **Email**.
+2. Send WordPress mail through your provider, for example with WP Mail SMTP.
+3. Use a **From Address** your provider accepts.
 
-**Prevent staff from sending emails** blocks contact-form messages when the sender's address contains your site's domain.
+Spam protection is covered in [Contact Form Security](contact-form-security.md).
 
-## How the Contact Form Works
+Email problems are covered in [Troubleshooting](troubleshooting.md).
 
-1. Visitor clicks the email icon on a staff card or profile
-2. Contact form modal appears
-3. Visitor enters:
-   - **Your Full Name:**
-   - **Your Email:**
-   - **Email Subject:**
-   - **Email Message:**
-4. After submission:
-   - The form is validated (required fields, CAPTCHA, throttling)
-   - An email is sent to the staff member
-   - The staff member sees who sent it and can reply directly
-   - The visitor sees **Email sent!**
+Form markup is covered in [Template Overrides](customization.md).
 
-## Customizing the Contact Form
-
-You can customize the appearance and behavior of the contact form:
-
-### Template Override
-
-1. Create a `cp-staff` directory in your theme
-2. Copy `parts/email-modal.php` from the plugin to your theme's `cp-staff/parts/` directory
-3. Modify the template as needed
-
-### Form Text Customization
-
-Use these filters to customize text in the contact form:
-
-```php
-// Customize the subject prefix
-add_filter('cp_staff_email_subject', function($subject, $original) {
-    return '[Contact Request] ' . $original;
-}, 10, 2);
-
-// Customize the message suffix
-add_filter('cp_staff_email_message_suffix', function($suffix) {
-    return '<br><br>--<br>This message was sent via our website contact form.';
-});
-```
-
-## Troubleshooting
-
-If contact forms aren't working correctly:
-
-1. **Emails not sending**: Check your site's email configuration using a plugin like WP Mail SMTP
-2. **CAPTCHA failures**: Verify your site key and secret key
-3. **Messages being blocked**: Check if the throttling limits need adjustment
-4. **Staff can't receive emails**: Messages are blocked when the sender's address contains your site's domain.
-
-For persistent issues, check server logs or contact your host about email delivery.
+Filters for the subject and message are covered in the [Developer Guide](developer-guide.md).
