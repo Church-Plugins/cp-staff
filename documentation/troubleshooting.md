@@ -37,8 +37,8 @@ Departments on the archive are ordered by name.
 
 Staff are ordered by **Order**, then by name.
 
-1. Edit the staff member.
-2. In the **Page Attributes** box, set **Order**, then update the staff member.
+1. Open the **Staff** list.
+2. Click **Quick Edit** for the staff member, set **Order**, then click **Update**.
 
 ## Rate Limiting
 
