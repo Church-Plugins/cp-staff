@@ -28,8 +28,8 @@ Each staff member is a staff post: a name, a biography, a photo, contact details
 
 Staff lists sort by **Order**, then by name. A lower **Order** appears first. Matching **Order** values sort by name.
 
-1. Edit the staff member.
-2. Open the actions menu (⋮) next to the staff member's title and choose **Order…**. Set **Order**, then click **Save**.
+1. Open the **Staff** list.
+2. Click **Quick Edit** for the staff member, set **Order**, then click **Update**.
 
 Use gaps such as 10, 20, and 30 so you can place someone between two people later.
 
