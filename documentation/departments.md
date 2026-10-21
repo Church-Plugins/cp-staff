@@ -18,6 +18,7 @@ On a staff member, assign departments in the **Departments** panel. Click **Add 
 - Parent departments are listed before their children.
 - Child departments are nested under the parent.
 - Headings start at h3. A department that has staff uses the next heading level for its children.
+- Departments with no staff are hidden unless a child department has staff.
 
 ## Department Ordering
 

@@ -27,6 +27,7 @@ Cards are sorted by **Order**, then by name.
 - Parent departments are listed before their children.
 - Child departments are nested under the parent.
 - Headings start at h3. A department that has staff uses the next heading level for its children.
+- Departments with no staff are hidden unless a child department has staff.
 
 Departments are ordered by name.
 
