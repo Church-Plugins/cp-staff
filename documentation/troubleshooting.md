@@ -27,6 +27,11 @@ The page was served with the contact form script from before CP Staff 1.2.2. Pur
 
 Check **Staff contact modal** on the **Advanced** tab and click **Save Changes**.
 
+## Staff Cards Not Clickable
+
+- A card links the photo and the name to the staff member's page only when the staff member has a biography. Add a biography in the content editor.
+- `[cp_staff_list static="true"]` leaves out the card links and the email and phone icons. Remove `static="true"` to restore them.
+
 ## Static Staff Lists
 
 `[cp_staff_list static="true"]` leaves out the card links and the email and phone icons.
@@ -55,4 +60,4 @@ Staff are ordered by **Order**, then by name.
 3. Clear any page cache after you change a template.
 4. A theme copy of `parts/email-modal.php` needs the hidden `staff-id` field. See [Template Overrides](customization.md).
 
-More help is at [Getting Help](https://docs.churchplugins.com/knowledge-base/getting-help-cp-staff/).
+More help is at [Getting Help](getting-help.md).

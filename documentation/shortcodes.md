@@ -92,4 +92,4 @@ add_filter( 'cp_staff_list_query_args', function( $args, $atts ) {
 }, 10, 2 );
 ```
 
-Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/). Template files are covered in [Template Overrides](customization.md).
+Styles are covered in [CSS Styling](css-styling.md). Template files are covered in [Template Overrides](customization.md).

@@ -68,6 +68,6 @@ The email icon is output when `$static` is false and `$staff_email` is set. The 
 - Copy the template into the theme before editing. A change inside the plugin directory is replaced on update.
 - Edit a small piece, then reload the page.
 
-Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/).
+Styles are covered in [CSS Styling](css-styling.md).
 
 Filters and actions are covered in the [Developer Guide](developer-guide.md).

@@ -101,6 +101,6 @@ The single staff page shows:
 
 Template files are covered in [Template Overrides](customization.md).
 
-Styles are covered in [CSS Styling](https://docs.churchplugins.com/knowledge-base/css-styling-cp-staff/).
+Styles are covered in [CSS Styling](css-styling.md).
 
 Department query filters are covered in the [Developer Guide](developer-guide.md).
