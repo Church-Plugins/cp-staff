@@ -12,6 +12,13 @@ The contact form settings are on **Staff > Settings**, on the **Advanced** tab.
 
 Check **Enable captcha on message form**, then enter **Recaptcha site key** and **Recaptcha secret key** from a Google reCAPTCHA v3 site.
 
+### Getting reCAPTCHA Keys
+
+1. Go to the [Google reCAPTCHA admin console](https://www.google.com/recaptcha/admin)
+2. Register a new site and select **reCAPTCHA v3**
+3. Add your website domain
+4. Copy the **Site Key** and **Secret Key** into the CP Staff settings
+
 Captcha runs only when **Enable captcha on message form** is checked and both keys are set. Otherwise the form sends without captcha.
 
 ## Email Throttling
