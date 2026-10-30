@@ -46,7 +46,7 @@ If mail does not arrive:
 2. Send WordPress mail through your provider, for example with WP Mail SMTP.
 3. Use a **From Address** your provider accepts.
 
-Spam protection is covered in [Contact Form Security](contact-form-security.md).
+Spam protection is covered in [contact-form setup](contact-form-setup.md).
 
 Email problems are covered in [Troubleshooting](troubleshooting.md).
 

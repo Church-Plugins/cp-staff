@@ -1,4 +1,4 @@
-# Contact Form Security
+# Contact-form setup
 
 The contact form settings are on **Staff > Settings**, on the **Advanced** tab.
 

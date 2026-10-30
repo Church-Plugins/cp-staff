@@ -13,7 +13,7 @@ Welcome to the documentation for the CP Staff plugin. This directory contains co
 7. [CSS Styling](css-styling.md) - CSS classes for the staff display
 8. [Departments](departments.md) - Department taxonomy
 9. [Shortcodes](shortcodes.md) - Staff archive and staff list shortcodes
-10. [Contact Form Security](contact-form-security.md) - Captcha, throttling, and the domain block
+10. [Contact-form setup](contact-form-setup.md) - Captcha, throttling, and the domain block
 11. [Developer Guide](developer-guide.md) - Hooks and template files
 12. [Troubleshooting](troubleshooting.md) - Common setup problems
 13. [Frequently Asked Questions](faq.md) - Common questions

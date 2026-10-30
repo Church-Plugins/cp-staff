@@ -57,7 +57,7 @@ Only if you enable **Display staff's email address** in **Staff > Settings > Adv
 
 ### How does spam protection work?
 
-CP Staff supports Google reCAPTCHA v3 (invisible), rate limiting by IP and email address, and domain blocking to prevent internal emails. See [Security](contact-form-security.md).
+CP Staff supports Google reCAPTCHA v3 (invisible), rate limiting by IP and email address, and domain blocking to prevent internal emails. See [contact-form setup](contact-form-setup.md).
 
 ## Display
 
