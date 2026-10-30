@@ -1,5 +1,5 @@
 ---
-title: "Contact-form setup"
+title: "Contact form security"
 slug: contact-form-security-cp-staff
 section: options-and-features-cp-staff
 order: 3
@@ -7,7 +7,7 @@ excerpt: "Contact-form settings are on Staff > Settings, on the Advanced tab."
 status: publish
 ---
 
-# Contact-form setup
+# Contact form security
 
 The contact form settings are on **Staff > Settings**, on the **Advanced** tab.
 
